@@ -14,6 +14,7 @@
 		25E1D22B1F5493D000D90192 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */; };
 		25E1D2341F54951100D90192 /* SignalProducer+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2331F54951100D90192 /* SignalProducer+System.swift */; };
 		25E1D2361F54A20F00D90192 /* FeedbackLoops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2351F54A20F00D90192 /* FeedbackLoops.swift */; };
+		25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2371F56091A00D90192 /* PaginationViewController.swift */; };
 		DFD032FB39B205E57C5099F1 /* Pods_ReactiveFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FF34B62E94DB41C288BD1E /* Pods_ReactiveFeedback.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		25E1D22C1F5493D000D90192 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25E1D2331F54951100D90192 /* SignalProducer+System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducer+System.swift"; sourceTree = "<group>"; };
 		25E1D2351F54A20F00D90192 /* FeedbackLoops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackLoops.swift; sourceTree = "<group>"; };
+		25E1D2371F56091A00D90192 /* PaginationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationViewController.swift; sourceTree = "<group>"; };
 		E1FF34B62E94DB41C288BD1E /* Pods_ReactiveFeedback.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReactiveFeedback.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -77,6 +79,7 @@
 				25E1D2321F54946F00D90192 /* Sources */,
 				25E1D2201F5493D000D90192 /* AppDelegate.swift */,
 				25E1D2221F5493D000D90192 /* ViewController.swift */,
+				25E1D2371F56091A00D90192 /* PaginationViewController.swift */,
 				25E1D2241F5493D000D90192 /* Main.storyboard */,
 				25E1D2271F5493D000D90192 /* Assets.xcassets */,
 				25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */,
@@ -228,6 +231,7 @@
 				25E1D2361F54A20F00D90192 /* FeedbackLoops.swift in Sources */,
 				25E1D2231F5493D000D90192 /* ViewController.swift in Sources */,
 				25E1D2341F54951100D90192 /* SignalProducer+System.swift in Sources */,
+				25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */,
 				25E1D2211F5493D000D90192 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

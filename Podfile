@@ -6,6 +6,7 @@ target 'ReactiveFeedback' do
   use_frameworks!
   pod 'ReactiveSwift'
   pod 'ReactiveCocoa'
+  pod 'Kingfisher'
   # Pods for ReactiveFeedback
 
 end

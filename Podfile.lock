@@ -1,4 +1,5 @@
 PODS:
+  - Kingfisher (3.10.4)
   - ReactiveCocoa (6.0.0):
     - ReactiveSwift (~> 2.0)
   - ReactiveSwift (2.0.0):
@@ -6,14 +7,16 @@ PODS:
   - Result (3.2.3)
 
 DEPENDENCIES:
+  - Kingfisher
   - ReactiveCocoa
   - ReactiveSwift
 
 SPEC CHECKSUMS:
+  Kingfisher: dc3a4983e86d2dfa89513664983a82340c11a289
   ReactiveCocoa: ca689e37b6a922f0273918220d735c43368de550
   ReactiveSwift: 36339167e571774d936482d0f6512f5118a74731
   Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
 
-PODFILE CHECKSUM: c213a74b4d3e3b0051c3fac578321794ab692bfb
+PODFILE CHECKSUM: 0df799f01a97f4ab4dac7947634e924ccd76401f
 
 COCOAPODS: 1.2.1
