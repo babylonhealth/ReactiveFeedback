@@ -10,7 +10,7 @@ import Foundation
 import ReactiveSwift
 import enum Result.NoError
 
-public typealias FeedBack<Value, Event> = (Signal<Value, NoError>) -> Signal<Event, NoError>
+public typealias FeedBack<State, Event> = (Signal<State, NoError>) -> Signal<Event, NoError>
 
 extension SignalProducerProtocol where Error == NoError {
     
@@ -25,7 +25,6 @@ extension SignalProducerProtocol where Error == NoError {
         })
         
         let stateSignal = events.scan(initialState, reduce)
-            .on(value: observer.send(value:))
         
         return SignalProducer(stateSignal)
             .prefix(value: initialState)
