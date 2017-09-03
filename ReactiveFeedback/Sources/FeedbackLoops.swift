@@ -11,8 +11,10 @@ import ReactiveSwift
 import enum Result.NoError
 
 public struct React {
-    public static func feedback<State, Control: Equatable, Event>(query: @escaping (State) -> Control?,
-                      effects: @escaping (Control) -> Signal<Event, NoError>) -> FeedBack<State, Event> {
+    public static func feedback<State,
+                                Control: Equatable,
+                                Event>(query: @escaping (State) -> Control?,
+                                effects: @escaping (Control) -> Signal<Event, NoError>) -> FeedBack<State, Event> {
         return { state in
             return state
                 .filterMap(query)
@@ -23,8 +25,10 @@ public struct React {
         }
     }
     
-    public static func feedback<State, Control: Equatable, Event>(query: @escaping (State) -> Control?,
-                         effects: @escaping (Control) -> SignalProducer<Event, NoError>) -> FeedBack<State, Event> {
+    public static func feedback<State,
+                                Control: Equatable,
+                                Event>(query: @escaping (State) -> Control?,
+                                effects: @escaping (Control) -> SignalProducer<Event, NoError>) -> FeedBack<State, Event> {
         return { state in
             return state
                 .filterMap(query)
