@@ -18,6 +18,7 @@ final class PaginationViewModel {
         return Lifetime(token)
     }
     private let nearBottomObserver: Signal<Void, NoError>.Observer
+    private let retryObserver: Signal<Void, NoError>.Observer
 
     let movies: Property<[Movie]>
     let errors: Signal<NSError, NoError>
@@ -28,9 +29,18 @@ final class PaginationViewModel {
             self.nearBottomObserver.send(value: value)
         }
     }
+    
+    var retryBinding: BindingTarget<Void> {
+        return BindingTarget(lifetime: lifetime) { value in
+            self.retryObserver.send(value: value)
+        }
+    }
+
 
     init() {
         let (nearBottomSignal, nearBottomObserver) = Signal<Void, NoError>.pipe()
+        let (retrySignal, retryObserver) = Signal<Void, NoError>.pipe()
+        
         let loadNextFeedback: FeedBack<State, PagingEvent> = {
             return $0.flatMap(.latest, { (state) -> Signal<PagingEvent, NoError> in
                 if state.paging {
@@ -50,11 +60,23 @@ final class PaginationViewModel {
                         return SignalProducer(value: PagingEvent.failed(error))
                     }
         }
+        
+        let retryFeedback: FeedBack<State, PagingEvent> = React.feedback(query: { $0.lastError }) { _ -> Signal<PagingEvent, NoError> in
+            return retrySignal.map { PagingEvent.retry }
+        }
+        
+        let retryPagingFeedback: FeedBack<State, PagingEvent> = React.feedback(query: { $0.retryPage }) { (nextPage) -> SignalProducer<PagingEvent, NoError> in
+            return URLSession.shared.fetchPoster(page: nextPage)
+                .map(PagingEvent.response)
+                .flatMapError { (error) -> SignalProducer<PagingEvent, NoError> in
+                    return SignalProducer(value: PagingEvent.failed(error))
+            }
+        }
 
         let initialState = State.empty
         let stateProducer = SignalProducer<State, NoError>.system(initialState: initialState,
                         reduce: PagingReducer.reduce,
-                        feedback: loadNextFeedback, pagingFeedback)
+                        feedback: loadNextFeedback, pagingFeedback, retryFeedback, retryPagingFeedback)
                 .observe(on: QueueScheduler.main)
 
         let stateProperty = Property<State>(initial: initialState, then: stateProducer)
@@ -63,19 +85,21 @@ final class PaginationViewModel {
         self.errors = stateProperty.signal.filterMap { $0.lastError }
         self.loading = stateProperty.map { $0.paging }
         self.nearBottomObserver = nearBottomObserver
+        self.retryObserver = retryObserver
     }
 }
 
 final class PaginationViewController: UICollectionViewController {
     let dataSource = ArrayCollectionViewDataSource<Movie>()
     let viewModel = PaginationViewModel()
-
+    private let (retrySignal, retryObserver) = Signal<Void, NoError>.pipe()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDataSource()
 
         viewModel.nearBottomBinding <~ collectionView!.rac_nearBottomSignal
+        viewModel.retryBinding <~ retrySignal
         viewModel.movies.producer.bind(with: collectionView!.rac_items(dataSource: dataSource))
         viewModel.errors.take(duringLifetimeOf: self)
             .observeValues(showAllert)
@@ -93,7 +117,9 @@ final class PaginationViewController: UICollectionViewController {
         let alert = UIAlertController(title: "Error",
                                      message: error.localizedDescription,
                                      preferredStyle: .alert)
-        let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in })
+        let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in
+            self.retryObserver.send(value: ())
+        })
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
@@ -119,6 +145,7 @@ final class MoviewCell: UICollectionViewCell {
 struct State {
     var paging: Bool
     var shouldPageNext: Bool
+    var shouldRetry: Bool
     var batch: Results<Movie>
     var movies: [Movie]
     var lastError: NSError?
@@ -128,6 +155,7 @@ extension State {
     static var empty: State {
         return State(paging: false,
                 shouldPageNext: true,
+                shouldRetry: false,
                 batch: Results<Movie>(page: 0, totalResults: 0, totalPages: 0, results: []),
                 movies: [],
                 lastError: nil)
@@ -136,12 +164,17 @@ extension State {
     var nextPage: Int? {
         return shouldPageNext ? batch.page + 1 : nil
     }
+    
+    var retryPage: Int? {
+        return shouldRetry ? batch.page + 1 : nil
+    }
 }
 
 enum PagingEvent {
     case startLoadingNextPage
     case response(Results<Movie>)
     case failed(NSError)
+    case retry
 }
 
 struct PagingReducer {
@@ -151,6 +184,7 @@ struct PagingReducer {
             var newState = state
             newState.shouldPageNext = true
             newState.paging = true
+            newState.lastError = nil
 
             return newState
         case .response(let results):
@@ -169,7 +203,13 @@ struct PagingReducer {
             var newState = state
             newState.lastError = error
             newState.shouldPageNext = false
-
+            newState.shouldRetry = false
+            return newState
+        case .retry:
+            var newState = state
+            newState.lastError = nil
+            newState.shouldPageNext = false
+            newState.shouldRetry = true
             return newState
         }
     }
@@ -205,7 +245,7 @@ extension UIScrollView {
 
 // Key for https://www.themoviedb.org API
 let apiKey = ""
-
+let correctKey = ""
 // Boring API boilerplate
 typealias JSON = [String: Any]
 
@@ -267,10 +307,17 @@ extension Movie: JSONSerializable {
     }
 }
 
+var shouldFail = false
+
+func switchFail() {
+    shouldFail = !shouldFail
+}
+
 extension URLSession {
     func fetchPoster(page: Int) -> SignalProducer<Results<Movie>, NSError> {
         return SignalProducer.init({ (observer, lifetime) in
-            let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&sort_by=popularity.desc&page=\(page)")!
+            let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(shouldFail ? apiKey : correctKey)&sort_by=popularity.desc&page=\(page)")!
+            switchFail()
             let task = self.dataTask(with: url, completionHandler: { (data, response, error) in
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 401 {
                     let error = NSError(domain: "come.reactivefeedback",

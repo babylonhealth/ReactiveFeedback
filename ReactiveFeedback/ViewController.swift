@@ -44,6 +44,7 @@ final class ViewModel {
     let counter: Property<String>
     
     init(increment: Signal<Void, NoError>, decrement: Signal<Void, NoError>) {
+        
         let incrementFeedback: FeedBack<Int, Event> = {
             return $0.flatMap(.latest, { state -> Signal<Event, NoError> in
                 if state == 10 {
@@ -68,6 +69,7 @@ final class ViewModel {
             .map(String.init)
         
         self.counter = Property(initial: "", then: state)
+        
     }
 }
 
