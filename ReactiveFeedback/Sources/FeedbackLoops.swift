@@ -19,9 +19,7 @@ public struct React {
             return state
                 .filterMap(query)
                 .skipRepeats()
-                .flatMap(.latest, { (control) in
-                    effects(control)
-                })
+                .flatMap(.latest, effects)
         }
     }
     
@@ -33,9 +31,7 @@ public struct React {
             return state
                 .filterMap(query)
                 .skipRepeats()
-                .flatMap(.latest, { (control) in
-                    effects(control)
-                })
+                .flatMap(.latest, effects)
         }
     }
 
