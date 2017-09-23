@@ -14,7 +14,7 @@ public struct React {
     public static func feedback<State,
                                 Control: Equatable,
                                 Event>(query: @escaping (State) -> Control?,
-                                effects: @escaping (Control) -> Signal<Event, NoError>) -> FeedBack<State, Event> {
+                                effects: @escaping (Control) -> Signal<Event, NoError>) -> FeedbackLoop<State, Event> {
         return { state in
             return state
                 .filterMap(query)
@@ -26,7 +26,7 @@ public struct React {
     public static func feedback<State,
                                 Control: Equatable,
                                 Event>(query: @escaping (State) -> Control?,
-                                effects: @escaping (Control) -> SignalProducer<Event, NoError>) -> FeedBack<State, Event> {
+                                effects: @escaping (Control) -> SignalProducer<Event, NoError>) -> FeedbackLoop<State, Event> {
         return { state in
             return state
                 .filterMap(query)

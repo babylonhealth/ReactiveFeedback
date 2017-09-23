@@ -46,7 +46,7 @@ final class PaginationViewController: UICollectionViewController {
         let alert = UIAlertController(title: "Error",
                                       message: error.localizedDescription,
                                       preferredStyle: .alert)
-        let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in
+        let action = UIAlertAction(title: "Retry", style: .cancel, handler: { _ in
             self.retryObserver.send(value: ())
         })
         alert.addAction(action)
@@ -112,7 +112,7 @@ final class PaginationViewModel {
     }
     
     enum Feedbacks {
-        static func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> FeedBack<State, Event> {
+        static func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> FeedbackLoop<State, Event> {
             return  {
                 return $0.flatMap(.latest, { (state) -> Signal<Event, NoError> in
                     if state.paging {
@@ -126,7 +126,7 @@ final class PaginationViewModel {
             }
         }
         
-        static func pagingFeedback() -> FeedBack<State, Event> {
+        static func pagingFeedback() -> FeedbackLoop<State, Event> {
             return React.feedback(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
                 return URLSession.shared.fetchPoster(page: nextPage)
                     .map(Event.response)
@@ -136,13 +136,13 @@ final class PaginationViewModel {
             }
         }
         
-        static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> FeedBack<State, Event> {
+        static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> FeedbackLoop<State, Event> {
             return React.feedback(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
                 return retrySignal.map { Event.retry }
             }
         }
         
-        static func retryPagingFeedback() -> FeedBack<State, Event> {
+        static func retryPagingFeedback() -> FeedbackLoop<State, Event> {
             return React.feedback(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
                 return URLSession.shared.fetchPoster(page: nextPage)
                     .map(Event.response)

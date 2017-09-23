@@ -10,14 +10,14 @@ import Foundation
 import ReactiveSwift
 import enum Result.NoError
 
-public typealias FeedBack<State, Event> = (Signal<State, NoError>) -> Signal<Event, NoError>
+public typealias FeedbackLoop<State, Event> = (Signal<State, NoError>) -> Signal<Event, NoError>
 public typealias Reducer<State, Event> = (State, Event) -> State
 
 extension SignalProducerProtocol where Error == NoError {
     
     public static func system<Event>(initialState: Value,
                               reduce: @escaping Reducer<Value, Event>,
-                              feedback: [FeedBack<Value, Event>]) -> SignalProducer<Value, NoError> {
+                              feedback: [FeedbackLoop<Value, Event>]) -> SignalProducer<Value, NoError> {
         return SignalProducer
             .deferred {
                 let (subject, observer) = Signal<Value, NoError>.pipe()
@@ -32,13 +32,13 @@ extension SignalProducerProtocol where Error == NoError {
     
     public static func system<Event>(initialState: Value,
                               reduce: @escaping Reducer<Value, Event>,
-                              feedback: FeedBack<Value, Event>...) -> SignalProducer<Value, Error> {
+                              feedback: FeedbackLoop<Value, Event>...) -> SignalProducer<Value, Error> {
         return system(initialState: initialState, reduce: reduce, feedback: feedback)
     }
     
     public static func system<Event>(initialState: Value,
                               reduce: @escaping Reducer<Value, Event>,
-                              feedback: FeedBack<Value, Event>) -> SignalProducer<Value, Error> {
+                              feedback: FeedbackLoop<Value, Event>) -> SignalProducer<Value, Error> {
         return system(initialState: initialState, reduce: reduce, feedback: feedback)
     }
 }
