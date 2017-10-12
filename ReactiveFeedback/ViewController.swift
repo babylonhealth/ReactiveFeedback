@@ -20,20 +20,20 @@ class ViewController: UIViewController {
     @IBOutlet weak var plussButton: UIButton!
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var label: UILabel!
-    
+
     private var incrementSignal: Signal<Void, NoError> {
         return plussButton.reactive.controlEvents(.touchUpInside).map { _ in }
     }
-    
+
     private var decrementSignal: Signal<Void, NoError> {
         return minusButton.reactive.controlEvents(.touchUpInside).map { _ in }
     }
-    
+
     lazy var viewModel: ViewModel = {
         return ViewModel(increment: self.incrementSignal,
-                        decrement: self.decrementSignal)
+                         decrement: self.decrementSignal)
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         label.reactive.text <~ viewModel.counter
@@ -42,9 +42,9 @@ class ViewController: UIViewController {
 
 final class ViewModel {
     let counter: Property<String>
-    
+
     init(increment: Signal<Void, NoError>, decrement: Signal<Void, NoError>) {
-        
+
         let incrementFeedback = FeedbackLoop<Int, Event> {
             return $0.flatMap(.latest, { state -> Signal<Event, NoError> in
                 if state == 10 {
@@ -53,7 +53,7 @@ final class ViewModel {
                 return increment.map { _ in Event.increment }
             })
         }
-        
+
         let decrementFeedback = FeedbackLoop<Int, Event> {
             return $0.flatMap(.latest, { state -> Signal<Event, NoError> in
                 if state == -10 {
@@ -62,14 +62,14 @@ final class ViewModel {
                 return decrement.map { _ in Event.decrement }
             })
         }
-        
+
         let state = SignalProducer<Int, NoError>.system(initialState: 0,
-                                            reduce: IncrementReducer.reduce,
-                                            feedback: incrementFeedback, decrementFeedback)
+                                                        reduce: IncrementReducer.reduce,
+                                                        feedback: incrementFeedback, decrementFeedback)
             .map(String.init)
-        
+
         self.counter = Property(initial: "", then: state)
-        
+
     }
 }
 
