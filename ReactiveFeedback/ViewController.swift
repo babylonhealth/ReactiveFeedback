@@ -45,7 +45,7 @@ final class ViewModel {
     
     init(increment: Signal<Void, NoError>, decrement: Signal<Void, NoError>) {
         
-        let incrementFeedback: FeedbackLoop<Int, Event> = {
+        let incrementFeedback = FeedbackLoop<Int, Event> {
             return $0.flatMap(.latest, { state -> Signal<Event, NoError> in
                 if state == 10 {
                     return Signal<Event, NoError>.empty
@@ -54,7 +54,7 @@ final class ViewModel {
             })
         }
         
-        let decrementFeedback: FeedbackLoop<Int, Event> = {
+        let decrementFeedback = FeedbackLoop<Int, Event> {
             return $0.flatMap(.latest, { state -> Signal<Event, NoError> in
                 if state == -10 {
                     return Signal<Event, NoError>.empty

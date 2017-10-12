@@ -31,7 +31,7 @@ final class PaginationViewController: UICollectionViewController {
             .skipNil()
             .startWithValues { [weak self] in
                 self?.showAlert(for: $0)
-        }
+            }
     }
     
     func setupDataSource() {
@@ -89,9 +89,9 @@ final class PaginationViewModel {
         ]
         let initialState = State.initial
         let stateProducer = SignalProducer<State, NoError>.system(
-            initialState: initialState,
-            reduce: State.reduce,
-            feedback: feedbacks
+                initialState: initialState,
+                reduce: State.reduce,
+                feedback: feedbacks
             )
             .observe(on: QueueScheduler.main)
         
@@ -113,21 +113,14 @@ final class PaginationViewModel {
     
     enum Feedbacks {
         static func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> FeedbackLoop<State, Event> {
-            return  {
-                return $0.flatMap(.latest, { (state) -> Signal<Event, NoError> in
-                    if state.paging {
-                        return Signal<Event, NoError>.empty
-                    }
-                    return nearBottomSignal
-                        .map { _ in
-                            Event.startLoadingNextPage
-                    }
-                })
+            return FeedbackLoop.feedback(predicate: { !$0.paging }) { _ in
+                return nearBottomSignal
+                    .map { Event.startLoadingNextPage }
             }
         }
         
         static func pagingFeedback() -> FeedbackLoop<State, Event> {
-            return React<State, Event>.feedback(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+            return FeedbackLoop<State, Event>.feedback(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
                 return URLSession.shared.fetchPoster(page: nextPage)
                     .map(Event.response)
                     .flatMapError { (error) -> SignalProducer<Event, NoError> in
@@ -137,13 +130,13 @@ final class PaginationViewModel {
         }
         
         static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> FeedbackLoop<State, Event> {
-            return React<State, Event>.feedback(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
+            return FeedbackLoop<State, Event>.feedback(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
                 return retrySignal.map { Event.retry }
             }
         }
         
         static func retryPagingFeedback() -> FeedbackLoop<State, Event> {
-            return React<State, Event>.feedback(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+            return FeedbackLoop<State, Event>.feedback(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
                 return URLSession.shared.fetchPoster(page: nextPage)
                     .map(Event.response)
                     .flatMapError { (error) -> SignalProducer<Event, NoError> in
@@ -173,11 +166,11 @@ final class PaginationViewModel {
         
         var newMovies: [Movie]? {
             switch self {
-            case .paging(context: let context):
+            case .paging(context:let context):
                 return context.movies
-            case .loadedPage(context: let context):
+            case .loadedPage(context:let context):
                 return context.movies
-            case .refreshed(context: let context):
+            case .refreshed(context:let context):
                 return context.movies
             default:
                 return nil
@@ -188,17 +181,17 @@ final class PaginationViewModel {
             switch self {
             case .initial:
                 return Context.empty
-            case .paging(context: let context):
+            case .paging(context:let context):
                 return context
-            case .loadedPage(context: let context):
+            case .loadedPage(context:let context):
                 return context
-            case .refreshing(context: let context):
+            case .refreshing(context:let context):
                 return context
-            case .refreshed(context: let context):
+            case .refreshed(context:let context):
                 return context
-            case .error(error:_, context: let context):
+            case .error(error:_, context:let context):
                 return context
-            case .retry(context: let context):
+            case .retry(context:let context):
                 return context
             }
         }
@@ -222,9 +215,9 @@ final class PaginationViewModel {
         
         var nextPage: Int? {
             switch self {
-            case .paging(context: let context):
+            case .paging(context:let context):
                 return context.batch.page + 1
-            case .refreshed(context: let context):
+            case .refreshed(context:let context):
                 return context.batch.page + 1
             default:
                 return nil
@@ -233,7 +226,7 @@ final class PaginationViewModel {
         
         var retryPage: Int? {
             switch self {
-            case .retry(context: let context):
+            case .retry(context:let context):
                 return context.batch.page + 1
             default:
                 return nil
@@ -242,7 +235,7 @@ final class PaginationViewModel {
         
         var lastError: NSError? {
             switch self {
-            case .error(error:let error, context: _):
+            case .error(error:let error, context:_):
                 return error
             default:
                 return nil
@@ -323,7 +316,7 @@ extension UIScrollView {
                     return nil
                 }
                 return value.cgPointValue
-        }
+            }
     }
     
     var rac_nearBottomSignal: Signal<Void, NoError> {
@@ -333,10 +326,10 @@ extension UIScrollView {
         
         return rac_contentOffset
             .filterMap { _ in
-                if isNearBottomEdge(scrollView: self) {
-                    return ()
-                }
-                return nil
+            if isNearBottomEdge(scrollView: self) {
+                return ()
+            }
+            return nil
         }
     }
 }
