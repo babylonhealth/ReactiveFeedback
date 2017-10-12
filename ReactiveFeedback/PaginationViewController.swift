@@ -127,7 +127,7 @@ final class PaginationViewModel {
         }
         
         static func pagingFeedback() -> FeedbackLoop<State, Event> {
-            return React.feedback(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+            return React<State, Event>.feedback(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
                 return URLSession.shared.fetchPoster(page: nextPage)
                     .map(Event.response)
                     .flatMapError { (error) -> SignalProducer<Event, NoError> in
@@ -137,13 +137,13 @@ final class PaginationViewModel {
         }
         
         static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> FeedbackLoop<State, Event> {
-            return React.feedback(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
+            return React<State, Event>.feedback(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
                 return retrySignal.map { Event.retry }
             }
         }
         
         static func retryPagingFeedback() -> FeedbackLoop<State, Event> {
-            return React.feedback(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+            return React<State, Event>.feedback(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
                 return URLSession.shared.fetchPoster(page: nextPage)
                     .map(Event.response)
                     .flatMapError { (error) -> SignalProducer<Event, NoError> in
@@ -162,7 +162,7 @@ final class PaginationViewModel {
         }
     }
     
-    enum State {
+    enum State: SchedulerProvidable {
         case initial
         case paging(context: Context)
         case loadedPage(context: Context)
@@ -281,6 +281,10 @@ final class PaginationViewModel {
             case .retry:
                 return .retry(context: state.context)
             }
+        }
+        
+        var scheduler: Scheduler {
+            return UIScheduler()
         }
     }
     
