@@ -113,15 +113,15 @@ final class PaginationViewModel {
 
     enum Feedbacks {
         static func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> FeedbackLoop<State, Event> {
-            return FeedbackLoop.feedback(predicate: { !$0.paging }) { _ in
+            return FeedbackLoop(predicate: { !$0.paging }) { _ in
                 return nearBottomSignal
                     .map { Event.startLoadingNextPage }
             }
         }
 
         static func pagingFeedback() -> FeedbackLoop<State, Event> {
-            return FeedbackLoop<State, Event>.feedback(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
-                return URLSession.shared.fetchPoster(page: nextPage)
+            return FeedbackLoop<State, Event>(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+                return URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
                     .flatMapError { (error) -> SignalProducer<Event, NoError> in
                         return SignalProducer(value: Event.failed(error))
@@ -130,14 +130,14 @@ final class PaginationViewModel {
         }
 
         static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> FeedbackLoop<State, Event> {
-            return FeedbackLoop<State, Event>.feedback(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
+            return FeedbackLoop<State, Event>(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
                 return retrySignal.map { Event.retry }
             }
         }
 
         static func retryPagingFeedback() -> FeedbackLoop<State, Event> {
-            return FeedbackLoop<State, Event>.feedback(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
-                return URLSession.shared.fetchPoster(page: nextPage)
+            return FeedbackLoop<State, Event>(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+                return URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
                     .flatMapError { (error) -> SignalProducer<Event, NoError> in
                         return SignalProducer(value: Event.failed(error))
@@ -406,7 +406,7 @@ func switchFail() {
 }
 
 extension URLSession {
-    func fetchPoster(page: Int) -> SignalProducer<Results<Movie>, NSError> {
+    func fetchMovies(page: Int) -> SignalProducer<Results<Movie>, NSError> {
         return SignalProducer.init({ (observer, lifetime) in
             let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(shouldFail ? apiKey : correctKey)&sort_by=popularity.desc&page=\(page)")!
             switchFail()

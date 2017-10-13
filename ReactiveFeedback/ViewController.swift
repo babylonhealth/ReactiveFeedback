@@ -45,13 +45,13 @@ final class ViewModel {
 
     init(increment: Signal<Void, NoError>, decrement: Signal<Void, NoError>) {
 
-        let incrementFeedback = FeedbackLoop<Int, Event>.feedback(predicate: {
+        let incrementFeedback = FeedbackLoop<Int, Event>(predicate: {
             return  $0 < 10
         }) { state in
             return increment.map { _ in Event.increment }
         }
 
-        let decrementFeedback = FeedbackLoop<Int, Event>.feedback(predicate: { return $0 > -10 }) { _ in
+        let decrementFeedback = FeedbackLoop<Int, Event>(predicate: { return $0 > -10 }) { _ in
                 return decrement.map { _ in Event.decrement }
         }
 
