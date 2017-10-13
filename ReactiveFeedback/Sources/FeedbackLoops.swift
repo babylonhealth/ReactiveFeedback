@@ -3,77 +3,46 @@ import ReactiveSwift
 import enum Result.NoError
 
 public struct FeedbackLoop<State, Event> {
-    let loop: (Signal<State, NoError>) -> Signal<Event, NoError>
+    let loop: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
 
-    init(_ loop: @escaping (Signal<State, NoError>) -> Signal<Event, NoError>) {
+    init(_ loop: @escaping (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>) {
         self.loop = loop
     }
 }
 
-extension FeedbackLoop where State: SchedulerProvidable {
-    public static func feedback<Control:Equatable>(query: @escaping (State) -> Control?,
-                                                   effects: @escaping (Control) -> Signal<Event, NoError>) -> FeedbackLoop<State, Event> {
-        return FeedbackLoop { state in
+extension FeedbackLoop {
+    public static func feedback<Control:Equatable, Inner: SignalProducerConvertible>(query: @escaping (State) -> Control?,
+                                                   effects: @escaping (Control) -> Inner) -> FeedbackLoop<State, Event> where Inner.Error == NoError, Inner.Value == Event {
+        return FeedbackLoop { scheduler, state in
             return state.map(query)
                 .skipRepeats { $0 == $1 }
-                .skipNil()
-                .flatMap(.latest, effects)
-        }
-    }
-
-    public static func feedback<Control:Equatable>(query: @escaping (State) -> Control?,
-                                                   effects: @escaping (Control) -> SignalProducer<Event, NoError>) -> FeedbackLoop<State, Event> {
-        return FeedbackLoop { state in
-            return state.map(query)
-                .skipRepeats { $0 == $1 }
-                .skipNil()
-                .flatMap(.latest, effects)
-        }
-    }
-
-    public static func feedback(predicate: @escaping (State) -> Bool,
-                                effects: @escaping (State) -> Signal<Event, NoError>) -> FeedbackLoop<State, Event> {
-        return FeedbackLoop { state in
-            return state.filter(predicate)
-                .flatMap(.latest, { state in
-                    return effects(state)
-                        .observe(on: state.scheduler)
+                .flatMap(.latest, { control -> SignalProducer<Event, NoError> in
+                    guard let control = control else { return SignalProducer<Event, NoError>.empty }
+                    return effects(control).producer
+                        .enqueue(on: scheduler)
                 })
         }
     }
 
-    public static func feedback(predicate: @escaping (State) -> Bool,
-                                effects: @escaping (State) -> SignalProducer<Event, NoError>) -> FeedbackLoop<State, Event> {
-        return FeedbackLoop { state in
-            return state.filter(predicate)
-                .flatMap(.latest, { state in
-                    return effects(state)
-                        .enqueue(on: state.scheduler)
+    public static func feedback<Inner: SignalProducerConvertible>(predicate: @escaping (State) -> Bool,
+                                effects: @escaping (State) -> Inner) -> FeedbackLoop<State, Event> where Inner.Error == NoError, Inner.Value == Event {
+        return FeedbackLoop { scheduler, state in
+            return state.flatMap(.latest, { state -> SignalProducer<Event, NoError> in
+                    guard predicate(state) else { return SignalProducer<Event, NoError>.empty }
+                    return effects(state).producer
+                        .enqueue(on: scheduler)
                 })
         }
     }
 
-    public static func feedback(effects: @escaping (State) -> Signal<Event, NoError>) -> FeedbackLoop<State, Event> {
-        return FeedbackLoop { state in
-            return state.flatMap(.latest) { state in
-                return effects(state)
-                    .observe(on: state.scheduler)
+    public static func feedback<Inner: SignalProducerConvertible>(effects: @escaping (State) -> Inner) -> FeedbackLoop<State, Event> where Inner.Error == NoError, Inner.Value == Event {
+        return FeedbackLoop { scheduler, state in
+            return state.flatMap(.latest) { state -> SignalProducer<Event, NoError> in
+                return effects(state).producer
+                    .enqueue(on: scheduler)
             }
         }
     }
-
-    public static func feedback(effects: @escaping (State) -> SignalProducer<Event, NoError>) -> FeedbackLoop<State, Event> {
-        return FeedbackLoop { state in
-            return state.flatMap(.latest) { state in
-                return effects(state)
-                    .enqueue(on: state.scheduler)
-            }
-        }
-    }
-}
-
-public protocol SchedulerProvidable {
-    var scheduler: Scheduler { get }
 }
 
 extension SignalProducer {

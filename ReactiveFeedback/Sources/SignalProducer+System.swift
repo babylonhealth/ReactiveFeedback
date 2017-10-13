@@ -7,12 +7,13 @@ public typealias Reducer<State, Event> = (State, Event) -> State
 extension SignalProducerProtocol where Error == NoError {
 
     public static func system<Event>(initialState: Value,
+                                     scheduler: Scheduler = QueueScheduler.main,
                                      reduce: @escaping Reducer<Value, Event>,
                                      feedback: [FeedbackLoop<Value, Event>]) -> SignalProducer<Value, NoError> {
         return SignalProducer.deferred {
             let (subject, observer) = Signal<Value, NoError>.pipe()
             let events = Signal<Event, NoError>.merge(feedback.map { feedback in
-                return feedback.loop(subject)
+                return feedback.loop(scheduler, subject)
             })
             return SignalProducer(events.scan(initialState, reduce))
                 .prefix(value: initialState)

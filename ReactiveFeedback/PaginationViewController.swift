@@ -155,7 +155,7 @@ final class PaginationViewModel {
         }
     }
 
-    enum State: SchedulerProvidable {
+    enum State {
         case initial
         case paging(context: Context)
         case loadedPage(context: Context)
@@ -274,10 +274,6 @@ final class PaginationViewModel {
             case .retry:
                 return .retry(context: state.context)
             }
-        }
-
-        var scheduler: Scheduler {
-            return UIScheduler()
         }
     }
 
