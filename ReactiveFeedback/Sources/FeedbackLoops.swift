@@ -5,15 +5,9 @@ import enum Result.NoError
 public struct FeedbackLoop<State, Event> {
     let loop: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
 
-    init(_ loop: @escaping (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>) {
-        self.loop = loop
-    }
-}
-
-extension FeedbackLoop {
-    public init<Control: Equatable, Effect: SignalProducerConvertible>(query: @escaping (State) -> Control?,
+    public init<Control:Equatable, Effect:SignalProducerConvertible>(query: @escaping (State) -> Control?,
                                                                      effects: @escaping (Control) -> Effect) where Effect.Error == NoError, Effect.Value == Event {
-        self.init { (scheduler, state) in
+        self.loop = { (scheduler, state) in
             return state.map(query)
                 .skipRepeats { $0 == $1 }
                 .flatMap(.latest) { control -> SignalProducer<Event, NoError> in
@@ -24,9 +18,9 @@ extension FeedbackLoop {
         }
     }
 
-    public init<Effect: SignalProducerConvertible>(predicate: @escaping (State) -> Bool,
-                                                   effects: @escaping (State) -> Effect) where Effect.Error == NoError, Effect.Value == Event {
-        self.init { (scheduler, state) in
+    public init<Effect:SignalProducerConvertible>(predicate: @escaping (State) -> Bool,
+                                                  effects: @escaping (State) -> Effect) where Effect.Error == NoError, Effect.Value == Event {
+        self.loop = { (scheduler, state) in
             return state.flatMap(.latest) { state -> SignalProducer<Event, NoError> in
                 guard predicate(state) else { return SignalProducer<Event, NoError>.empty }
                 return effects(state).producer
@@ -35,8 +29,8 @@ extension FeedbackLoop {
         }
     }
 
-    public init<Effect: SignalProducerConvertible>(effects: @escaping (State) -> Effect) where Effect.Error == NoError, Effect.Value == Event {
-        self.init { scheduler, state in
+    public init<Effect:SignalProducerConvertible>(effects: @escaping (State) -> Effect) where Effect.Error == NoError, Effect.Value == Event {
+        self.loop = { scheduler, state in
             return state.flatMap(.latest) { state -> SignalProducer<Event, NoError> in
                 return effects(state).producer
                     .enqueue(on: scheduler)
