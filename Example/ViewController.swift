@@ -9,6 +9,7 @@
 import UIKit
 import ReactiveSwift
 import ReactiveCocoa
+import ReactiveFeedback
 import enum Result.NoError
 
 enum Event {
