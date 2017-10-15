@@ -5,9 +5,10 @@ target 'ReactiveFeedback' do
 
   use_frameworks!
   pod 'ReactiveSwift'
-  pod 'ReactiveCocoa'
-  pod 'Kingfisher'
-
+  
+  target 'ReactiveFeedbackTests' do
+      inherit! :search_paths
+  end
 end
 
 target 'Example' do

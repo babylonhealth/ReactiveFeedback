@@ -22,9 +22,13 @@ extension SignalProducerProtocol where Error == NoError {
     }
 
     public static func system<Event>(initialState: Value,
+                                     scheduler: Scheduler = QueueScheduler.main,
                                      reduce: @escaping Reducer<Value, Event>,
                                      feedback: FeedbackLoop<Value, Event>...) -> SignalProducer<Value, Error> {
-        return system(initialState: initialState, reduce: reduce, feedback: feedback)
+        return system(initialState: initialState,
+                      scheduler: scheduler,
+                      reduce: reduce,
+                      feedback: feedback)
     }
 }
 
