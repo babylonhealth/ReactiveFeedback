@@ -2,9 +2,18 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:ReactiveFeedback.xcodeproj">
+      location = "group:Carthage/Checkouts/Result/Result.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Pods/Pods.xcodeproj">
+      location = "group:Carthage/Checkouts/ReactiveSwift/ReactiveSwift.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Carthage/Checkouts/ReactiveCocoa/ReactiveCocoa.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Carthage/Checkouts/Kingfisher/Kingfisher.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:ReactiveFeedback.xcodeproj">
    </FileRef>
 </Workspace>

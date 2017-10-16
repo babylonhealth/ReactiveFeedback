@@ -1,0 +1,4 @@
+github "ReactiveCocoa/ReactiveCocoa" "6.0.2"
+github "ReactiveCocoa/ReactiveSwift" "2.0.1"
+github "antitypical/Result" "3.2.4"
+github "onevcat/Kingfisher" "4.1.0"
