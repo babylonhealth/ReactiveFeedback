@@ -16,13 +16,13 @@ final class PaginationViewController: UICollectionViewController {
     let dataSource = ArrayCollectionViewDataSource<Movie>()
     let viewModel = PaginationViewModel()
     private let (retrySignal, retryObserver) = Signal<Void, NoError>.pipe()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDataSource()
         bindViewModel()
     }
-    
+
     func bindViewModel() {
         viewModel.nearBottomBinding <~ collectionView!.rac_nearBottomSignal
         viewModel.retryBinding <~ retrySignal
@@ -31,9 +31,9 @@ final class PaginationViewController: UICollectionViewController {
             .skipNil()
             .startWithValues { [weak self] in
                 self?.showAlert(for: $0)
-        }
+            }
     }
-    
+
     func setupDataSource() {
         dataSource.cellFactory = { cv, ip, item in
             let cell = cv.dequeueReusableCell(withReuseIdentifier: "MoviewCell", for: ip) as! MoviewCell
@@ -41,7 +41,7 @@ final class PaginationViewController: UICollectionViewController {
             return cell
         }
     }
-    
+
     func showAlert(for error: NSError) {
         let alert = UIAlertController(title: "Error",
                                       message: error.localizedDescription,
@@ -61,23 +61,23 @@ final class PaginationViewModel {
     }
     private let nearBottomObserver: Signal<Void, NoError>.Observer
     private let retryObserver: Signal<Void, NoError>.Observer
-    
+
     let movies: Property<[Movie]>
     let errors: Property<NSError?>
     let refreshing: Property<Bool>
-    
+
     var nearBottomBinding: BindingTarget<Void> {
         return BindingTarget(lifetime: lifetime) { value in
             self.nearBottomObserver.send(value: value)
         }
     }
-    
+
     var retryBinding: BindingTarget<Void> {
         return BindingTarget(lifetime: lifetime) { value in
             self.retryObserver.send(value: value)
         }
     }
-    
+
     init() {
         let (nearBottomSignal, nearBottomObserver) = Signal<Void, NoError>.pipe()
         let (retrySignal, retryObserver) = Signal<Void, NoError>.pipe()
@@ -89,18 +89,18 @@ final class PaginationViewModel {
         ]
         let initialState = State.initial
         let stateProducer = SignalProducer<State, NoError>.system(
-            initialState: initialState,
-            reduce: State.reduce,
-            feedback: feedbacks
+                initialState: initialState,
+                reduce: State.reduce,
+                feedback: feedbacks
             )
             .observe(on: QueueScheduler.main)
-        
+
         let stateProperty = Property<State>(initial: initialState, then: stateProducer)
-        
+
         self.movies = Property<[Movie]>.init(initial: [], then: stateProperty.signal.filterMap {
             $0.newMovies
         })
-        
+
         self.errors = Property<NSError?>.init(initial: nil, then: stateProperty.producer.map {
             $0.lastError
         })
@@ -110,41 +110,34 @@ final class PaginationViewModel {
         self.nearBottomObserver = nearBottomObserver
         self.retryObserver = retryObserver
     }
-    
+
     enum Feedbacks {
         static func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> FeedbackLoop<State, Event> {
-            return  {
-                return $0.flatMap(.latest, { (state) -> Signal<Event, NoError> in
-                    if state.paging {
-                        return Signal<Event, NoError>.empty
-                    }
-                    return nearBottomSignal
-                        .map { _ in
-                            Event.startLoadingNextPage
-                    }
-                })
+            return FeedbackLoop(predicate: { !$0.paging }) { _ in
+                return nearBottomSignal
+                    .map { Event.startLoadingNextPage }
             }
         }
-        
+
         static func pagingFeedback() -> FeedbackLoop<State, Event> {
-            return React<State, Event>.feedback(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
-                return URLSession.shared.fetchPoster(page: nextPage)
+            return FeedbackLoop<State, Event>(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+                return URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
                     .flatMapError { (error) -> SignalProducer<Event, NoError> in
                         return SignalProducer(value: Event.failed(error))
                     }.observe(on: QueueScheduler.main)
             }
         }
-        
+
         static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> FeedbackLoop<State, Event> {
-            return React<State, Event>.feedback(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
+            return FeedbackLoop<State, Event>(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
                 return retrySignal.map { Event.retry }
             }
         }
-        
+
         static func retryPagingFeedback() -> FeedbackLoop<State, Event> {
-            return React<State, Event>.feedback(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
-                return URLSession.shared.fetchPoster(page: nextPage)
+            return FeedbackLoop<State, Event>(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+                return URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
                     .flatMapError { (error) -> SignalProducer<Event, NoError> in
                         return SignalProducer(value: Event.failed(error))
@@ -152,17 +145,17 @@ final class PaginationViewModel {
             }
         }
     }
-    
+
     struct Context {
         var batch: Results<Movie>
         var movies: [Movie]
-        
+
         static var empty: Context {
             return Context(batch: Results.empty(), movies: [])
         }
     }
-    
-    enum State: SchedulerProvidable {
+
+    enum State {
         case initial
         case paging(context: Context)
         case loadedPage(context: Context)
@@ -170,47 +163,47 @@ final class PaginationViewModel {
         case refreshed(context: Context)
         case error(error: NSError, context: Context)
         case retry(context: Context)
-        
+
         var newMovies: [Movie]? {
             switch self {
-            case .paging(context: let context):
+            case .paging(context:let context):
                 return context.movies
-            case .loadedPage(context: let context):
+            case .loadedPage(context:let context):
                 return context.movies
-            case .refreshed(context: let context):
+            case .refreshed(context:let context):
                 return context.movies
             default:
                 return nil
             }
         }
-        
+
         var context: Context {
             switch self {
             case .initial:
                 return Context.empty
-            case .paging(context: let context):
+            case .paging(context:let context):
                 return context
-            case .loadedPage(context: let context):
+            case .loadedPage(context:let context):
                 return context
-            case .refreshing(context: let context):
+            case .refreshing(context:let context):
                 return context
-            case .refreshed(context: let context):
+            case .refreshed(context:let context):
                 return context
-            case .error(error:_, context: let context):
+            case .error(error:_, context:let context):
                 return context
-            case .retry(context: let context):
+            case .retry(context:let context):
                 return context
             }
         }
-        
+
         var movies: [Movie] {
             return context.movies
         }
-        
+
         var batch: Results<Movie> {
             return context.batch
         }
-        
+
         var refreshPage: Int? {
             switch self {
             case .refreshing:
@@ -219,36 +212,36 @@ final class PaginationViewModel {
                 return 1
             }
         }
-        
+
         var nextPage: Int? {
             switch self {
-            case .paging(context: let context):
+            case .paging(context:let context):
                 return context.batch.page + 1
-            case .refreshed(context: let context):
+            case .refreshed(context:let context):
                 return context.batch.page + 1
             default:
                 return nil
             }
         }
-        
+
         var retryPage: Int? {
             switch self {
-            case .retry(context: let context):
+            case .retry(context:let context):
                 return context.batch.page + 1
             default:
                 return nil
             }
         }
-        
+
         var lastError: NSError? {
             switch self {
-            case .error(error:let error, context: _):
+            case .error(error:let error, context:_):
                 return error
             default:
                 return nil
             }
         }
-        
+
         var isRefreshing: Bool {
             switch self {
             case .refreshing:
@@ -257,7 +250,7 @@ final class PaginationViewModel {
                 return false
             }
         }
-        
+
         var paging: Bool {
             switch self {
             case .paging:
@@ -266,7 +259,7 @@ final class PaginationViewModel {
                 return false
             }
         }
-        
+
         static func reduce(state: State, event: Event) -> State {
             switch event {
             case .startLoadingNextPage:
@@ -282,12 +275,8 @@ final class PaginationViewModel {
                 return .retry(context: state.context)
             }
         }
-        
-        var scheduler: Scheduler {
-            return UIScheduler()
-        }
     }
-    
+
     enum Event {
         case startLoadingNextPage
         case response(Results<Movie>)
@@ -301,13 +290,13 @@ final class PaginationViewModel {
 final class MoviewCell: UICollectionViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var imageView: UIImageView!
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
         self.title.text = nil
         self.imageView.image = nil
     }
-    
+
     func configure(with moview: Movie) {
         title.text = moview.title
         imageView.kf.setImage(with: moview.posterURL,
@@ -323,20 +312,20 @@ extension UIScrollView {
                     return nil
                 }
                 return value.cgPointValue
-        }
+            }
     }
-    
+
     var rac_nearBottomSignal: Signal<Void, NoError> {
         func isNearBottomEdge(scrollView: UIScrollView, edgeOffset: CGFloat = 44.0) -> Bool {
             return scrollView.contentOffset.y + scrollView.frame.size.height + edgeOffset > scrollView.contentSize.height
         }
-        
+
         return rac_contentOffset
             .filterMap { _ in
-                if isNearBottomEdge(scrollView: self) {
-                    return ()
-                }
-                return nil
+            if isNearBottomEdge(scrollView: self) {
+                return ()
+            }
+            return nil
         }
     }
 }
@@ -352,11 +341,11 @@ extension Dictionary where Key == String, Value == Any {
     subscript(int key: Key) -> Int? {
         return self[key] as? Int
     }
-    
+
     subscript(string key: Key) -> String? {
         return self[key] as? String
     }
-    
+
     subscript(objects key: Key) -> [JSON] {
         return self[key] as? [JSON] ?? []
     }
@@ -371,7 +360,7 @@ struct Results<T:JSONSerializable> {
     let totalResults: Int
     let totalPages: Int
     let results: [T]
-    
+
     static func empty() -> Results<T> {
         return Results<T>.init(page: 0, totalResults: 0, totalPages: 0, results: [])
     }
@@ -391,7 +380,7 @@ struct Movie {
     let overview: String
     let title: String
     let posterPath: String?
-    
+
     var posterURL: URL? {
         return posterPath
             .map {
@@ -417,7 +406,7 @@ func switchFail() {
 }
 
 extension URLSession {
-    func fetchPoster(page: Int) -> SignalProducer<Results<Movie>, NSError> {
+    func fetchMovies(page: Int) -> SignalProducer<Results<Movie>, NSError> {
         return SignalProducer.init({ (observer, lifetime) in
             let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(shouldFail ? apiKey : correctKey)&sort_by=popularity.desc&page=\(page)")!
             switchFail()
@@ -441,7 +430,7 @@ extension URLSession {
                     observer.sendCompleted()
                 }
             })
-            
+
             lifetime += AnyDisposable(task.cancel)
             task.resume()
         })
@@ -460,7 +449,7 @@ extension UICollectionView {
             })
         }
     }
-    
+
     func rac_items<DataSource:RACCollectionViewDataSourceType & UICollectionViewDataSource, S:SignalProducerProtocol>(dataSource: DataSource) -> (S) -> Disposable? where S.Error == NoError, S.Value == DataSource.Element {
         return { source in
             self.dataSource = dataSource
@@ -476,30 +465,30 @@ extension UICollectionView {
 
 public protocol RACCollectionViewDataSourceType {
     associatedtype Element
-    
+
     func collectionView(_ collectionView: UICollectionView, observedEvent: Signal<Element, NoError>.Event)
 }
 
 final class ArrayCollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     typealias CellFactory = (UICollectionView, IndexPath, T) -> UICollectionViewCell
-    
+
     private var items: [T] = []
     var cellFactory: CellFactory!
-    
+
     func update(with items: [T]) {
         self.items = items
     }
-    
+
     func item(atIndexPath indexPath: IndexPath) -> T {
         return items[indexPath.row]
     }
-    
+
     // MARK: UICollectionViewDataSource
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return cellFactory(collectionView, indexPath, item(atIndexPath: indexPath))
     }
