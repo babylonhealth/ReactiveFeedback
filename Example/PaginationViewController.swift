@@ -89,11 +89,9 @@ final class PaginationViewModel {
             Feedbacks.retryPagingFeedback()
         ]
         let initialState = State.initial
-        let stateProducer = SignalProducer<State, NoError>.system(
-                initialState: initialState,
-                reduce: State.reduce,
-                feedback: feedbacks
-            )
+        let stateProducer = SignalProducer.system(initial: initialState,
+                                                  reduce: State.reduce,
+                                                  feedbacks: feedbacks)
             .observe(on: QueueScheduler.main)
 
         let stateProperty = Property<State>(initial: initialState, then: stateProducer)
