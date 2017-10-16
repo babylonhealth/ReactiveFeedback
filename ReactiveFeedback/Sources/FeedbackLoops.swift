@@ -18,6 +18,18 @@ public struct FeedbackLoop<State, Event> {
         }
     }
 
+    public init<Control, Effect:SignalProducerConvertible>(query: @escaping (State) -> Control?,
+                                                           effects: @escaping (Control) -> Effect) where Effect.Error == NoError, Effect.Value == Event {
+        self.loop = { (scheduler, state) in
+            return state.map(query)
+                .flatMap(.latest) { control -> SignalProducer<Event, NoError> in
+                    guard let control = control else { return SignalProducer<Event, NoError>.empty }
+                    return effects(control).producer
+                        .enqueue(on: scheduler)
+                }
+        }
+    }
+
     public init<Effect:SignalProducerConvertible>(predicate: @escaping (State) -> Bool,
                                                   effects: @escaping (State) -> Effect) where Effect.Error == NoError, Effect.Value == Event {
         self.loop = { (scheduler, state) in
