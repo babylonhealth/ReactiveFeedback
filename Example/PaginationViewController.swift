@@ -22,6 +22,10 @@ final class PaginationViewController: UICollectionViewController {
         super.viewDidLoad()
         setupDataSource()
         bindViewModel()
+
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .automatic
+        }
     }
 
     func bindViewModel() {
@@ -63,6 +67,7 @@ final class PaginationViewModel {
     private let nearBottomObserver: Signal<Void, NoError>.Observer
     private let retryObserver: Signal<Void, NoError>.Observer
 
+    private let state: Property<State>
     let movies: Property<[Movie]>
     let errors: Property<NSError?>
     let refreshing: Property<Bool>
@@ -88,26 +93,15 @@ final class PaginationViewModel {
             Feedbacks.retryFeedback(for: retrySignal),
             Feedbacks.retryPagingFeedback()
         ]
-        let initialState = State.initial
-        let stateProducer = SignalProducer<State, NoError>.system(
-                initialState: initialState,
-                reduce: State.reduce,
-                feedback: feedbacks
-            )
-            .observe(on: QueueScheduler.main)
 
-        let stateProperty = Property<State>(initial: initialState, then: stateProducer)
+        self.state = Property(initial: State.initial,
+                              reduce: State.reduce,
+                              feedbacks: feedbacks)
 
-        self.movies = Property<[Movie]>.init(initial: [], then: stateProperty.signal.filterMap {
-            $0.newMovies
-        })
+        self.movies = state.map { $0.newMovies ?? [] }
+        self.errors = state.map { $0.lastError }
+        self.refreshing = state.map { $0.isRefreshing }
 
-        self.errors = Property<NSError?>.init(initial: nil, then: stateProperty.producer.map {
-            $0.lastError
-        })
-        self.refreshing = stateProperty.map {
-            $0.isRefreshing
-        }
         self.nearBottomObserver = nearBottomObserver
         self.retryObserver = retryObserver
     }

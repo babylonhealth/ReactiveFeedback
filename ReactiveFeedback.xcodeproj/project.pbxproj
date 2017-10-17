@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		25CC87BB1F92859800A6EBFC /* SignalProducer+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2331F54951100D90192 /* SignalProducer+System.swift */; };
+		25CC87BB1F92859800A6EBFC /* Property+StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2331F54951100D90192 /* Property+StateMachine.swift */; };
 		25CC87BC1F92859800A6EBFC /* FeedbackLoops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2351F54A20F00D90192 /* FeedbackLoops.swift */; };
 		25E1D2211F5493D000D90192 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2201F5493D000D90192 /* AppDelegate.swift */; };
 		25E1D2231F5493D000D90192 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2221F5493D000D90192 /* ViewController.swift */; };
@@ -95,7 +95,7 @@
 		25E1D2271F5493D000D90192 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		25E1D22A1F5493D000D90192 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		25E1D22C1F5493D000D90192 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		25E1D2331F54951100D90192 /* SignalProducer+System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducer+System.swift"; sourceTree = "<group>"; };
+		25E1D2331F54951100D90192 /* Property+StateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Property+StateMachine.swift"; sourceTree = "<group>"; };
 		25E1D2351F54A20F00D90192 /* FeedbackLoops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackLoops.swift; sourceTree = "<group>"; };
 		25E1D2371F56091A00D90192 /* PaginationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationViewController.swift; sourceTree = "<group>"; };
 		9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,7 +148,7 @@
 		25CC87AF1F92855300A6EBFC /* ReactiveFeedback */ = {
 			isa = PBXGroup;
 			children = (
-				25E1D2331F54951100D90192 /* SignalProducer+System.swift */,
+				25E1D2331F54951100D90192 /* Property+StateMachine.swift */,
 				25E1D2351F54A20F00D90192 /* FeedbackLoops.swift */,
 				25CC87B11F92855300A6EBFC /* Info.plist */,
 			);
@@ -358,7 +358,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25CC87BC1F92859800A6EBFC /* FeedbackLoops.swift in Sources */,
-				25CC87BB1F92859800A6EBFC /* SignalProducer+System.swift in Sources */,
+				25CC87BB1F92859800A6EBFC /* Property+StateMachine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
