@@ -2,29 +2,33 @@ import Foundation
 import ReactiveSwift
 import enum Result.NoError
 
-public typealias Reducer<State, Event> = (State, Event) -> State
-
-extension SignalProducerProtocol where Error == NoError {
-
-    public static func system<Event>(initialState: Value,
-                                     scheduler: Scheduler = QueueScheduler.main,
-                                     reduce: @escaping Reducer<Value, Event>,
-                                     feedback: [FeedbackLoop<Value, Event>]) -> SignalProducer<Value, NoError> {
+extension SignalProducer where Error == NoError {
+    public static func system<Event>(
+        initial: Value,
+        scheduler: Scheduler = QueueScheduler.main,
+        reduce: @escaping (Value, Event) -> Value,
+        feedbacks: [FeedbackLoop<Value, Event>]
+    ) -> SignalProducer<Value, NoError> {
         return SignalProducer.deferred {
-            let (subject, observer) = Signal<Value, NoError>.pipe()
-            let events = Signal<Event, NoError>.merge(feedback.map { feedback in
-                return feedback.loop(scheduler, subject)
-            })
-            return SignalProducer(events.scan(initialState, reduce))
-                .prefix(value: initialState)
+            let (state, observer) = Signal<Value, NoError>.pipe()
+
+            let events = feedbacks.map { feedback in
+                return feedback.loop(scheduler, state)
+            }
+
+            return SignalProducer<Event, NoError>(Signal.merge(events))
+                .scan(initial, reduce)
+                .prefix(value: initial)
                 .on(value: observer.send(value:))
         }
     }
 
-    public static func system<Event>(initialState: Value,
-                                     reduce: @escaping Reducer<Value, Event>,
-                                     feedback: FeedbackLoop<Value, Event>...) -> SignalProducer<Value, Error> {
-        return system(initialState: initialState, reduce: reduce, feedback: feedback)
+    public static func system<Event>(
+        initial: Value,
+        reduce: @escaping (Value, Event) -> Value,
+        feedbacks: FeedbackLoop<Value, Event>...
+    ) -> SignalProducer<Value, Error> {
+        return system(initial: initial, reduce: reduce, feedbacks: feedbacks)
     }
 }
 

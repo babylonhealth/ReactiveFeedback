@@ -56,9 +56,9 @@ final class ViewModel {
                 return decrement.map { _ in Event.decrement }
         }
 
-        let state = SignalProducer<Int, NoError>.system(initialState: 0,
-                                                        reduce: IncrementReducer.reduce,
-                                                        feedback: incrementFeedback, decrementFeedback)
+        let state = SignalProducer.system(initial: 0,
+                                          reduce: IncrementReducer.reduce,
+                                          feedbacks: incrementFeedback, decrementFeedback)
             .map(String.init)
 
         self.counter = Property(initial: "", then: state)
