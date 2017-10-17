@@ -111,15 +111,15 @@ final class PaginationViewModel {
     }
 
     enum Feedbacks {
-        static func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> FeedbackLoop<State, Event> {
-            return FeedbackLoop(predicate: { !$0.paging }) { _ in
+        static func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> Feedback<State, Event> {
+            return Feedback(predicate: { !$0.paging }) { _ in
                 return nearBottomSignal
                     .map { Event.startLoadingNextPage }
             }
         }
 
-        static func pagingFeedback() -> FeedbackLoop<State, Event> {
-            return FeedbackLoop<State, Event>(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+        static func pagingFeedback() -> Feedback<State, Event> {
+            return Feedback<State, Event>(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
                 return URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
                     .flatMapError { (error) -> SignalProducer<Event, NoError> in
@@ -128,14 +128,14 @@ final class PaginationViewModel {
             }
         }
 
-        static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> FeedbackLoop<State, Event> {
-            return FeedbackLoop<State, Event>(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
+        static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> Feedback<State, Event> {
+            return Feedback<State, Event>(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
                 return retrySignal.map { Event.retry }
             }
         }
 
-        static func retryPagingFeedback() -> FeedbackLoop<State, Event> {
-            return FeedbackLoop<State, Event>(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+        static func retryPagingFeedback() -> Feedback<State, Event> {
+            return Feedback<State, Event>(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
                 return URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
                     .flatMapError { (error) -> SignalProducer<Event, NoError> in

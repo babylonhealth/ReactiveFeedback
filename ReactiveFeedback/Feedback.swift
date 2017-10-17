@@ -2,14 +2,14 @@ import Foundation
 import ReactiveSwift
 import enum Result.NoError
 
-public struct FeedbackLoop<State, Event> {
-    public let loop: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
+public struct Feedback<State, Event> {
+    public let events: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
 
     public init<Control: Equatable, Effect: SignalProducerConvertible>(
         query: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.loop = { scheduler, state in
+        self.events = { scheduler, state in
             return state
                 .map(query)
                 .skipRepeats { $0 == $1 }
@@ -25,7 +25,7 @@ public struct FeedbackLoop<State, Event> {
         query: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.loop = { scheduler, state in
+        self.events = { scheduler, state in
             return state
                 .map(query)
                 .flatMap(.latest) { control -> SignalProducer<Event, NoError> in
@@ -40,7 +40,7 @@ public struct FeedbackLoop<State, Event> {
         predicate: @escaping (State) -> Bool,
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.loop = { scheduler, state in
+        self.events = { scheduler, state in
             return state
                 .flatMap(.latest) { state -> SignalProducer<Event, NoError> in
                     guard predicate(state) else { return .empty }
@@ -53,7 +53,7 @@ public struct FeedbackLoop<State, Event> {
     public init<Effect: SignalProducerConvertible>(
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.loop = { scheduler, state in
+        self.events = { scheduler, state in
             return state.flatMap(.latest) { state -> SignalProducer<Event, NoError> in
                 return effects(state).producer
                     .enqueue(on: scheduler)
