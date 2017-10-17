@@ -98,7 +98,7 @@ final class PaginationViewModel {
                               reduce: State.reduce,
                               feedbacks: feedbacks)
 
-        self.movies = state.map { $0.newMovies ?? [] }
+        self.movies = Property(initial: [], then: state.producer.filterMap { $0.newMovies })
         self.errors = state.map { $0.lastError }
         self.refreshing = state.map { $0.isRefreshing }
 
