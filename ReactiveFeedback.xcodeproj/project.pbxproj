@@ -15,6 +15,14 @@
 		25E1D2281F5493D000D90192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2271F5493D000D90192 /* Assets.xcassets */; };
 		25E1D22B1F5493D000D90192 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */; };
 		25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2371F56091A00D90192 /* PaginationViewController.swift */; };
+		9A4CCB0B1F95D5CA00ACF758 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */; };
+		9A4CCB0D1F95D5D500ACF758 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9AE181B91F95A71B00A07551 /* ReactiveFeedbackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE181B81F95A71B00A07551 /* ReactiveFeedbackTests.swift */; };
+		9AE181BB1F95A71B00A07551 /* ReactiveFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */; };
+		9AE181C21F95A77500A07551 /* ReactiveSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9AFA212A1F95135B001DBF7C /* ReactiveSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9AE181C31F95A77500A07551 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9AFA212B1F95135B001DBF7C /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9AE181C41F95A77C00A07551 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFA212A1F95135B001DBF7C /* ReactiveSwift.framework */; };
+		9AE181C51F95A77C00A07551 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFA212B1F95135B001DBF7C /* Result.framework */; };
 		9AFA21261F9511A5001DBF7C /* ReactiveFeedback.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 9AFA21251F9511A5001DBF7C /* ReactiveFeedback.podspec */; };
 		9AFA21281F95135B001DBF7C /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFA212A1F95135B001DBF7C /* ReactiveSwift.framework */; };
 		9AFA21291F95135B001DBF7C /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFA212B1F95135B001DBF7C /* Result.framework */; };
@@ -31,6 +39,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9AE181BC1F95A71B00A07551 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25E1D2151F5493D000D90192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 25CC87AD1F92855300A6EBFC;
+			remoteInfo = ReactiveFeedback;
+		};
 		9AFA213E1F9514E4001DBF7C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 25E1D2151F5493D000D90192 /* Project object */;
@@ -56,6 +71,18 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9AE181C11F95A76B00A07551 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9AE181C21F95A77500A07551 /* ReactiveSwift.framework in CopyFiles */,
+				9AE181C31F95A77500A07551 /* Result.framework in CopyFiles */,
+				9A4CCB0D1F95D5D500ACF758 /* Nimble.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +98,10 @@
 		25E1D2331F54951100D90192 /* SignalProducer+System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducer+System.swift"; sourceTree = "<group>"; };
 		25E1D2351F54A20F00D90192 /* FeedbackLoops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackLoops.swift; sourceTree = "<group>"; };
 		25E1D2371F56091A00D90192 /* PaginationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationViewController.swift; sourceTree = "<group>"; };
+		9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AE181B61F95A71B00A07551 /* ReactiveFeedbackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveFeedbackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AE181B81F95A71B00A07551 /* ReactiveFeedbackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactiveFeedbackTests.swift; sourceTree = "<group>"; };
+		9AE181BA1F95A71B00A07551 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AFA21251F9511A5001DBF7C /* ReactiveFeedback.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReactiveFeedback.podspec; sourceTree = "<group>"; };
 		9AFA212A1F95135B001DBF7C /* ReactiveSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ReactiveSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AFA212B1F95135B001DBF7C /* Result.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Result.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +131,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9AE181B31F95A71B00A07551 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A4CCB0B1F95D5CA00ACF758 /* Nimble.framework in Frameworks */,
+				9AE181BB1F95A71B00A07551 /* ReactiveFeedback.framework in Frameworks */,
+				9AE181C41F95A77C00A07551 /* ReactiveSwift.framework in Frameworks */,
+				9AE181C51F95A77C00A07551 /* Result.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -119,6 +161,7 @@
 				25E1D21F1F5493D000D90192 /* Example */,
 				25CC87AF1F92855300A6EBFC /* ReactiveFeedback */,
 				9AFA21251F9511A5001DBF7C /* ReactiveFeedback.podspec */,
+				9AE181B71F95A71B00A07551 /* ReactiveFeedbackTests */,
 				25E1D21E1F5493D000D90192 /* Products */,
 				9AFA21271F95135B001DBF7C /* Frameworks */,
 			);
@@ -129,6 +172,7 @@
 			children = (
 				25E1D21D1F5493D000D90192 /* Example.app */,
 				25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */,
+				9AE181B61F95A71B00A07551 /* ReactiveFeedbackTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -147,9 +191,19 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
+		9AE181B71F95A71B00A07551 /* ReactiveFeedbackTests */ = {
+			isa = PBXGroup;
+			children = (
+				9AE181B81F95A71B00A07551 /* ReactiveFeedbackTests.swift */,
+				9AE181BA1F95A71B00A07551 /* Info.plist */,
+			);
+			path = ReactiveFeedbackTests;
+			sourceTree = "<group>";
+		};
 		9AFA21271F95135B001DBF7C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */,
 				9AFA21431F95181E001DBF7C /* Kingfisher.framework */,
 				9AFA21391F951435001DBF7C /* ReactiveCocoa.framework */,
 				9AFA212A1F95135B001DBF7C /* ReactiveSwift.framework */,
@@ -208,13 +262,32 @@
 			productReference = 25E1D21D1F5493D000D90192 /* Example.app */;
 			productType = "com.apple.product-type.application";
 		};
+		9AE181B51F95A71B00A07551 /* ReactiveFeedbackTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9AE181C01F95A71B00A07551 /* Build configuration list for PBXNativeTarget "ReactiveFeedbackTests" */;
+			buildPhases = (
+				9AE181B21F95A71B00A07551 /* Sources */,
+				9AE181B31F95A71B00A07551 /* Frameworks */,
+				9AE181B41F95A71B00A07551 /* Resources */,
+				9AE181C11F95A76B00A07551 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9AE181BD1F95A71B00A07551 /* PBXTargetDependency */,
+			);
+			name = ReactiveFeedbackTests;
+			productName = ReactiveFeedbackTests;
+			productReference = 9AE181B61F95A71B00A07551 /* ReactiveFeedbackTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		25E1D2151F5493D000D90192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
@@ -225,6 +298,9 @@
 					25E1D21C1F5493D000D90192 = {
 						CreatedOnToolsVersion = 8.3;
 						ProvisioningStyle = Automatic;
+					};
+					9AE181B51F95A71B00A07551 = {
+						CreatedOnToolsVersion = 9.0;
 					};
 				};
 			};
@@ -242,6 +318,7 @@
 			projectRoot = "";
 			targets = (
 				25CC87AD1F92855300A6EBFC /* ReactiveFeedback */,
+				9AE181B51F95A71B00A07551 /* ReactiveFeedbackTests */,
 				25E1D21C1F5493D000D90192 /* Example */,
 			);
 		};
@@ -263,6 +340,13 @@
 				25E1D22B1F5493D000D90192 /* LaunchScreen.storyboard in Resources */,
 				25E1D2281F5493D000D90192 /* Assets.xcassets in Resources */,
 				25E1D2261F5493D000D90192 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AE181B41F95A71B00A07551 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,9 +372,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9AE181B21F95A71B00A07551 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AE181B91F95A71B00A07551 /* ReactiveFeedbackTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		9AE181BD1F95A71B00A07551 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 25CC87AD1F92855300A6EBFC /* ReactiveFeedback */;
+			targetProxy = 9AE181BC1F95A71B00A07551 /* PBXContainerItemProxy */;
+		};
 		9AFA213F1F9514E4001DBF7C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 25CC87AD1F92855300A6EBFC /* ReactiveFeedback */;
@@ -505,6 +602,38 @@
 			};
 			name = Release;
 		};
+		9AE181BE1F95A71B00A07551 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ReactiveFeedbackTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks @loader_path/Frameworks @executable_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedbackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator watchsimulator appletvsimulator";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		9AE181BF1F95A71B00A07551 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ReactiveFeedbackTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks @loader_path/Frameworks @executable_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedbackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator watchsimulator appletvsimulator";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -531,6 +660,15 @@
 			buildConfigurations = (
 				25E1D2301F5493D100D90192 /* Debug */,
 				25E1D2311F5493D100D90192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9AE181C01F95A71B00A07551 /* Build configuration list for PBXNativeTarget "ReactiveFeedbackTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9AE181BE1F95A71B00A07551 /* Debug */,
+				9AE181BF1F95A71B00A07551 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
