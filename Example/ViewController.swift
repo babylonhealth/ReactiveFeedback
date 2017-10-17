@@ -42,27 +42,30 @@ class ViewController: UIViewController {
 }
 
 final class ViewModel {
+    private let state: Property<Int>
     let counter: Property<String>
 
     init(increment: Signal<Void, NoError>, decrement: Signal<Void, NoError>) {
 
-        let incrementFeedback = FeedbackLoop<Int, Event>(predicate: {
-            return  $0 < 10
-        }) { state in
-            return increment.map { _ in Event.increment }
-        }
+        let incrementFeedback = FeedbackLoop<Int, Event>(
+            predicate: { $0 < 10 },
+            effects: { _ in
+                return increment.map { _ in Event.increment }
+            }
+        )
 
-        let decrementFeedback = FeedbackLoop<Int, Event>(predicate: { return $0 > -10 }) { _ in
+        let decrementFeedback = FeedbackLoop<Int, Event>(
+            predicate: { $0 > -10 },
+            effects: { _ in
                 return decrement.map { _ in Event.decrement }
-        }
+            }
+        )
 
-        let state = SignalProducer<Int, NoError>.system(initialState: 0,
-                                                        reduce: IncrementReducer.reduce,
-                                                        feedback: incrementFeedback, decrementFeedback)
-            .map(String.init)
+        state = Property(initial: 0,
+                         reduce: IncrementReducer.reduce,
+                         feedbacks: incrementFeedback, decrementFeedback)
 
-        self.counter = Property(initial: "", then: state)
-
+        counter = state.map(String.init)
     }
 }
 
