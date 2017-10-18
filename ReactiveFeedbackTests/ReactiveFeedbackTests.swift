@@ -40,11 +40,12 @@ class SystemTests: XCTestCase {
                 result = $0
             }
 
-        expect(result).toEventually(equal([
-                                              "initial",
-                                              "initial_a",
-                                              "initial_a_a"
-                                          ]))
+        let expected = [
+            "initial",
+            "initial_a",
+            "initial_a_a"
+        ]
+        expect(result).toEventually(equal(expected))
     }
 
     func test_reduce_with_two_immediate_feedback_loops() {
@@ -68,13 +69,14 @@ class SystemTests: XCTestCase {
                 result = $0
             }
 
-        expect(result).toEventually(equal([
-                                              "initial",
-                                              "initial_a",
-                                              "initial_a_b",
-                                              "initial_a_b_a",
-                                              "initial_a_b_a_b",
-                                          ]))
+        let expected = [
+            "initial",
+            "initial_a",
+            "initial_a_b",
+            "initial_a_b_a",
+            "initial_a_b_a_b",
+        ]
+        expect(result).toEventually(equal(expected))
     }
 
     func test_reduce_with_async_feedback_loop() {
@@ -105,11 +107,12 @@ class SystemTests: XCTestCase {
                 result = $0
             }
 
-        expect(result).toEventually(equal([
-                                              "initial",
-                                              "initial_a",
-                                              "initial_a_b",
-                                              "initial_a_b_c"
-                                          ]))
+        let expected = [
+            "initial",
+            "initial_a",
+            "initial_a_b",
+            "initial_a_b_c"
+        ]
+        expect(result).toEventually(equal(expected))
     }
 }
