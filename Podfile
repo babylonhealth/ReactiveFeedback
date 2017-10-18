@@ -1,26 +1,24 @@
-# Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+install! 'cocoapods',
+         :integrate_targets => false
+use_frameworks!
 
-target 'ReactiveFeedback' do
-
-  use_frameworks!
-  pod 'ReactiveSwift'
-  
-  target 'ReactiveFeedbackTests' do
-      inherit! :search_paths
-  end
+def shared_pods
+    pod "ReactiveSwift", "~> 2.0"
 end
 
-target 'Example' do
-    use_frameworks!
-    pod 'ReactiveSwift'
-    pod 'ReactiveCocoa'
+target "ReactiveFeedback" do
+    platform :ios, "8.0"
+    shared_pods
 end
 
-post_install do |installer|
-    installer.pods_project.targets.each do |target|
-        target.build_configurations.each do |config|
-            config.build_settings['SWIFT_VERSION'] = '3.3'
-        end
-    end
+target "ReactiveFeedbackTests" do
+    platform :ios, "8.0"
+    shared_pods
+    pod "Nimble", "~> 7.0"
+end
+
+target "Example" do
+    platform :ios, "10.0"
+    shared_pods
+    pod "Kingfisher", "~> 4.0"
 end

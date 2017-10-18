@@ -4,10 +4,45 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>ReactiveFeedback.xcscheme</key>
+		<key>Example.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>5</integer>
+			<integer>2</integer>
+		</dict>
+		<key>ReactiveFeedback.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+		<key>ReactiveFeedbackTests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>SystemTests.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false />
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>25CC87AD1F92855300A6EBFC</key>
+		<dict>
+			<key>primary</key>
+			<true />
+		</dict>
+		<key>25E1D21C1F5493D000D90192</key>
+		<dict>
+			<key>primary</key>
+			<true />
+		</dict>
+		<key>9AE181B51F95A71B00A07551</key>
+		<dict>
+			<key>primary</key>
+			<true />
 		</dict>
 	</dict>
 </dict>
