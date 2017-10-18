@@ -63,6 +63,7 @@ final class PaginationViewModel {
     private let nearBottomObserver: Signal<Void, NoError>.Observer
     private let retryObserver: Signal<Void, NoError>.Observer
 
+    private let stateProperty: Property<State>
     let movies: Property<[Movie]>
     let errors: Property<NSError?>
     let refreshing: Property<Bool>
@@ -88,24 +89,16 @@ final class PaginationViewModel {
             Feedbacks.retryFeedback(for: retrySignal),
             Feedbacks.retryPagingFeedback()
         ]
-        let initialState = State.initial
-        let stateProducer = SignalProducer.system(initial: initialState,
-                                                  reduce: State.reduce,
-                                                  feedbacks: feedbacks)
-            .observe(on: QueueScheduler.main)
 
-        let stateProperty = Property<State>(initial: initialState, then: stateProducer)
+        self.stateProperty = Property(initial: State.initial,
+                                      reduce: State.reduce,
+                                      feedbacks: feedbacks)
 
-        self.movies = Property<[Movie]>.init(initial: [], then: stateProperty.signal.filterMap {
-            $0.newMovies
-        })
+        self.movies = Property<[Movie]>(initial: [],
+                                        then: stateProperty.producer.filterMap { $0.newMovies })
 
-        self.errors = Property<NSError?>.init(initial: nil, then: stateProperty.producer.map {
-            $0.lastError
-        })
-        self.refreshing = stateProperty.map {
-            $0.isRefreshing
-        }
+        self.errors = stateProperty.map { $0.lastError }
+        self.refreshing = stateProperty.map { $0.isRefreshing }
         self.nearBottomObserver = nearBottomObserver
         self.retryObserver = retryObserver
     }
