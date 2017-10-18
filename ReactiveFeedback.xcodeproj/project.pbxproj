@@ -148,8 +148,9 @@
 		25CC87AF1F92855300A6EBFC /* ReactiveFeedback */ = {
 			isa = PBXGroup;
 			children = (
+				A95097E70D3CBFF05FA7B8CC /* Feedback.swift */,
+				A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */,
 				25CC87B11F92855300A6EBFC /* Info.plist */,
-				A9509044CDBE628EBBBC2244 /* Sources */,
 			);
 			path = ReactiveFeedback;
 			sourceTree = "<group>";
@@ -209,15 +210,6 @@
 				9AFA212B1F95135B001DBF7C /* Result.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		A9509044CDBE628EBBBC2244 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				A95097E70D3CBFF05FA7B8CC /* Feedback.swift */,
-				A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */,
-			);
-			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
