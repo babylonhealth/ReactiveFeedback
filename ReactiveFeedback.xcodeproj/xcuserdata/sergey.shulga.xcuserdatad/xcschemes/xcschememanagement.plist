@@ -24,6 +24,13 @@
 			<key>isShown</key>
 			<false />
 			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>SystemTests.test_emits_initial.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false />
+			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
 	</dict>

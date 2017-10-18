@@ -6,29 +6,29 @@ public typealias Reducer<State, Event> = (State, Event) -> State
 
 extension SignalProducerProtocol where Error == NoError {
 
-    public static func system<Event>(initialState: Value,
+    public static func system<Event>(initial: Value,
                                      scheduler: Scheduler = QueueScheduler.main,
                                      reduce: @escaping Reducer<Value, Event>,
-                                     feedback: [FeedbackLoop<Value, Event>]) -> SignalProducer<Value, NoError> {
+                                     feedbacks: [Feedback<Value, Event>]) -> SignalProducer<Value, NoError> {
         return SignalProducer.deferred {
             let (subject, observer) = Signal<Value, NoError>.pipe()
-            let events = Signal<Event, NoError>.merge(feedback.map { feedback in
-                return feedback.loop(scheduler, subject)
+            let events = Signal<Event, NoError>.merge(feedbacks.map { feedback in
+                return feedback.events(scheduler, subject)
             })
-            return SignalProducer(events.scan(initialState, reduce))
-                .prefix(value: initialState)
+            return SignalProducer(events.scan(initial, reduce))
+                .prefix(value: initial)
                 .on(value: observer.send(value:))
         }
     }
 
-    public static func system<Event>(initialState: Value,
+    public static func system<Event>(initial: Value,
                                      scheduler: Scheduler = QueueScheduler.main,
                                      reduce: @escaping Reducer<Value, Event>,
-                                     feedback: FeedbackLoop<Value, Event>...) -> SignalProducer<Value, Error> {
-        return system(initialState: initialState,
+                                     feedbacks: Feedback<Value, Event>...) -> SignalProducer<Value, Error> {
+        return system(initial: initial,
                       scheduler: scheduler,
                       reduce: reduce,
-                      feedback: feedback)
+                      feedbacks: feedbacks)
     }
 }
 
