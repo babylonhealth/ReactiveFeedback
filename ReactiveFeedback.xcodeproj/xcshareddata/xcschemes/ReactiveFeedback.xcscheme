@@ -29,7 +29,26 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9AE181B51F95A71B00A07551"
+               BuildableName = "ReactiveFeedbackTests.xctest"
+               BlueprintName = "ReactiveFeedbackTests"
+               ReferencedContainer = "container:ReactiveFeedback.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "25CC87AD1F92855300A6EBFC"
+            BuildableName = "ReactiveFeedback.framework"
+            BlueprintName = "ReactiveFeedback"
+            ReferencedContainer = "container:ReactiveFeedback.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
