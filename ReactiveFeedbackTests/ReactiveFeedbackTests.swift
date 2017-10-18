@@ -19,7 +19,7 @@ class SystemTests: XCTestCase {
             feedbacks: feedback)
         let result = system.first()?.value
 
-        XCTAssertEqual(result, initial)
+        expect(result) == initial
     }
 
     func test_reducer_with_one_feedback_loop() {
@@ -33,22 +33,18 @@ class SystemTests: XCTestCase {
             },
             feedbacks: feedback)
 
-        let exp = expectation(description: #function)
         var result: [String]!
         system.take(first: 3)
             .collect()
             .startWithValues {
                 result = $0
-                exp.fulfill()
             }
 
-        waitForExpectations(timeout: 0.1, handler: nil)
-
-        XCTAssertEqual(result, [
-            "initial",
-            "initial_a",
-            "initial_a_a"
-        ])
+        expect(result).toEventually(equal([
+                                              "initial",
+                                              "initial_a",
+                                              "initial_a_a"
+                                          ]))
     }
 
     func test_reduce_with_two_immediate_feedback_loops() {
@@ -65,24 +61,20 @@ class SystemTests: XCTestCase {
             },
             feedbacks: feedback1, feedback2)
 
-        let exp = expectation(description: #function)
         var result: [String]!
         system.take(first: 5)
             .collect()
             .startWithValues {
                 result = $0
-                exp.fulfill()
             }
 
-        waitForExpectations(timeout: 0.1, handler: nil)
-
-        XCTAssertEqual(result, [
-            "initial",
-            "initial_a",
-            "initial_a_b",
-            "initial_a_b_a",
-            "initial_a_b_a_b",
-        ])
+        expect(result).toEventually(equal([
+                                              "initial",
+                                              "initial_a",
+                                              "initial_a_b",
+                                              "initial_a_b_a",
+                                              "initial_a_b_a_b",
+                                          ]))
     }
 
     func test_reduce_with_async_feedback_loop() {
@@ -106,23 +98,18 @@ class SystemTests: XCTestCase {
             },
             feedbacks: feedback)
 
-        let exp = expectation(description: #function)
         var result: [String]!
         system.take(first: 4)
             .collect()
             .startWithValues {
                 result = $0
-                exp.fulfill()
             }
 
-        waitForExpectations(timeout: 0.2, handler: nil)
-
-        XCTAssertEqual(result, [
-            "initial",
-            "initial_a",
-            "initial_a_b",
-            "initial_a_b_c"
-        ])
+        expect(result).toEventually(equal([
+                                              "initial",
+                                              "initial_a",
+                                              "initial_a_b",
+                                              "initial_a_b_c"
+                                          ]))
     }
-
 }
