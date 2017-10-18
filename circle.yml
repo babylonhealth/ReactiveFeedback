@@ -1,0 +1,19 @@
+machine:
+  xcode:
+    version: "9.0"
+
+dependencies:
+  cache_directories:
+    - "Carthage/"
+    - "~/.cocoapods"
+
+test:
+  pre:
+    - carthage bootstrap --no-build
+  override:
+    - script/test iphonesimulator "platform=iOS Simulator,name=iPhone 6s" ReactiveFeedback
+    - script/test macosx "arch=x86_64" ReactiveFeedback
+    - script/test appletvsimulator "platform=tvOS Simulator,name=Apple TV" ReactiveFeedback
+    - script/test iphonesimulator "platform=iOS Simulator,name=iPhone 6s" Example build
+    - pod lib lint
+    - carthage build --no-skip-current --cache-builds

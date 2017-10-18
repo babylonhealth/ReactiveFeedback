@@ -180,6 +180,7 @@ Pods
 *.orig
 
 Carthage/Checkouts/*
+Carthage/Build/*
 backboneLocalizationBuilder
 .idea/babylon-ios.iml
 .idea/runConfigurations/Babylon_STAGING1.xml
