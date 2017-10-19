@@ -9,18 +9,17 @@ extension SignalProducer where Error == NoError {
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: [Feedback<Value, Event>]
     ) -> SignalProducer<Value, NoError> {
-        return SignalProducer { observer, lifetime in
+        return SignalProducer.deferred {
             let (state, stateObserver) = Signal<Value, NoError>.pipe()
 
             let events = feedbacks.map { feedback in
                 return feedback.events(scheduler, state)
             }
 
-            lifetime += SignalProducer<Event, NoError>(Signal.merge(events))
+            return SignalProducer<Event, NoError>(Signal.merge(events))
                 .scan(initial, reduce)
                 .prefix(value: initial)
                 .on(value: stateObserver.send(value:))
-                .start(observer)
         }
     }
 
@@ -30,5 +29,9 @@ extension SignalProducer where Error == NoError {
         feedbacks: Feedback<Value, Event>...
     ) -> SignalProducer<Value, Error> {
         return system(initial: initial, reduce: reduce, feedbacks: feedbacks)
+    }
+
+    private static func deferred(_ producer: @escaping () -> SignalProducer<Value, Error>) -> SignalProducer<Value, Error> {
+        return SignalProducer { $1 += producer().start($0) }
     }
 }
