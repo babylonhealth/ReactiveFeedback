@@ -7,17 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		25CC87BB1F92859800A6EBFC /* SignalProducer+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2331F54951100D90192 /* SignalProducer+System.swift */; };
-		25CC87BC1F92859800A6EBFC /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2351F54A20F00D90192 /* Feedback.swift */; };
 		25E1D2211F5493D000D90192 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2201F5493D000D90192 /* AppDelegate.swift */; };
 		25E1D2231F5493D000D90192 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2221F5493D000D90192 /* ViewController.swift */; };
 		25E1D2261F5493D000D90192 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2241F5493D000D90192 /* Main.storyboard */; };
 		25E1D2281F5493D000D90192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2271F5493D000D90192 /* Assets.xcassets */; };
 		25E1D22B1F5493D000D90192 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */; };
 		25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2371F56091A00D90192 /* PaginationViewController.swift */; };
+		5898B6D11F97ADDD005EEAEC /* SystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898B6D01F97ADDD005EEAEC /* SystemTests.swift */; };
 		9A4CCB0B1F95D5CA00ACF758 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */; };
 		9A4CCB0D1F95D5D500ACF758 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9AE181B91F95A71B00A07551 /* ReactiveFeedbackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE181B81F95A71B00A07551 /* ReactiveFeedbackTests.swift */; };
 		9AE181BB1F95A71B00A07551 /* ReactiveFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */; };
 		9AE181C21F95A77500A07551 /* ReactiveSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9AFA212A1F95135B001DBF7C /* ReactiveSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE181C31F95A77500A07551 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9AFA212B1F95135B001DBF7C /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -36,6 +34,8 @@
 		9AFA213D1F9514E4001DBF7C /* ReactiveFeedback.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AFA21441F951828001DBF7C /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFA21431F95181E001DBF7C /* Kingfisher.framework */; };
 		9AFA21451F951828001DBF7C /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFA21431F95181E001DBF7C /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A950943401765BB90FA846B2 /* SignalProducer+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */; };
+		A9509BE4551098F4A5503820 /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95097E70D3CBFF05FA7B8CC /* Feedback.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,18 +95,18 @@
 		25E1D2271F5493D000D90192 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		25E1D22A1F5493D000D90192 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		25E1D22C1F5493D000D90192 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		25E1D2331F54951100D90192 /* SignalProducer+System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducer+System.swift"; sourceTree = "<group>"; };
-		25E1D2351F54A20F00D90192 /* Feedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
 		25E1D2371F56091A00D90192 /* PaginationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationViewController.swift; sourceTree = "<group>"; };
+		5898B6D01F97ADDD005EEAEC /* SystemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTests.swift; sourceTree = "<group>"; };
 		9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE181B61F95A71B00A07551 /* ReactiveFeedbackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveFeedbackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9AE181B81F95A71B00A07551 /* ReactiveFeedbackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactiveFeedbackTests.swift; sourceTree = "<group>"; };
 		9AE181BA1F95A71B00A07551 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AFA21251F9511A5001DBF7C /* ReactiveFeedback.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReactiveFeedback.podspec; sourceTree = "<group>"; };
 		9AFA212A1F95135B001DBF7C /* ReactiveSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ReactiveSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AFA212B1F95135B001DBF7C /* Result.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Result.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AFA21391F951435001DBF7C /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ReactiveCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AFA21431F95181E001DBF7C /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A95097E70D3CBFF05FA7B8CC /* Feedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
+		A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducer+System.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,9 +148,9 @@
 		25CC87AF1F92855300A6EBFC /* ReactiveFeedback */ = {
 			isa = PBXGroup;
 			children = (
-				25E1D2331F54951100D90192 /* SignalProducer+System.swift */,
+				A95097E70D3CBFF05FA7B8CC /* Feedback.swift */,
+				A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */,
 				25CC87B11F92855300A6EBFC /* Info.plist */,
-				25E1D2351F54A20F00D90192 /* Feedback.swift */,
 			);
 			path = ReactiveFeedback;
 			sourceTree = "<group>";
@@ -194,7 +194,7 @@
 		9AE181B71F95A71B00A07551 /* ReactiveFeedbackTests */ = {
 			isa = PBXGroup;
 			children = (
-				9AE181B81F95A71B00A07551 /* ReactiveFeedbackTests.swift */,
+				5898B6D01F97ADDD005EEAEC /* SystemTests.swift */,
 				9AE181BA1F95A71B00A07551 /* Info.plist */,
 			);
 			path = ReactiveFeedbackTests;
@@ -357,8 +357,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				25CC87BC1F92859800A6EBFC /* Feedback.swift in Sources */,
-				25CC87BB1F92859800A6EBFC /* SignalProducer+System.swift in Sources */,
+				A9509BE4551098F4A5503820 /* Feedback.swift in Sources */,
+				A950943401765BB90FA846B2 /* SignalProducer+System.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +376,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AE181B91F95A71B00A07551 /* ReactiveFeedbackTests.swift in Sources */,
+				5898B6D11F97ADDD005EEAEC /* SystemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
