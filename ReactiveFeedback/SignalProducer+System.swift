@@ -12,8 +12,9 @@ extension SignalProducer where Error == NoError {
         return SignalProducer.deferred {
             let (state, observer) = Signal<Value, NoError>.pipe()
 
+            let stateForFeedback = state.observe(on: scheduler)
             let events = feedbacks.map { feedback in
-                return feedback.events(scheduler, state)
+                return feedback.events(stateForFeedback)
             }
 
             return SignalProducer<Event, NoError>(Signal.merge(events))
