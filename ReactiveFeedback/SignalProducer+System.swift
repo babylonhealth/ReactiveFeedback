@@ -4,18 +4,16 @@ import enum Result.NoError
 
 extension SignalProducer where Error == NoError {
 
-    /**
-    Feedback controlled State Machine
-    System state is represented as a `State` parameter.
-    Events are represented by `Event` parameter. It represents all possible events that may occur in the System
-    Feedback defines an effects that may change the State.
+    /// Feedback controlled State Machine. System state is represented as a `State` parameter.
+    /// Events are represented by `Event` parameter. It represents all possible events that may occur in the System
+    /// Feedback defines an effects that may change the State.
 
-    - parameters:
-        - initial: Initial state of the system.
-        - reduce: Reduces current State of the System by applying Even.
-        - feedbacks: Feedback loops that produce events depending on current system state.
-        - returns: SignalProducer that emits current state of the System
-    */
+    /// - parameters:
+    ///     - initial: Initial state of the system.
+    ///     - scheduler:
+    ///     - reduce: Reduces current State of the System by applying Even.
+    ///     - feedbacks: Feedback loops that produce events depending on current system state.
+    ///     - returns: SignalProducer that emits current state of the System
     public static func system<Event>(
         initial: Value,
         scheduler: Scheduler = QueueScheduler.main,
@@ -36,18 +34,16 @@ extension SignalProducer where Error == NoError {
         }
     }
 
-    /**
-    Feedback controlled State Machine
-    System state is represented as a `State` parameter.
-    Events are represented by `Event` parameter. It represents all possible events that may occur in the System
-    Feedback defines an effects that may change the State.
+    /// Feedback controlled State Machine
+    /// System state is represented as a `State` parameter.
+    /// Events are represented by `Event` parameter. It represents all possible events that may occur in the System
 
-    - parameters:
-        - initial: Initial state of the system.
-        - reduce: Reduces current State of the System by applying Even.
-        - feedbacks: Feedback loops that produce events depending on current system state.
-        - returns: SignalProducer that emits current state of the System
-    */
+    /// Feedback defines an effects that may change the State.
+    /// - parameters:
+    ///     - initial: Initial state of the system.
+    ///     - reduce: Reduces current State of the System by applying Even.
+    ///     - feedbacks: Feedback loops that produce events depending on current system state.
+    ///     - returns: SignalProducer that emits current state of the System
     public static func system<Event>(
         initial: Value,
         scheduler: Scheduler = QueueScheduler.main,
