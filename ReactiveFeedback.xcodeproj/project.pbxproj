@@ -16,6 +16,8 @@
 		5898B6D11F97ADDD005EEAEC /* SystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898B6D01F97ADDD005EEAEC /* SystemTests.swift */; };
 		9A4CCB0B1F95D5CA00ACF758 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */; };
 		9A4CCB0D1F95D5D500ACF758 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9AD5D42D1F97375E00E6AE5A /* Property+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD5D42C1F97375E00E6AE5A /* Property+System.swift */; };
+		9AE181B91F95A71B00A07551 /* ReactiveFeedbackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE181B81F95A71B00A07551 /* ReactiveFeedbackTests.swift */; };
 		9AE181BB1F95A71B00A07551 /* ReactiveFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */; };
 		9AE181C21F95A77500A07551 /* ReactiveSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9AFA212A1F95135B001DBF7C /* ReactiveSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE181C31F95A77500A07551 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9AFA212B1F95135B001DBF7C /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -98,6 +100,7 @@
 		25E1D2371F56091A00D90192 /* PaginationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationViewController.swift; sourceTree = "<group>"; };
 		5898B6D01F97ADDD005EEAEC /* SystemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTests.swift; sourceTree = "<group>"; };
 		9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AD5D42C1F97375E00E6AE5A /* Property+System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Property+System.swift"; sourceTree = "<group>"; };
 		9AE181B61F95A71B00A07551 /* ReactiveFeedbackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveFeedbackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE181BA1F95A71B00A07551 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AFA21251F9511A5001DBF7C /* ReactiveFeedback.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReactiveFeedback.podspec; sourceTree = "<group>"; };
@@ -150,6 +153,7 @@
 			children = (
 				A95097E70D3CBFF05FA7B8CC /* Feedback.swift */,
 				A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */,
+				9AD5D42C1F97375E00E6AE5A /* Property+System.swift */,
 				25CC87B11F92855300A6EBFC /* Info.plist */,
 			);
 			path = ReactiveFeedback;
@@ -359,6 +363,7 @@
 			files = (
 				A9509BE4551098F4A5503820 /* Feedback.swift in Sources */,
 				A950943401765BB90FA846B2 /* SignalProducer+System.swift in Sources */,
+				9AD5D42D1F97375E00E6AE5A /* Property+System.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

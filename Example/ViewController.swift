@@ -42,6 +42,7 @@ class ViewController: UIViewController {
 }
 
 final class ViewModel {
+    private let state: Property<Int>
     let counter: Property<String>
 
     init(increment: Signal<Void, NoError>, decrement: Signal<Void, NoError>) {
@@ -56,12 +57,11 @@ final class ViewModel {
                 return decrement.map { _ in Event.decrement }
         }
 
-        let state = SignalProducer.system(initial: 0,
-                                          reduce: IncrementReducer.reduce,
-                                          feedbacks: incrementFeedback, decrementFeedback)
-            .map(String.init)
+        self.state = Property(initial: 0,
+                              reduce: IncrementReducer.reduce,
+                              feedbacks: incrementFeedback, decrementFeedback)
 
-        self.counter = Property(initial: "", then: state)
+        self.counter = state.map(String.init)
 
     }
 }

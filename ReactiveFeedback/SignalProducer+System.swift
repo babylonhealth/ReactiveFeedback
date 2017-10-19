@@ -10,7 +10,7 @@ extension SignalProducer where Error == NoError {
         feedbacks: [Feedback<Value, Event>]
     ) -> SignalProducer<Value, NoError> {
         return SignalProducer.deferred {
-            let (state, observer) = Signal<Value, NoError>.pipe()
+            let (state, stateObserver) = Signal<Value, NoError>.pipe()
 
             let events = feedbacks.map { feedback in
                 return feedback.events(scheduler, state)
@@ -19,7 +19,7 @@ extension SignalProducer where Error == NoError {
             return SignalProducer<Event, NoError>(Signal.merge(events))
                 .scan(initial, reduce)
                 .prefix(value: initial)
-                .on(value: observer.send(value:))
+                .on(value: stateObserver.send(value:))
         }
     }
 
@@ -30,11 +30,8 @@ extension SignalProducer where Error == NoError {
     ) -> SignalProducer<Value, Error> {
         return system(initial: initial, reduce: reduce, feedbacks: feedbacks)
     }
-}
 
-extension SignalProducerProtocol {
-    static func deferred(_ signalProducerFactory: @escaping () -> SignalProducer<Value, Error>) -> SignalProducer<Value, Error> {
-        return SignalProducer<Void, Error>(value: ())
-            .flatMap(.merge, signalProducerFactory)
+    private static func deferred(_ producer: @escaping () -> SignalProducer<Value, Error>) -> SignalProducer<Value, Error> {
+        return SignalProducer { $1 += producer().start($0) }
     }
 }
