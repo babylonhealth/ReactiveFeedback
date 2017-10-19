@@ -105,10 +105,3 @@ public struct Feedback<State, Event> {
         }
     }
 }
-
-fileprivate extension SignalProducer {
-    func enqueue(on scheduler: Scheduler) -> SignalProducer<Value, Error> {
-        return start(on: scheduler)
-            .observe(on: scheduler)
-    }
-}

@@ -63,4 +63,9 @@ extension SignalProducerProtocol {
         return SignalProducer<Void, Error>(value: ())
             .flatMap(.merge, signalProducerFactory)
     }
+
+    func enqueue(on scheduler: Scheduler) -> SignalProducer<Value, Error> {
+        return producer.start(on: scheduler)
+            .observe(on: scheduler)
+    }
 }
