@@ -5,7 +5,7 @@
       location = "container:"
       name = "Dependencies">
       <FileRef
-         location = "group:Carthage/Checkouts/Result/Result.xcodeproj">
+         location = "group:Carthage/Checkouts/ReactiveSwift/Carthage/Checkouts/Result/Result.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:Carthage/Checkouts/ReactiveSwift/ReactiveSwift.xcodeproj">
