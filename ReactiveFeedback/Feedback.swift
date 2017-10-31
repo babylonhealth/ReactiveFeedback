@@ -5,10 +5,10 @@ import enum Result.NoError
 public struct Feedback<State, Event> {
     public let events: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
     
-    /// Creates arbitrary a Feedback, by transforming sequence of State to sequence of Events that mutate the State
+    /// Creates an arbitrary Feedback, by transforming a sequence of State to a sequence of Events that mutate the State
     ///
     /// - parameters:
-    ///    - events: A closure which transforms Signal<State, NoError> to Signal<Event, NoError>
+    ///    - events: A closure which transforms the Signal<State, NoError> to the Signal<Event, NoError>
     public init(events: @escaping (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>) {
         self.events = events
     }
@@ -18,7 +18,7 @@ public struct Feedback<State, Event> {
     ///
     /// - parameters:
     ///     - query: A closure which defines for which value perform the effect
-    ///     - effects: A sequence of Events over time that mutate the State
+    ///     - effects: A sequence of the Events over time that mutate the State
     public init<Control: Equatable, Effect: SignalProducerConvertible>(
         query: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
@@ -40,7 +40,7 @@ public struct Feedback<State, Event> {
     ///
     /// - parameters:
     ///    - query: A closure which defines for which value perform the effect
-    ///    - effects: A sequence of Events over time that mutate the State
+    ///    - effects: A sequence of the Events over time that mutate the State
     public init<Control, Effect: SignalProducerConvertible>(
         query: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
@@ -60,7 +60,7 @@ public struct Feedback<State, Event> {
     /// Each new effect cancel the previous one
     /// - parameters:
     ///    - predicate: A closure which defines weather effect should be performed to particular value of the `State`
-    ///    - effects: A sequence of Events over time that mutate the State
+    ///    - effects: A sequence of the Events over time that mutate the State
     public init<Effect: SignalProducerConvertible>(
         predicate: @escaping (State) -> Bool,
         effects: @escaping (State) -> Effect
@@ -76,7 +76,7 @@ public struct Feedback<State, Event> {
 
     /// Creates Feedback which will perform effects on for each state changes, canceling previously performed one
     /// - parameters:
-    ///    - effects: A sequence of Events over time that mutate the State
+    ///    - effects: A sequence of the Events over time that mutate the State
     public init<Effect: SignalProducerConvertible>(
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
