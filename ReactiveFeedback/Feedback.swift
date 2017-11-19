@@ -4,6 +4,10 @@ import enum Result.NoError
 
 public struct Feedback<State, Event> {
     public let events: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
+    
+    public init(events: @escaping (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>) {
+        self.events = events
+    }
 
     public init<Control: Equatable, Effect: SignalProducerConvertible>(
         query: @escaping (State) -> Control?,
