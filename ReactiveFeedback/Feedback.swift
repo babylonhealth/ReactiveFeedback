@@ -3,7 +3,7 @@ import ReactiveSwift
 import enum Result.NoError
 
 public struct Feedback<State, Event> {
-    public let events: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
+    let events: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
     
     /// Creates an arbitrary Feedback, by transforming a sequence of State to a sequence of Events that mutate the State
     ///
