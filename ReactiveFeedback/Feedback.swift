@@ -13,7 +13,7 @@ public struct Feedback<State, Event> {
         self.events = events
     }
 
-    /// Creates Control a Feedback which will perform effects when `query` exists (not nil)
+    /// Creates a Feedback which will perform effects when `query` exists (not nil)
     /// and is different from previous, otherwise, cancels previously performed effects.
     ///
     /// - parameters:
@@ -35,7 +35,7 @@ public struct Feedback<State, Event> {
         }
     }
 
-    /// Creates Control a Feedback which will perform effects when `query` exists (not nil),
+    /// Creates a Feedback which will perform effects when `query` exists (not nil)
     /// otherwise, cancels previously performed effects
     ///
     /// - parameters:
@@ -56,8 +56,8 @@ public struct Feedback<State, Event> {
         }
     }
 
-    /// Creates Feedback which will perform effects on for certain state filtered by the predicate.
-    /// Each new effect cancel the previous one
+    /// Creates a Feedback which will perform effects on for certain state filtered by the predicate.
+    /// Each new effect cancels a previous one
     /// - parameters:
     ///    - predicate: A closure which defines weather effect should be performed to particular value of the `State`
     ///    - effects: A sequence of the Events over time that mutate the State

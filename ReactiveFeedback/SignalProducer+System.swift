@@ -11,7 +11,7 @@ extension SignalProducer where Error == NoError {
     /// - parameters:
     ///     - initial: An initial state of the system.
     ///     - scheduler: A Scheduler used for Events synchronisation
-    ///     - reduce: A that produces a new State of the system by applying an Event
+    ///     - reduce: A function that produces a new State of a system by applying an Event
     ///     - feedbacks: A Feedback loops that produce events depending on system's state.
     ///     - returns: A SignalProducer that emits current state of the System
     public static func system<Event>(
