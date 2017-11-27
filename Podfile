@@ -3,7 +3,7 @@ install! 'cocoapods',
 use_frameworks!
 
 def shared_pods
-    pod "ReactiveSwift", "~> 2.0"
+    pod "ReactiveSwift", "~> 3.0"
 end
 
 target "ReactiveFeedback" do
