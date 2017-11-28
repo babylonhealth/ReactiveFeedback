@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = "ReactiveFeedback"
-  s.version       = "0.1.1"
+  s.version       = "0.2.0"
   s.summary       = "Unidirectional reactive architecture"
 
   s.description   = <<-DESC
@@ -18,5 +18,5 @@ Pod::Spec.new do |s|
   s.source        = { :git => "https://github.com/Babylonpartners/ReactiveFeedback.git", :tag => "#{s.version}" }
   s.source_files  = "ReactiveFeedback/*.{swift}"
 
-  s.dependency "ReactiveSwift", "~> 2.0"
+  s.dependency "ReactiveSwift", "~> 3.0"
 end
