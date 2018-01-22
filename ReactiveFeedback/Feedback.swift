@@ -57,9 +57,9 @@ public struct Feedback<State, Event> {
     }
 
     /// Creates a Feedback which will perform effects on for certain state filtered by the predicate.
-    /// Each new effect cancels a previous one
+    /// Each new effect cancels the previous one
     /// - parameters:
-    ///    - predicate: A closure which defines weather effect should be performed to particular value of the `State`
+    ///    - predicate: A closure which defines weather an effect should be performed to particular a value of the `State`
     ///    - effects: A sequence of the Events over time that mutate the State
     public init<Effect: SignalProducerConvertible>(
         predicate: @escaping (State) -> Bool,
@@ -74,9 +74,9 @@ public struct Feedback<State, Event> {
         }
     }
 
-    /// Creates Feedback which will perform effects on for each state changes, canceling previously performed one
+    /// Creates a Feedback which will perform effects for each state change, canceling previously performed ones
     /// - parameters:
-    ///    - effects: A sequence of the Events over time that mutate the State
+    ///    - effects: A sequence of the Events over time that mutate State
     public init<Effect: SignalProducerConvertible>(
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
