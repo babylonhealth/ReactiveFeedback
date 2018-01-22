@@ -1,6 +1,6 @@
 # ReactiveFeedback
 
-Unideraction reactive architecture. This is [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) implemetation of the [RxFeedback](https://github.com/kzaher/RxFeedback)
+Unidirectional reactive architecture. This is a [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) implemetation of the [RxFeedback](https://github.com/kzaher/RxFeedback)
 
 ## Documentation
 
@@ -8,15 +8,15 @@ Unideraction reactive architecture. This is [ReactiveSwift](https://github.com/R
 
 ### Motivation
 
-Requirements for iOS apps have become huge. Our code has to manage a lot of state e.g server responses, cached data, UI state, routing etc. Some may say that Reactive Programming can help us a lot, but in wrong hands, it can make even more harm to your code base.
+Requirements for iOS apps have become huge. Our code has to manage a lot of state e.g. server responses, cached data, UI state, routing etc. Some may say that Reactive Programming can help us a lot, but in the wrong hands, it can make even more harm to your code base.
 
-The goal of this library to provide a simple and intuitive approach to design reactive state machines.
+The goal of this library is to provide a simple and intuitive approach to designing reactive state machines.
 
 ### Core Concepts
 
 ##### State 
 
-Is a single source of truth. It represents a state of your system. Usually, plane swift type (does not contain any ReactiveSwift primitives) to the point that it can be saved on disk. The only way to change a `State` is to emit an `Event`
+`State` the single source of truth. It represents a state of your system. Usually a plain swift type (does not contain any ReactiveSwift primitives) to the point that it can be saved on disk. The only way to change a `State` is to emit an `Event`
 
 ```swift
 enum State {
@@ -62,7 +62,7 @@ func reduce(state: State, event: Event) -> State {
 
 ##### Feedback
 
-Represents effects that may happen in your system that somehow can mutate the `State`, e.g (UI events, Networking, DB fetches, timers, Bluetooth ...). Essentially it's a pure function of `Signal<State, NoError> -> Signal<Event, NoError>`
+Represents effects that may happen in your system that somehow can mutate the `State`, e.g (UI events, Networking, DB fetches, timers, Bluetooth ...). Essentially it's a pure function of `Signal<State, NoError> -> Signal<Event, NoError>`. Feebacks don't directly mutate the state, they only emit events, which cause the state to change in the reducer.
 
 ```swift
 public struct Feedback<State, Event> {
@@ -72,7 +72,7 @@ public struct Feedback<State, Event> {
 
 ### The Flow
 
-As you can see from the diagram above that we always have an initial state, then we go through all `Feedback`s that we have in our system and see whether we want to perform any effects (e.g if load new data from the server). Then we wrap it into an `Event` and go to reducer where we produce a new `State` having a previous value of the `State` and an `Event`. 
+As you can see from the diagram above we always have an initial state, then we go through all `Feedback`s that we have in our system and see whether or not we want to perform any effects (e.g load new data from the server). Then we wrap it into an `Event` and go to the reducer where we produce a new `State` having a previous value of the `State` and an `Event`. 
 
 ##### Example
 ```swift
@@ -106,6 +106,6 @@ As you can see from the diagram above that we always have an initial state, then
 
 ![](diagrams/increment_example.gif)]
 
-### Adwantages 
+### Advantages 
 
 TBD
