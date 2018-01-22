@@ -13,8 +13,8 @@ public struct Feedback<State, Event> {
         self.events = events
     }
 
-    /// Creates a Feedback which will perform effects when `query` exists (not nil)
-    /// and is different from previous, otherwise, cancels previously performed effects.
+    /// Creates a Feedback which will perform effects when query exists (i.e. is not nil)
+    /// and is different from the previous one, otherwise, it cancels any previously performed effects
     ///
     /// - parameters:
     ///     - query: A closure which defines for which value perform the effect
@@ -35,8 +35,8 @@ public struct Feedback<State, Event> {
         }
     }
 
-    /// Creates a Feedback which will perform effects when `query` exists (not nil)
-    /// otherwise, cancels previously performed effects
+    /// Creates a Feedback which will perform effects when `query` exists (i.e not nil)
+    /// otherwise, it cancels any previously performed effects
     ///
     /// - parameters:
     ///    - query: A closure which defines for which value perform the effect
