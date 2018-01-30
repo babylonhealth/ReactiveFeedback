@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zMS-h2-fCg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zMS-h2-fCg">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -28,10 +28,10 @@
             </objects>
             <point key="canvasLocation" x="266" y="-529"/>
         </scene>
-        <!--Item-->
+        <!--Counter-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ReactiveFeedback" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Counter" id="BYZ-38-t0r" customClass="ViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -41,17 +41,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M6p-OI-VUk">
-                                <rect key="frame" x="172" y="278" width="30" height="30"/>
+                                <rect key="frame" x="172.5" y="278" width="30" height="30"/>
                                 <state key="normal" title="+"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ldc-tH-zDz">
-                                <rect key="frame" x="182" y="323" width="10.5" height="21"/>
+                                <rect key="frame" x="182.5" y="323" width="10.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DSf-AY-5p2">
-                                <rect key="frame" x="172" y="362" width="30" height="30"/>
+                                <rect key="frame" x="172.5" y="362" width="30" height="30"/>
                                 <state key="normal" title="-"/>
                             </button>
                         </subviews>
@@ -65,22 +65,22 @@
                             <constraint firstItem="DSf-AY-5p2" firstAttribute="centerX" secondItem="Ldc-tH-zDz" secondAttribute="centerX" id="zTw-rx-Low"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="rA0-z9-dsj"/>
+                    <tabBarItem key="tabBarItem" title="Counter" image="counter" id="rA0-z9-dsj"/>
                     <connections>
                         <outlet property="label" destination="Ldc-tH-zDz" id="ndv-EC-7mt"/>
                         <outlet property="minusButton" destination="DSf-AY-5p2" id="muz-IA-8u9"/>
-                        <outlet property="plussButton" destination="M6p-OI-VUk" id="NGS-R8-O98"/>
+                        <outlet property="plusButton" destination="M6p-OI-VUk" id="NGS-R8-O98"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-105" y="221"/>
         </scene>
-        <!--Item-->
+        <!--Movies-->
         <scene sceneID="9oy-nA-Fdp">
             <objects>
-                <collectionViewController id="Zwd-ec-GM6" customClass="PaginationViewController" customModule="ReactiveFeedback" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="ksG-F4-jTJ">
+                <collectionViewController title="Movies" id="Zwd-ec-GM6" customClass="PaginationViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="ksG-F4-jTJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -91,7 +91,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MoviewCell" id="bYN-GG-TqB" customClass="MoviewCell" customModule="ReactiveFeedback" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MoviewCell" id="bYN-GG-TqB" customClass="MoviewCell" customModule="Example" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="100" height="175"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -134,11 +134,15 @@
                             <outlet property="delegate" destination="Zwd-ec-GM6" id="orD-Fr-xTi"/>
                         </connections>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Item" id="WUK-wf-G7E"/>
+                    <tabBarItem key="tabBarItem" title="Movies" image="movie" id="WUK-wf-G7E"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGR-4h-1N3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="630" y="221"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="counter" width="25" height="25"/>
+        <image name="movie" width="25" height="25"/>
+    </resources>
 </document>

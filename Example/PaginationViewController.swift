@@ -106,40 +106,40 @@ final class PaginationViewModel {
     enum Feedbacks {
         static func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> Feedback<State, Event> {
             return Feedback(predicate: { !$0.paging }) { _ in
-                return nearBottomSignal
+                nearBottomSignal
                     .map { Event.startLoadingNextPage }
             }
         }
 
         static func pagingFeedback() -> Feedback<State, Event> {
             return Feedback<State, Event>(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
-                return URLSession.shared.fetchMovies(page: nextPage)
+                URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
-                    .flatMapError { (error) -> SignalProducer<Event, NoError> in
-                        return SignalProducer(value: Event.failed(error))
-                    }.observe(on: QueueScheduler.main)
+                    .flatMapError { error in
+                        SignalProducer(value: Event.failed(error))
+                    }.observe(on: UIScheduler())
             }
         }
 
         static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> Feedback<State, Event> {
             return Feedback<State, Event>(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
-                return retrySignal.map { Event.retry }
+                retrySignal.map { Event.retry }
             }
         }
 
         static func retryPagingFeedback() -> Feedback<State, Event> {
             return Feedback<State, Event>(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
-                return URLSession.shared.fetchMovies(page: nextPage)
+                URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
-                    .flatMapError { (error) -> SignalProducer<Event, NoError> in
-                        return SignalProducer(value: Event.failed(error))
-                    }.observe(on: QueueScheduler.main)
+                    .flatMapError { error in
+                        SignalProducer(value: Event.failed(error))
+                    }.observe(on: UIScheduler())
             }
         }
     }
 
     struct Context {
-        var batch: Results<Movie>
+        var batch: Results
         var movies: [Movie]
 
         static var empty: Context {
@@ -192,7 +192,7 @@ final class PaginationViewModel {
             return context.movies
         }
 
-        var batch: Results<Movie> {
+        var batch: Results {
             return context.batch
         }
 
@@ -271,13 +271,13 @@ final class PaginationViewModel {
 
     enum Event {
         case startLoadingNextPage
-        case response(Results<Movie>)
+        case response(Results)
         case failed(NSError)
         case retry
     }
 }
 
-//MARK: - ⚠️ Danger ⚠️ Boilerplate
+// MARK: - ⚠️ Danger ⚠️ Boilerplate
 
 final class MoviewCell: UICollectionViewCell {
     @IBOutlet weak var title: UILabel!
@@ -326,48 +326,26 @@ extension UIScrollView {
 // Key for https://www.themoviedb.org API
 let apiKey = ""
 let correctKey = "d4f0bdb3e246e2cb3555211e765c89e3"
-// Boring API boilerplate
-typealias JSON = [String: Any]
 
-extension Dictionary where Key == String, Value == Any {
-    subscript(int key: Key) -> Int? {
-        return self[key] as? Int
-    }
-
-    subscript(string key: Key) -> String? {
-        return self[key] as? String
-    }
-
-    subscript(objects key: Key) -> [JSON] {
-        return self[key] as? [JSON] ?? []
-    }
-}
-
-protocol JSONSerializable {
-    init(json: JSON)
-}
-
-struct Results<T:JSONSerializable> {
+struct Results: Codable {
     let page: Int
     let totalResults: Int
     let totalPages: Int
-    let results: [T]
+    let results: [Movie]
 
-    static func empty() -> Results<T> {
-        return Results<T>.init(page: 0, totalResults: 0, totalPages: 0, results: [])
+    static func empty() -> Results {
+        return Results.init(page: 0, totalResults: 0, totalPages: 0, results: [])
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case page
+        case totalResults = "total_results"
+        case totalPages = "total_pages"
+        case results
     }
 }
 
-extension Results: JSONSerializable {
-    init(json: JSON) {
-        self.page = json[int: "page"] ?? 0
-        self.totalResults = json[int: "total_results"] ?? 0
-        self.totalPages = json[int: "total_pages"] ?? 0
-        self.results = json[objects: "results"].map(T.init)
-    }
-}
-
-struct Movie {
+struct Movie: Codable {
     let id: Int
     let overview: String
     let title: String
@@ -376,18 +354,16 @@ struct Movie {
     var posterURL: URL? {
         return posterPath
             .map {
-                return "https://image.tmdb.org/t/p/w342/\($0)"
+                "https://image.tmdb.org/t/p/w342/\($0)"
             }
             .flatMap(URL.init(string:))
     }
-}
 
-extension Movie: JSONSerializable {
-    init(json: JSON) {
-        self.id = json[int: "id"] ?? 0
-        self.overview = json[string: "overview"] ?? ""
-        self.title = json[string: "title"] ?? ""
-        self.posterPath = json[string: "poster_path"]
+    enum CodingKeys: String, CodingKey {
+        case id
+        case overview
+        case title
+        case posterPath = "poster_path"
     }
 }
 
@@ -398,7 +374,7 @@ func switchFail() {
 }
 
 extension URLSession {
-    func fetchMovies(page: Int) -> SignalProducer<Results<Movie>, NSError> {
+    func fetchMovies(page: Int) -> SignalProducer<Results, NSError> {
         return SignalProducer.init({ (observer, lifetime) in
             let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(shouldFail ? apiKey : correctKey)&sort_by=popularity.desc&page=\(page)")!
             switchFail()
@@ -406,12 +382,12 @@ extension URLSession {
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 401 {
                     let error = NSError(domain: "come.reactivefeedback",
                                         code: 401,
-                                        userInfo: [NSLocalizedDescriptionKey: "Unauthorised"])
+                                        userInfo: [NSLocalizedDescriptionKey: "Forced failure to illustrate Retry"])
                     observer.send(error: error)
                 } else if let data = data {
                     do {
-                        let json = try JSONSerialization.jsonObject(with: data, options: []) as! JSON
-                        observer.send(value: Results<Movie>(json: json))
+                        let results = try JSONDecoder().decode(Results.self, from: data)
+                        observer.send(value: results)
                     } catch {
                         observer.send(error: error as NSError)
                     }

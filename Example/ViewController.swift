@@ -18,12 +18,12 @@ enum Event {
 }
 
 class ViewController: UIViewController {
-    @IBOutlet weak var plussButton: UIButton!
+    @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var label: UILabel!
 
     private var incrementSignal: Signal<Void, NoError> {
-        return plussButton.reactive.controlEvents(.touchUpInside).map { _ in }
+        return plusButton.reactive.controlEvents(.touchUpInside).map { _ in }
     }
 
     private var decrementSignal: Signal<Void, NoError> {
@@ -47,26 +47,23 @@ final class ViewModel {
 
     init(increment: Signal<Void, NoError>, decrement: Signal<Void, NoError>) {
 
-        let incrementFeedback = Feedback<Int, Event>(predicate: {
-            return  $0 < 10
-        }) { state in
-            return increment.map { _ in Event.increment }
+        let incrementFeedback = Feedback<Int, Event>(predicate: { $0 < 10}) { _ in
+            increment.map { _ in Event.increment }
         }
 
-        let decrementFeedback = Feedback<Int, Event>(predicate: { return $0 > -10 }) { _ in
-                return decrement.map { _ in Event.decrement }
+        let decrementFeedback = Feedback<Int, Event>(predicate: { $0 > -10 }) { _ in
+            decrement.map { _ in Event.decrement }
         }
 
         self.state = Property(initial: 0,
-                              reduce: IncrementReducer.reduce,
+                              reduce: ViewModel.reduce,
                               feedbacks: incrementFeedback, decrementFeedback)
 
         self.counter = state.map(String.init)
-
     }
 }
 
-struct IncrementReducer {
+extension ViewModel {
     static func reduce(state: Int, event: Event) -> Int {
         switch event {
         case .increment:
@@ -76,4 +73,3 @@ struct IncrementReducer {
         }
     }
 }
-
