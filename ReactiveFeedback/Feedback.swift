@@ -2,6 +2,14 @@ import Foundation
 import ReactiveSwift
 import enum Result.NoError
 
+public struct Feedback2<State, Event> {
+    let events: (SignalProducer<State, NoError>) -> SignalProducer<Event, NoError>
+
+    public init(events: @escaping (SignalProducer<State, NoError>) -> SignalProducer<Event, NoError>) {
+        self.events = events
+    }
+}
+
 public struct Feedback<State, Event> {
     let events: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
     

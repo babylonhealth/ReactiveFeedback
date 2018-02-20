@@ -14,6 +14,71 @@ extension SignalProducer where Error == NoError {
     ///     - reduce: A function that produces a new State of a system by applying an Event
     ///     - feedbacks: A Feedback loops that produces Events depending on the system's `State`
     ///     - returns: A SignalProducer that emits current the state of the System
+    public static func system2<Event>(
+        initial: Value,
+        scheduler: Scheduler = QueueScheduler.main,
+        reduce: @escaping (Value, Event) -> Value,
+        feedbacks: [Feedback<Value, Event>]
+    ) -> SignalProducer<Value, NoError> {
+        return SignalProducer { observer, lifetime in
+            let (state, stateObserver) = Signal<Value, NoError>.pipe()
+
+            lifetime += Signal.merge(feedbacks.map { $0.events(ImmediateScheduler(), state) })
+                .producer
+                .scan(initial, reduce)
+                .prefix(value: initial)
+                .on(value: observer.send(value:))
+                .startWithValues { newState in
+                    scheduler.schedule {
+                        stateObserver.send(value: newState)
+                    }
+                }
+        }
+        /*
+        return SignalProducer { observer, lifetime in
+            let state = MutableProperty(initial)
+            let feedbacks = feedbacks.map { $0.events(state.producer) }
+            let feedbackGate = Atomic(FeedbackGate<Event>(isTransitioning: true, queue: []))
+
+            let val = SignalProducer<Event, NoError>.merge(feedbacks)
+
+            lifetime += val.startWithValues { event in
+                let canProceed: Bool = feedbackGate.modify { gate in
+                    guard gate.isTransitioning else {
+                        gate.isTransitioning = true
+                        return true
+                    }
+
+                    gate.queue.append(event)
+                    return false
+                }
+
+                guard canProceed else { return }
+
+                state.modify { oldState in
+                    let newState = reduce(oldState, event)
+                    oldState = newState
+                    observer.send(value: newState)
+                }
+                while let event = feedbackGate.modify({ $0.dequeueOrComplete() }) {
+                    state.modify { oldState in
+                        let newState = reduce(oldState, event)
+                        oldState = newState
+                        observer.send(value: newState)
+                    }
+                }
+            }
+            observer.send(value: initial)
+            while let event = feedbackGate.modify({ $0.dequeueOrComplete() }) {
+                state.modify { oldState in
+                    let newState = reduce(oldState, event)
+                    oldState = newState
+                    observer.send(value: newState)
+                }
+            }
+        }*/
+    }
+
     public static func system<Event>(
         initial: Value,
         scheduler: Scheduler = QueueScheduler.main,
@@ -58,7 +123,20 @@ extension SignalProducer where Error == NoError {
     }
 
     func enqueue(on scheduler: Scheduler) -> SignalProducer<Value, Error> {
-        return producer.start(on: scheduler)
+        return producer
+//            .start(on: scheduler)
             .observe(on: scheduler)
+    }
+}
+
+private struct FeedbackGate<Event> {
+    var isTransitioning: Bool = false
+    var queue: [Event] = []
+
+    mutating func dequeueOrComplete() -> Event? {
+        guard queue.isEmpty
+            else { return queue.removeFirst() }
+        isTransitioning = false
+        return nil
     }
 }
