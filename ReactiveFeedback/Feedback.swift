@@ -30,7 +30,7 @@ public struct Feedback<State, Event> {
                 .flatMap(.latest) { control -> SignalProducer<Event, NoError> in
                     guard let control = control else { return .empty }
                     return effects(control).producer
-                        .enqueue(on: scheduler)
+                        .observe(on: scheduler)
                 }
         }
     }
@@ -51,7 +51,7 @@ public struct Feedback<State, Event> {
                 .flatMap(.latest) { control -> SignalProducer<Event, NoError> in
                     guard let control = control else { return .empty }
                     return effects(control).producer
-                        .enqueue(on: scheduler)
+                        .observe(on: scheduler)
                 }
         }
     }
@@ -69,7 +69,7 @@ public struct Feedback<State, Event> {
             return state.filter(predicate)
                 .flatMap(.latest) { state -> SignalProducer<Event, NoError> in
                     return effects(state).producer
-                        .enqueue(on: scheduler)
+                        .observe(on: scheduler)
             }
         }
     }
@@ -83,7 +83,7 @@ public struct Feedback<State, Event> {
         self.events = { scheduler, state in
             return state.flatMap(.latest) { state -> SignalProducer<Event, NoError> in
                 return effects(state).producer
-                    .enqueue(on: scheduler)
+                    .observe(on: scheduler)
             }
         }
     }
