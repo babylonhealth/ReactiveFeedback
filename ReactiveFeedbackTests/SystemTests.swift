@@ -115,4 +115,70 @@ class SystemTests: XCTestCase {
         ]
         expect(result).toEventually(equal(expected))
     }
+
+    func test_should_observe_signals_immediately() {
+        let scheduler = TestScheduler()
+        let (signal, observer) = Signal<String, NoError>.pipe()
+
+        let system = SignalProducer<String, NoError>.system(
+            initial: "initial",
+            scheduler: scheduler,
+            reduce: { (state: String, event: String) -> String in
+                return state + event
+            },
+            feedbacks: [
+                Feedback { state -> Signal<String, NoError> in
+                    return signal
+                }
+            ]
+        )
+
+        var value: String?
+        system.startWithValues { value = $0 }
+
+        expect(value) == "initial"
+
+        observer.send(value: "_a")
+        expect(value) == "initial"
+
+        scheduler.advance()
+        expect(value) == "initial_a"
+    }
+
+
+    func test_should_start_producers_immediately() {
+        let scheduler = TestScheduler()
+        var startCount = 0
+
+        let system = SignalProducer<String, NoError>.system(
+            initial: "initial",
+            scheduler: scheduler,
+            reduce: { (state: String, event: String) -> String in
+                return state + event
+            },
+            feedbacks: [
+                Feedback { state -> SignalProducer<String, NoError> in
+                    return SignalProducer(value: "_a")
+                        .on(starting: { startCount += 1 })
+                }
+            ]
+        )
+
+        var value: String?
+        system
+            .skipRepeats()
+            .take(first: 2)
+            .startWithValues { value = $0 }
+
+        expect(value) == "initial"
+        expect(startCount) == 1
+
+        scheduler.advance()
+        expect(value) == "initial_a"
+        expect(startCount) == 2
+
+        scheduler.advance()
+        expect(value) == "initial_a"
+        expect(startCount) == 2
+    }
 }

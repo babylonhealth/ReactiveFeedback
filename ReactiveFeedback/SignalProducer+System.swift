@@ -56,9 +56,4 @@ extension SignalProducer where Error == NoError {
     private static func deferred(_ producer: @escaping () -> SignalProducer<Value, Error>) -> SignalProducer<Value, Error> {
         return SignalProducer { $1 += producer().start($0) }
     }
-
-    func enqueue(on scheduler: Scheduler) -> SignalProducer<Value, Error> {
-        return producer.start(on: scheduler)
-            .observe(on: scheduler)
-    }
 }
