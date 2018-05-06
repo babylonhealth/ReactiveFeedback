@@ -32,21 +32,21 @@ struct Results<T:JSONSerializable> {
 
 struct Context {
     var batch: Results<Movie>
-	var movies: [Movie]
+    var movies: [Movie]
 
-	static var empty: Context {
-		return Context(batch: Results.empty(), movies: [])
-	}
+    static var empty: Context {
+        return Context(batch: Results.empty(), movies: [])
+    }
 }
 
 enum State {
-	case initial
-	case paging(context: Context)
-	case loadedPage(context: Context)
-	case refreshing(context: Context)
-	case refreshed(context: Context)
-	case error(error: NSError, context: Context)
-	case retry(context: Context)
+    case initial
+    case paging(context: Context)
+    case loadedPage(context: Context)
+    case refreshing(context: Context)
+    case refreshed(context: Context)
+    case error(error: NSError, context: Context)
+    case retry(context: Context)
 }
 ```
 
@@ -56,10 +56,10 @@ Represent all possible events that can happen in your system which can transitio
 
 ```swift
 enum Event {
-	case startLoadingNextPage
-	case response(Results<Movie>)
-	case failed(NSError)
-	case retry
+    case startLoadingNextPage
+    case response(Results<Movie>)
+    case failed(NSError)
+    case retry
 }
 ```
 
@@ -87,7 +87,7 @@ static func reduce(state: State, event: Event) -> State {
 
 ##### Feedback
 
-While `State` represents where the system is at a given time, `Event` represents a state change, and `Reducer` is the pure function that enacts the event causing the state to change, there is not as of yet any type to decide which event should take place given a particular current state. That's the job of the `Feedback`. It's essentially a "processing engine", listening to changes in the current state and emitting the corresponding next event to take place. It's represented by a pure function of Signal<State, NoError> to Signal<Event, NoError>. Feebacks don't directly mutate states. Instead, they only emit events which then cause states to change in reducers.
+While `State` represents where the system is at a given time, `Event` represents a state change, and `Reducer` is the pure function that enacts the event causing the state to change, there is not as of yet any type to decide which event should take place given a particular current state. That's the job of the `Feedback`. It's essentially a "processing engine", listening to changes in the current state and emitting the corresponding next event to take place. It's represented by a pure function of `Signal<State, NoError> -> Signal<Event, NoError>`. Feebacks don't directly mutate states. Instead, they only emit events which then cause states to change in reducers.
 
 ```swift
 public struct Feedback<State, Event> {
@@ -132,7 +132,7 @@ func retryPagingFeedback() -> Feedback<State, Event> {
 
 1. As you can see from the diagram above we always start with an initial state.
 2. Each changes of the `State` will be then delivered to all `Feedback` loops that was added to the system.
-3. `Feedback` then decides whether we need to perform any action with particular value of the `State` (e.g calling API, observe UI events) by dispatching an `Even` or ignoring it by returning `SignalProducer.empty`
+3. `Feedback` then decides whether we need to perform any action with particular value of the `State` (e.g calling API, observe UI events) by dispatching an `Event` or ignoring it by returning `SignalProducer.empty`
 4. Dispatched `Event` then goes to the `Reducer` wich apples it and returnes a new value of the `State`
 5. And then cycle starts all over (see 2)
 
