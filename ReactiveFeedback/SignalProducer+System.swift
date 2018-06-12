@@ -16,7 +16,7 @@ extension SignalProducer where Error == NoError {
     ///     - returns: A SignalProducer that emits current the state of the System
     public static func system<Event>(
         initial: Value,
-        scheduler: Scheduler = QueueScheduler.main,
+        scheduler: Scheduler = CoalescingScheduler(),
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: [Feedback<Value, Event>]
     ) -> SignalProducer<Value, NoError> {
@@ -46,7 +46,7 @@ extension SignalProducer where Error == NoError {
     ///     - returns: A SignalProducer that emits current the state of the System
     public static func system<Event>(
         initial: Value,
-        scheduler: Scheduler = QueueScheduler.main,
+        scheduler: Scheduler = CoalescingScheduler(),
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: Feedback<Value, Event>...
     ) -> SignalProducer<Value, Error> {
