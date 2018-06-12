@@ -13,6 +13,7 @@ class SystemTests: XCTestCase {
         }
         let system = SignalProducer<String, NoError>.system(
             initial: initial,
+            scheduler: CoalescingScheduler(),
             reduce: { (state: String, event: String) in
                 return state + event
             },
@@ -28,6 +29,7 @@ class SystemTests: XCTestCase {
         }
         let system = SignalProducer<String, NoError>.system(
             initial: "initial",
+            scheduler: CoalescingScheduler(),
             reduce: { (state: String, event: String) in
                 return state + event
             },
@@ -57,6 +59,7 @@ class SystemTests: XCTestCase {
         }
         let system = SignalProducer<String, NoError>.system(
             initial: "initial",
+            scheduler: CoalescingScheduler(),
             reduce: { (state: String, event: String) in
                 return state + event
             },
@@ -95,6 +98,7 @@ class SystemTests: XCTestCase {
         }
         let system = SignalProducer<String, NoError>.system(
             initial: "initial",
+            scheduler: CoalescingScheduler(),
             reduce: { (state: String, event: String) in
                 return state + event
             },

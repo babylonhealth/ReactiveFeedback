@@ -38,6 +38,25 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         label.reactive.text <~ viewModel.counter
+
+        func test(_ s: Scheduler, _ times: UInt, delta: UInt64 = 0, b: @escaping () -> Void) {
+            if times == 0 {
+                print("\(type(of: s)) \(Double(delta) / 100000) microseconds")
+                b()
+                return
+            }
+
+            let start = DispatchTime.now().uptimeNanoseconds / NSEC_PER_USEC
+            s.schedule {
+                let end = DispatchTime.now().uptimeNanoseconds / NSEC_PER_USEC
+
+                test(s, times - 1, delta: delta + end - start, b: b)
+            }
+        }
+
+        test(CoalescingScheduler(), 100000) {
+            test(QueueScheduler.main, 100000) {}
+        }
     }
 }
 
