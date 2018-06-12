@@ -14,6 +14,7 @@
 		25E1D22B1F5493D000D90192 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */; };
 		25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2371F56091A00D90192 /* PaginationViewController.swift */; };
 		5898B6D11F97ADDD005EEAEC /* SystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898B6D01F97ADDD005EEAEC /* SystemTests.swift */; };
+		9A3E701520D0508900148A8E /* CoalescingScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3E701420D0508900148A8E /* CoalescingScheduler.swift */; };
 		9A4CCB0B1F95D5CA00ACF758 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */; };
 		9A4CCB0D1F95D5D500ACF758 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AD5D42D1F97375E00E6AE5A /* Property+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD5D42C1F97375E00E6AE5A /* Property+System.swift */; };
@@ -99,6 +100,7 @@
 		25E1D2371F56091A00D90192 /* PaginationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationViewController.swift; sourceTree = "<group>"; };
 		587F0720201F647400ACD219 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5898B6D01F97ADDD005EEAEC /* SystemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTests.swift; sourceTree = "<group>"; };
+		9A3E701420D0508900148A8E /* CoalescingScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoalescingScheduler.swift; sourceTree = "<group>"; };
 		9A4CCB0C1F95D5CA00ACF758 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD5D42C1F97375E00E6AE5A /* Property+System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Property+System.swift"; sourceTree = "<group>"; };
 		9AE181B61F95A71B00A07551 /* ReactiveFeedbackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveFeedbackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,6 +157,7 @@
 				A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */,
 				9AD5D42C1F97375E00E6AE5A /* Property+System.swift */,
 				25CC87B11F92855300A6EBFC /* Info.plist */,
+				9A3E701420D0508900148A8E /* CoalescingScheduler.swift */,
 			);
 			path = ReactiveFeedback;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				A9509BE4551098F4A5503820 /* Feedback.swift in Sources */,
 				A950943401765BB90FA846B2 /* SignalProducer+System.swift in Sources */,
 				9AD5D42D1F97375E00E6AE5A /* Property+System.swift in Sources */,
+				9A3E701520D0508900148A8E /* CoalescingScheduler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

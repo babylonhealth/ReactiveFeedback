@@ -3,7 +3,7 @@ import ReactiveSwift
 extension Property {
     public convenience init<Event>(
         initial: Value,
-        scheduler: Scheduler = QueueScheduler.main,
+        scheduler: Scheduler = CoalescingScheduler(),
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: [Feedback<Value, Event>]
     ) {
@@ -19,7 +19,7 @@ extension Property {
 
     public convenience init<Event>(
         initial: Value,
-        scheduler: Scheduler = QueueScheduler.main,
+        scheduler: Scheduler = CoalescingScheduler(),
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: Feedback<Value, Event>...
     ) {
