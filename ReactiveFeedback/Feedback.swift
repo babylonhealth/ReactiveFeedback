@@ -33,14 +33,17 @@ public struct Feedback<State, Event> {
         effects: @escaping (U) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
         self.events = { scheduler, state in
+            // NOTE: `observe(on:)` should be applied on the inner producers, so
+            //       that cancellation due to state changes would be able to
+            //       cancel outstanding events that have already been scheduled.
             return transform(state)
-                .flatMap(.latest, effects)
-                .observe(on: scheduler)
+                .flatMap(.latest) { effects($0).producer.observe(on: scheduler) }
         }
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
-    /// transform yields a non-`nil` distinct value from the last yielded value.
+    /// state changes, and the transform consequentially yields a new value
+    /// distinct from the last yielded value.
     ///
     /// If the previous effect is still alive when a new one is about to start,
     /// the previous one would automatically be cancelled.
@@ -54,12 +57,12 @@ public struct Feedback<State, Event> {
         skippingRepeated transform: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.init(deriving: { $0.filterMap(transform).skipRepeats(==) },
-                  effects: effects)
+        self.init(deriving: { $0.map(transform) },
+                  effects: { $0.map(effects)?.producer ?? .empty })
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
-    /// transform yields a non-`nil` value.
+    /// state changes.
     ///
     /// If the previous effect is still alive when a new one is about to start,
     /// the previous one would automatically be cancelled.
@@ -70,11 +73,11 @@ public struct Feedback<State, Event> {
     ///              `transform` and yielding events that eventually affect
     ///              the state.
     public init<Control, Effect: SignalProducerConvertible>(
-        skippingNil transform: @escaping (State) -> Control?,
+        lensing transform: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.init(deriving: { $0.filterMap(transform) },
-                  effects: effects)
+        self.init(deriving: { $0.map(transform) },
+                  effects: { $0.map(effects)?.producer ?? .empty })
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
