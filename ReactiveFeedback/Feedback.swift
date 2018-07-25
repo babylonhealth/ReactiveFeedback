@@ -100,12 +100,12 @@ public struct Feedback<State, Event> {
     public init<Control>(control: Signal<Control, NoError>, effect: @escaping (Control, State) -> Event?) {
         self.events = { scheduler, state in
             control
+                .observe(on: scheduler)
                 .withLatest(from: state)
                 .flatMap(.latest) { control, state -> SignalProducer<Event, NoError> in
                     guard let event = effect(control, state) else { return .empty }
                     return SignalProducer(value: event)
                 }
-                .observe(on: scheduler)
         }
     }
 }
