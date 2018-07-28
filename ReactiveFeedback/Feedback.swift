@@ -113,3 +113,21 @@ public struct Feedback<State, Event> {
         self.init(deriving: { $0 }, effects: effects)
     }
 }
+
+extension Feedback {
+    @available(*, unavailable, renamed: "init(skippingRepeated:effects:)")
+    public init<Control: Equatable, Effect: SignalProducerConvertible>(
+        query: @escaping (State) -> Control?,
+        effects: @escaping (Control) -> Effect
+    ) where Effect.Value == Event, Effect.Error == NoError {
+        fatalError()
+    }
+
+    @available(*, unavailable, renamed: "init(lensing:effects:)")
+    public init<Control, Effect: SignalProducerConvertible>(
+        query: @escaping (State) -> Control?,
+        effects: @escaping (Control) -> Effect
+    ) where Effect.Value == Event, Effect.Error == NoError {
+        fatalError()
+    }
+}
