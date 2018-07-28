@@ -57,7 +57,7 @@ public struct Feedback<State, Event> {
         skippingRepeated transform: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.init(deriving: { $0.map(transform) },
+        self.init(deriving: { $0.map(transform).skipRepeats() },
                   effects: { $0.map(effects)?.producer ?? .empty })
     }
 
