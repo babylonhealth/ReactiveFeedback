@@ -87,4 +87,25 @@ public struct Feedback<State, Event> {
             }
         }
     }
+
+    /// Creates a Feedback which will perform an effect for each value sent by `control` when the provided `effect`
+    /// closure returns non `nil`. Otherwise, it cancels any previously performed ones. The Feedback's latest state is
+    /// captured for each control value that is received, and used in the `effect` closure.
+    ///
+    /// - parameters:
+    ///    - control: A sequence of controls that is fed into the `effect` closure together with the latest `State` to
+    /// produce effects
+    ///    - effect: A closure which transforms the `Control` and `State` into an `Event` (or `nil`) that mutates the
+    /// `State`
+    public init<Control>(control: Signal<Control, NoError>, effect: @escaping (Control, State) -> Event?) {
+        self.events = { scheduler, state in
+            control
+                .observe(on: scheduler)
+                .withLatest(from: state)
+                .flatMap(.latest) { control, state -> SignalProducer<Event, NoError> in
+                    guard let event = effect(control, state) else { return .empty }
+                    return SignalProducer(value: event)
+                }
+        }
+    }
 }
