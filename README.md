@@ -1,6 +1,6 @@
 # ReactiveFeedback
 
-Unidirectional reactive architecture. This is a [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) implemetation of [RxFeedback](https://github.com/kzaher/RxFeedback)
+Unidirectional Reactive Architecture. This is a [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) implemetation of [RxFeedback](https://github.com/kzaher/RxFeedback)
 
 ## Documentation
 
@@ -16,10 +16,10 @@ The goal of this library is to provide a simple and intuitive approach to design
 
 ##### State 
 
-`State` is the single source of truth. It represents a state of your system and is usually a plain swift type (a type that does not contain any ReactiveSwift primitives). The only way to change from one `State` to another is to emit an `Event`
+`State` is the single source of truth. It represents a state of your system and is usually a plain Swift type (which doesn't contain any ReactiveSwift primitives). Your state is immutable. The only way to transition from one `State` to another is to emit an `Event`.
 
 ```swift
-struct Results<T:JSONSerializable> {
+struct Results<T: JSONSerializable> {
     let page: Int
     let totalResults: Int
     let totalPages: Int
@@ -52,7 +52,7 @@ enum State {
 
 ##### Event
 
-Represent all possible events that can happen in your system which can transition to a new value of the `State`
+Represents all possible events that can happen in your system which can cause a transition to a new `State`.
 
 ```swift
 enum Event {
@@ -65,7 +65,7 @@ enum Event {
 
 ##### Reducer 
 
-A Reducer is a pure function of `(State, Event) -> State`. While Event represents an action that results in a State change, it's actually not what causes the change. Event is just that, a representation of the intention to change from one state to another. What actually causes the State to change, the embodiment of the corresponding Event, is a Reducer. A Reducer is the only place where a State can be changed.
+A Reducer is a pure function with a signature of `(State, Event) -> State`. While `Event` represents an action that results in a `State` change, it's actually not what _causes_ the change. An `Event` is just that, a representation of the intention to transition from one state to another. What actually causes the `State` to change, the embodiment of the corresponding `Event`, is a Reducer. A Reducer is the only place where a `State` can be changed.
 
 ```swift
 static func reduce(state: State, event: Event) -> State {
@@ -87,7 +87,7 @@ static func reduce(state: State, event: Event) -> State {
 
 ##### Feedback
 
-While `State` represents where the system is at a given time, `Event` represents a state change, and `Reducer` is the pure function that enacts the event causing the state to change, there is not as of yet any type to decide which event should take place given a particular current state. That's the job of the `Feedback`. It's essentially a "processing engine", listening to changes in the current state and emitting the corresponding next event to take place. It's represented by a pure function of `Signal<State, NoError> -> Signal<Event, NoError>`. Feebacks don't directly mutate states. Instead, they only emit events which then cause states to change in reducers.
+While `State` represents where the system is at a given time, `Event` represents a state change, and a `Reducer` is the pure function that enacts the event causing the state to change, there is not as of yet any type to decide which event should take place given a particular current state. That's the job of the `Feedback`. It's essentially a "processing engine", listening to changes in the current `State` and emitting the corresponding next events to take place. It's represented by a pure function with a signature of `Signal<State, NoError> -> Signal<Event, NoError>`. Feedbacks don't directly mutate states. Instead, they only emit events which then cause states to change in reducers.
 
 ```swift
 public struct Feedback<State, Event> {
@@ -131,15 +131,15 @@ func retryPagingFeedback() -> Feedback<State, Event> {
 ### The Flow
 
 1. As you can see from the diagram above we always start with an initial state.
-2. Each changes of the `State` will be then delivered to all `Feedback` loops that was added to the system.
-3. `Feedback` then decides whether we need to perform any action with particular value of the `State` (e.g calling API, observe UI events) by dispatching an `Event` or ignoring it by returning `SignalProducer.empty`
-4. Dispatched `Event` then goes to the `Reducer` wich apples it and returnes a new value of the `State`
-5. And then cycle starts all over (see 2)
+2. Every change to the `State` will be then delivered to all `Feedback` loops that were added to the system.
+3. `Feedback` then decides whether any action should be performed with a subset of the `State` (e.g calling API, observe UI events) by dispatching an `Event`, or ignoring it by returning `SignalProducer.empty`.
+4. Dispatched `Event` then goes to the `Reducer` which applies it and returns a new value of the `State`.
+5. And then cycle starts all over (see 2).
 
 ##### Example
 ```swift
 let increment = Feedback<Int, Event> { _ in
-    return self.plussButton.reactive
+    return self.plusButton.reactive
         .controlEvents(.touchUpInside)
         .map { _ in Event.increment }
 }
@@ -166,6 +166,6 @@ label.reactive.text <~ system.map(String.init)
 
 ![](diagrams/increment_example.gif)]
 
-### Advantages 
+### Advantages
 
 TODO
