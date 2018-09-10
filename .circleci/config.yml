@@ -1,0 +1,67 @@
+version: 2
+
+references:
+    - &cocoapods_cache_key
+        2-pods-{{ checksum "Podfile.lock" }}
+
+    - &restore_cocoapods_cache
+        restore_cache:
+            key: *cocoapods_cache_key
+
+    - &pod_install
+        run:
+            name: Pod Install
+            command: |
+                bundle exec pod --version
+                diff Podfile.lock Pods/Manifest.lock || curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
+                bundle exec pod install
+
+    - &save_cocoapods_cache
+        save_cache:
+            key: *cocoapods_cache_key
+            paths:
+                - Pods
+                - ~/.cocoapods/repos
+
+    - &carthage_cache_key
+        101-carthage-{{ checksum "Cartfile.resolved" }}
+
+    - &restore_carthage_cache
+        restore_cache:
+            key: *carthage_cache_key
+
+    - &save_carthage_cache
+        save_cache:
+            key: *carthage_cache_key
+            paths:
+                - Carthage
+
+jobs:
+    build:
+        macos:
+            xcode: "9.4.1"
+        working_directory: /Users/distiller/project
+        shell: /bin/bash --login -eo pipefail
+        steps:
+            - checkout
+            - *restore_cocoapods_cache
+            - *pod_install
+            - *save_cocoapods_cache
+            - *restore_carthage_cache
+            - run:
+                name: "Bootstrap Carthage"
+                command: |
+                    carthage bootstrap --no-build
+            - run:
+                name: "Run tests"
+                command: |
+                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone 6s" ReactiveFeedback
+                    script/test macosx "arch=x86_64" ReactiveFeedback
+                    script/test appletvsimulator "platform=tvOS Simulator,name=Apple TV" ReactiveFeedback
+                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone 6s" Example build
+            - run:
+                name: "Package manager validation"
+                command: |
+                     pod lib lint
+                     carthage build --no-skip-current --cache-builds
+
