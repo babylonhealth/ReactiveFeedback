@@ -55,10 +55,10 @@ jobs:
             - run:
                 name: "Run tests"
                 command: |
-                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone 6s" ReactiveFeedback
+                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone 8" ReactiveFeedback
                     script/test macosx "arch=x86_64" ReactiveFeedback
-                    script/test appletvsimulator "platform=tvOS Simulator,name=Apple TV" ReactiveFeedback
-                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone 6s" Example build
+                    script/test appletvsimulator "platform=tvOS Simulator,name=Apple TV 4K" ReactiveFeedback
+                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone 8" Example build
             - run:
                 name: "Package manager validation"
                 command: |
