@@ -21,4 +21,5 @@ target "Example" do
     platform :ios, "10.0"
     shared_pods
     pod "Kingfisher", "~> 4.0"
+    pod "ReactiveCocoa", "~> 8.0"
 end
