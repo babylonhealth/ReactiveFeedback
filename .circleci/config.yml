@@ -52,13 +52,23 @@ jobs:
                 name: "Bootstrap Carthage"
                 command: |
                     carthage bootstrap --no-build
+            - *save_carthage_cache
             - run:
-                name: "Run tests"
+                name: "Test: iOS"
                 command: |
-                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone 8" ReactiveFeedback
+                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone X" ReactiveFeedback
+            - run:
+                name: "Test: macOS"
+                command: |
                     script/test macosx "arch=x86_64" ReactiveFeedback
+            - run:
+                name: "Test: tvOS"
+                command: |
                     script/test appletvsimulator "platform=tvOS Simulator,name=Apple TV 4K" ReactiveFeedback
-                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone 8" Example build
+            - run:
+                name: "Example app"
+                command: |
+                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone X" Example build
             - run:
                 name: "Package manager validation"
                 command: |

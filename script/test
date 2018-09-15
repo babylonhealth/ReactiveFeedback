@@ -19,6 +19,7 @@ xcodebuild $XCODE_ACTION \
     -sdk "$1" \
     -destination "$2" \
     -configuration Release \
+    ONLY_ACTIVE_ARCH=YES \
     ENABLE_TESTABILITY=YES \
     GCC_GENERATE_DEBUGGING_SYMBOLS=NO \
     RUN_CLANG_STATIC_ANALYZER=NO | bundle exec xcpretty
