@@ -39,7 +39,7 @@ references:
 jobs:
     build:
         macos:
-            xcode: "9.4.1"
+            xcode: "10.0.0"
         working_directory: /Users/distiller/project
         shell: /bin/bash --login -eo pipefail
         steps:
