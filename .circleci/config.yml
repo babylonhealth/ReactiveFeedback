@@ -44,9 +44,6 @@ jobs:
         shell: /bin/bash --login -eo pipefail
         steps:
             - checkout
-            - *restore_cocoapods_cache
-            - *pod_install
-            - *save_cocoapods_cache
             - *restore_carthage_cache
             - run:
                 name: "Bootstrap Carthage"
@@ -69,6 +66,9 @@ jobs:
                 name: "Example app"
                 command: |
                     script/test iphonesimulator "platform=iOS Simulator,name=iPhone X" Example build
+            - *restore_cocoapods_cache
+            - *pod_install
+            - *save_cocoapods_cache
             - run:
                 name: "Package manager validation"
                 command: |
