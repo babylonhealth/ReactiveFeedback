@@ -13,7 +13,7 @@ if [[ -n "$4" ]]; then
 fi
 
 set -o pipefail
-xcodebuild $XCODE_ACTION \
+xcodebuild clean $XCODE_ACTION \
     -workspace ReactiveFeedback.xcworkspace \
     -scheme "$3" \
     -sdk "$1" \
