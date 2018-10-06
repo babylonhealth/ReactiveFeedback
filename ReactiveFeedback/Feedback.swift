@@ -5,86 +5,129 @@ import enum Result.NoError
 public struct Feedback<State, Event> {
     let events: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
     
-    /// Creates an arbitrary Feedback, by transforming a sequence of State to a sequence of Events that mutate the State
+    /// Creates an arbitrary Feedback, which evaluates side effects reactively
+    /// to the latest state, and eventually produces events that affect the
+    /// state.
     ///
     /// - parameters:
-    ///    - events: A closure which transforms the Signal<State, NoError> to the Signal<Event, NoError>
+    ///   - events: The transform which derives a `Signal` of events from the
+    ///             latest state.
     public init(events: @escaping (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>) {
         self.events = events
     }
 
-    /// Creates a Feedback which will perform effects when query exists (i.e. is not nil)
-    /// and is different from the previous one, otherwise, it cancels any previously performed effects
+    /// Creates a Feedback which re-evaluates the given effect every time the
+    /// `Signal` derived from the latest state yields a new value.
+    ///
+    /// If the previous effect is still alive when a new one is about to start,
+    /// the previous one would automatically be cancelled.
     ///
     /// - parameters:
-    ///     - query: A closure which defines for which value perform the effect
-    ///     - effects: A sequence of the Events over time that mutate the State
+    ///   - transform: The transform which derives a `Signal` of values from the
+    ///                latest state.
+    ///   - effects: The side effect accepting transformed values produced by
+    ///              `transform` and yielding events that eventually affect
+    ///              the state.
+    public init<U, Effect: SignalProducerConvertible>(
+        deriving transform: @escaping (Signal<State, NoError>) -> Signal<U, NoError>,
+        effects: @escaping (U) -> Effect
+    ) where Effect.Value == Event, Effect.Error == NoError {
+        self.events = { scheduler, state in
+            // NOTE: `observe(on:)` should be applied on the inner producers, so
+            //       that cancellation due to state changes would be able to
+            //       cancel outstanding events that have already been scheduled.
+            return transform(state)
+                .flatMap(.latest) { effects($0).producer.observe(on: scheduler) }
+        }
+    }
+
+    /// Creates a Feedback which re-evaluates the given effect every time the
+    /// state changes, and the transform consequentially yields a new value
+    /// distinct from the last yielded value.
+    ///
+    /// If the previous effect is still alive when a new one is about to start,
+    /// the previous one would automatically be cancelled.
+    ///
+    /// - parameters:
+    ///   - transform: The transform to apply on the state.
+    ///   - effects: The side effect accepting transformed values produced by
+    ///              `transform` and yielding events that eventually affect
+    ///              the state.
     public init<Control: Equatable, Effect: SignalProducerConvertible>(
-        query: @escaping (State) -> Control?,
+        skippingRepeated transform: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.events = { scheduler, state in
-            return state
-                .map(query)
-                .skipRepeats { $0 == $1 }
-                .flatMap(.latest) { control -> SignalProducer<Event, NoError> in
-                    guard let control = control else { return .empty }
-                    return effects(control).producer
-                        .observe(on: scheduler)
-                }
-        }
+        self.init(deriving: { $0.map(transform).skipRepeats() },
+                  effects: { $0.map(effects)?.producer ?? .empty })
     }
 
-    /// Creates a Feedback which will perform effects when `query` exists (i.e not nil)
-    /// otherwise, it cancels any previously performed effects
+    /// Creates a Feedback which re-evaluates the given effect every time the
+    /// state changes.
+    ///
+    /// If the previous effect is still alive when a new one is about to start,
+    /// the previous one would automatically be cancelled.
     ///
     /// - parameters:
-    ///    - query: A closure which defines for which value perform the effect
-    ///    - effects: A sequence of the Events over time that mutate the State
+    ///   - transform: The transform to apply on the state.
+    ///   - effects: The side effect accepting transformed values produced by
+    ///              `transform` and yielding events that eventually affect
+    ///              the state.
     public init<Control, Effect: SignalProducerConvertible>(
-        query: @escaping (State) -> Control?,
+        lensing transform: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.events = { scheduler, state in
-            return state
-                .map(query)
-                .flatMap(.latest) { control -> SignalProducer<Event, NoError> in
-                    guard let control = control else { return .empty }
-                    return effects(control).producer
-                        .observe(on: scheduler)
-                }
-        }
+        self.init(deriving: { $0.map(transform) },
+                  effects: { $0.map(effects)?.producer ?? .empty })
     }
 
-    /// Creates a Feedback which will perform effects on for certain state filtered by the predicate.
-    /// Each new effect cancels the previous one
+    /// Creates a Feedback which re-evaluates the given effect every time the
+    /// given predicate passes.
+    ///
+    /// If the previous effect is still alive when a new one is about to start,
+    /// the previous one would automatically be cancelled.
+    ///
     /// - parameters:
-    ///    - predicate: A closure which defines weather an effect should be performed to particular a value of the `State`
-    ///    - effects: A sequence of the Events over time that mutate the State
+    ///   - transform: The predicate to apply on the state.
+    ///   - effects: The side effect accepting the state and yielding events
+    ///              that eventually affect the state.
     public init<Effect: SignalProducerConvertible>(
         predicate: @escaping (State) -> Bool,
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.events = { scheduler, state in
-            return state.filter(predicate)
-                .flatMap(.latest) { state -> SignalProducer<Event, NoError> in
-                    return effects(state).producer
-                        .observe(on: scheduler)
-            }
-        }
+        self.init(deriving: { $0.filter(predicate) },
+                  effects: effects)
     }
 
-    /// Creates a Feedback which will perform effects for each state change, canceling previously performed ones
+    /// Creates a Feedback which re-evaluates the given effect every time the
+    /// state changes.
+    ///
+    /// If the previous effect is still alive when a new one is about to start,
+    /// the previous one would automatically be cancelled.
+    ///
     /// - parameters:
-    ///    - effects: A sequence of the Events over time that mutate State
+    ///   - effects: The side effect accepting the state and yielding events
+    ///              that eventually affect the state.
     public init<Effect: SignalProducerConvertible>(
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.events = { scheduler, state in
-            return state.flatMap(.latest) { state -> SignalProducer<Event, NoError> in
-                return effects(state).producer
-                    .observe(on: scheduler)
-            }
-        }
+        self.init(deriving: { $0 }, effects: effects)
+    }
+}
+
+extension Feedback {
+    @available(*, unavailable, renamed: "init(skippingRepeated:effects:)")
+    public init<Control: Equatable, Effect: SignalProducerConvertible>(
+        query: @escaping (State) -> Control?,
+        effects: @escaping (Control) -> Effect
+    ) where Effect.Value == Event, Effect.Error == NoError {
+        fatalError()
+    }
+
+    @available(*, unavailable, renamed: "init(lensing:effects:)")
+    public init<Control, Effect: SignalProducerConvertible>(
+        query: @escaping (State) -> Control?,
+        effects: @escaping (Control) -> Effect
+    ) where Effect.Value == Event, Effect.Error == NoError {
+        fatalError()
     }
 }

@@ -112,7 +112,7 @@ final class PaginationViewModel {
         }
 
         static func pagingFeedback() -> Feedback<State, Event> {
-            return Feedback<State, Event>(query: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+            return Feedback<State, Event>(skippingRepeated: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
                 URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
                     .flatMapError { error in
@@ -122,13 +122,13 @@ final class PaginationViewModel {
         }
 
         static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> Feedback<State, Event> {
-            return Feedback<State, Event>(query: { $0.lastError }) { _ -> Signal<Event, NoError> in
+            return Feedback<State, Event>(skippingRepeated: { $0.lastError }) { _ -> Signal<Event, NoError> in
                 retrySignal.map { Event.retry }
             }
         }
 
         static func retryPagingFeedback() -> Feedback<State, Event> {
-            return Feedback<State, Event>(query: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+            return Feedback<State, Event>(skippingRepeated: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
                 URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
                     .flatMapError { error in
