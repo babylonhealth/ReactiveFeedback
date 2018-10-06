@@ -17,7 +17,7 @@ extension SignalProducer where Error == NoError {
     public static func system<Event>(
         initial: Value,
         scheduler: Scheduler = QueueScheduler.main,
-        reduce: @escaping (Value, Event) -> Value,
+        reduce: @escaping (Value, Event) -> Value?,
         feedbacks: [Feedback<Value, Event>]
     ) -> SignalProducer<Value, NoError> {
         return SignalProducer.deferred {
@@ -28,7 +28,14 @@ extension SignalProducer where Error == NoError {
             }
 
             return SignalProducer<Event, NoError>(Signal.merge(events))
-                .scan(initial, reduce)
+                .scan(into: (state: initial, shouldSkip: false)) { box, event in
+                    if let newState = reduce(box.state, event) {
+                        box = (state: newState, shouldSkip: false)
+                    } else {
+                        box.shouldSkip = true
+                    }
+                }
+                .filterMap { $0.shouldSkip ? nil : $0.state }
                 .prefix(value: initial)
                 .on(value: stateObserver.send(value:))
         }
@@ -47,7 +54,7 @@ extension SignalProducer where Error == NoError {
     public static func system<Event>(
         initial: Value,
         scheduler: Scheduler = QueueScheduler.main,
-        reduce: @escaping (Value, Event) -> Value,
+        reduce: @escaping (Value, Event) -> Value?,
         feedbacks: Feedback<Value, Event>...
     ) -> SignalProducer<Value, Error> {
         return system(initial: initial, reduce: reduce, feedbacks: feedbacks)
