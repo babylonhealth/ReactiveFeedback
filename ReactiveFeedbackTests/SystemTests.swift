@@ -50,10 +50,10 @@ class SystemTests: XCTestCase {
 
     func test_reduce_with_two_immediate_feedback_loops() {
         let feedback1 = Feedback<String, String> { state in
-            return SignalProducer(value: "_a")
+            return !state.hasSuffix("_a") ? SignalProducer(value: "_a") : .empty
         }
         let feedback2 = Feedback<String, String> { state in
-            return SignalProducer(value: "_b")
+            return !state.hasSuffix("_b") ? SignalProducer(value: "_b") : .empty
         }
         let system = SignalProducer<String, NoError>.system(
             initial: "initial",

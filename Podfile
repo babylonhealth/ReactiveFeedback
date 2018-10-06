@@ -3,7 +3,7 @@ install! 'cocoapods',
 use_frameworks!
 
 def shared_pods
-    pod "ReactiveSwift", "~> 3.0"
+    pod "ReactiveSwift", "~> 4.0"
 end
 
 target "ReactiveFeedback" do
@@ -21,4 +21,5 @@ target "Example" do
     platform :ios, "10.0"
     shared_pods
     pod "Kingfisher", "~> 4.0"
+    pod "ReactiveCocoa", "~> 8.0"
 end

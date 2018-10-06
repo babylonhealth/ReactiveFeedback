@@ -1,5 +1,5 @@
 # Example app.
-github "ReactiveCocoa/ReactiveCocoa" ~> 7.0
+github "ReactiveCocoa/ReactiveCocoa" ~> 8.0
 github "onevcat/Kingfisher" ~> 4.0
 
 # Tests
