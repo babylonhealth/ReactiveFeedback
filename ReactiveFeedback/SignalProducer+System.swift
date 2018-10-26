@@ -53,6 +53,20 @@ extension SignalProducer where Error == NoError {
         return system(initial: initial, reduce: reduce, feedbacks: feedbacks)
     }
 
+    public static func inputSystem<Event, InputSignal>(
+        input: InputSignal,
+        initial: Value,
+        scheduler: Scheduler = QueueScheduler.main,
+        reduce: @escaping (Value, Event) -> Value,
+        feedbacks: [Feedback<Value, Event>]
+        ) -> SignalProducer<Value, NoError> where
+        InputSignal: FeedbackInputSignal,
+        InputSignal.Event == Event,
+        InputSignal.State == Value
+    {
+        return system(initial: initial, scheduler:scheduler, reduce: reduce, feedbacks: feedbacks)
+    }
+
     private static func deferred(_ producer: @escaping () -> SignalProducer<Value, Error>) -> SignalProducer<Value, Error> {
         return SignalProducer { $1 += producer().start($0) }
     }

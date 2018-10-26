@@ -54,6 +54,7 @@
 		9AFA21261F9511A5001DBF7C /* ReactiveFeedback.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 9AFA21251F9511A5001DBF7C /* ReactiveFeedback.podspec */; };
 		A950943401765BB90FA846B2 /* SignalProducer+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */; };
 		A9509BE4551098F4A5503820 /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95097E70D3CBFF05FA7B8CC /* Feedback.swift */; };
+		BABEC3C721831F1300A1AF8E /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABEC3C621831F1300A1AF8E /* Input.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -166,6 +167,7 @@
 		9AFA21251F9511A5001DBF7C /* ReactiveFeedback.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReactiveFeedback.podspec; sourceTree = "<group>"; };
 		A95097E70D3CBFF05FA7B8CC /* Feedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
 		A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducer+System.swift"; sourceTree = "<group>"; };
+		BABEC3C621831F1300A1AF8E /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				A95097E70D3CBFF05FA7B8CC /* Feedback.swift */,
+				BABEC3C621831F1300A1AF8E /* Input.swift */,
 				A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */,
 				9AD5D42C1F97375E00E6AE5A /* Property+System.swift */,
 				25CC87B11F92855300A6EBFC /* Info.plist */,
@@ -590,6 +593,7 @@
 			files = (
 				A9509BE4551098F4A5503820 /* Feedback.swift in Sources */,
 				A950943401765BB90FA846B2 /* SignalProducer+System.swift in Sources */,
+				BABEC3C721831F1300A1AF8E /* Input.swift in Sources */,
 				9AD5D42D1F97375E00E6AE5A /* Property+System.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
