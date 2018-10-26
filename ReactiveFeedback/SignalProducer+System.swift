@@ -53,7 +53,7 @@ extension SignalProducer where Error == NoError {
         return system(initial: initial, reduce: reduce, feedbacks: feedbacks)
     }
 
-    public static func inputSystem<Event, InputSignal>(
+    public static func system<Event, InputSignal>(
         input: InputSignal,
         initial: Value,
         scheduler: Scheduler = QueueScheduler.main,
@@ -64,7 +64,19 @@ extension SignalProducer where Error == NoError {
         InputSignal.Event == Event,
         InputSignal.State == Value
     {
-        return system(initial: initial, scheduler:scheduler, reduce: reduce, feedbacks: feedbacks)
+        let (state, stateObserver) = Signal<Value, NoError>.pipe()
+
+        var events = feedbacks.map { feedback in
+            return feedback.events(scheduler, state)
+        }
+
+        events.append(input.input(state: Property(initial: initial, then: state)))
+
+        return SignalProducer<Event, NoError>(Signal.merge(events))
+            .scan(initial, reduce)
+            .prefix(value: initial)
+            .on(value: stateObserver.send(value:))
+
     }
 
     private static func deferred(_ producer: @escaping () -> SignalProducer<Value, Error>) -> SignalProducer<Value, Error> {
