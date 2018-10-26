@@ -979,7 +979,7 @@
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)/Nimble",
 				);
-				INFOPLIST_FILE = "ReactiveFeedbackTests-macOS copy-Info.plist";
+				INFOPLIST_FILE = ReactiveFeedbackTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks @loader_path/Frameworks @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedbackTests;
 				PRODUCT_NAME = ReactiveFeedbackTests;
@@ -997,7 +997,7 @@
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)/Nimble",
 				);
-				INFOPLIST_FILE = "ReactiveFeedbackTests-macOS copy-Info.plist";
+				INFOPLIST_FILE = ReactiveFeedbackTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks @loader_path/Frameworks @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedbackTests;
 				PRODUCT_NAME = ReactiveFeedbackTests;
