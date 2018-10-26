@@ -70,7 +70,8 @@ extension SignalProducer where Error == NoError {
             return feedback.events(scheduler, state)
         }
 
-        events.append(input.input(state: Property(initial: initial, then: state)))
+        events.append(input.input(state: Property(initial: initial, then: state),
+                                  scheduler: scheduler))
 
         return SignalProducer<Event, NoError>(Signal.merge(events))
             .scan(initial, reduce)

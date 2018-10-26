@@ -84,15 +84,21 @@ final class PaginationViewModel {
         let (nearBottomSignal, nearBottomObserver) = Signal<Void, NoError>.pipe()
         let (retrySignal, retryObserver) = Signal<Void, NoError>.pipe()
         let feedbacks = [
-            Feedbacks.loadNextFeedback(for: nearBottomSignal),
             Feedbacks.pagingFeedback(),
-            Feedbacks.retryFeedback(for: retrySignal),
             Feedbacks.retryPagingFeedback()
         ]
 
-        self.stateProperty = Property(initial: State.initial,
-                                      reduce: State.reduce,
-                                      feedbacks: feedbacks)
+        let input = Feedback.InputCollection.empty()
+            .add(Inputs.nearBottomInput(for: nearBottomSignal))
+            .add(Inputs.retryInput(for: retrySignal))
+
+        let system: SignalProducer<State, NoError> = .system(input: input,
+                                                             initial: State.initial,
+        scheduler: UIScheduler(),
+                                                             reduce: State.reduce,
+                                                             feedbacks: feedbacks)
+
+        self.stateProperty = Property(initial: State.initial, then: system)
 
         self.movies = Property<[Movie]>(initial: [],
                                         then: stateProperty.producer.filterMap { $0.newMovies })
@@ -103,14 +109,21 @@ final class PaginationViewModel {
         self.retryObserver = retryObserver
     }
 
-    enum Feedbacks {
-        static func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> Feedback<State, Event> {
-            return Feedback(predicate: { !$0.paging }) { _ in
-                nearBottomSignal
-                    .map { Event.startLoadingNextPage }
+    enum Inputs {
+        static func nearBottomInput(for nearBottomSignal: Signal<Void, NoError>) -> Feedback<State, Event>.Input<Void> {
+            return Feedback.Input(inputEvents: nearBottomSignal) { (state: State, inputEvent: Void) -> Event? in
+                return state.paging ? nil : .startLoadingNextPage
             }
         }
 
+        static func retryInput(for retrySignal: Signal<Void, NoError>) -> Feedback<State, Event>.Input<Void> {
+            return Feedback.Input(inputEvents: retrySignal) { (state: State, inputEvent: Void) -> Event? in
+                return .retry
+            }
+        }
+    }
+
+    enum Feedbacks {
         static func pagingFeedback() -> Feedback<State, Event> {
             return Feedback<State, Event>(skippingRepeated: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
                 URLSession.shared.fetchMovies(page: nextPage)
@@ -118,12 +131,6 @@ final class PaginationViewModel {
                     .flatMapError { error in
                         SignalProducer(value: Event.failed(error))
                     }.observe(on: UIScheduler())
-            }
-        }
-
-        static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> Feedback<State, Event> {
-            return Feedback<State, Event>(skippingRepeated: { $0.lastError }) { _ -> Signal<Event, NoError> in
-                retrySignal.map { Event.retry }
             }
         }
 
@@ -368,22 +375,33 @@ struct Movie: Codable {
 }
 
 var shouldFail = false
+var failCounts = 0
+var successCounts = 0
 
 func switchFail() {
+    if shouldFail {
+        failCounts = failCounts + 1
+    } else {
+        successCounts = successCounts + 1
+    }
     shouldFail = !shouldFail
 }
 
 extension URLSession {
     func fetchMovies(page: Int) -> SignalProducer<Results, NSError> {
+        let failThisTime = shouldFail
+        switchFail()
+
+        print("Fail counts: \(failCounts) success counts: \(successCounts)")
         return SignalProducer.init({ (observer, lifetime) in
-            let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(shouldFail ? apiKey : correctKey)&sort_by=popularity.desc&page=\(page)")!
-            switchFail()
+            let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(failThisTime ? apiKey : correctKey)&sort_by=popularity.desc&page=\(page)")!
             let task = self.dataTask(with: url, completionHandler: { (data, response, error) in
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 401 {
                     let error = NSError(domain: "come.reactivefeedback",
                                         code: 401,
                                         userInfo: [NSLocalizedDescriptionKey: "Forced failure to illustrate Retry"])
                     observer.send(error: error)
+                    observer.sendCompleted()
                 } else if let data = data {
                     do {
                         let results = try JSONDecoder().decode(Results.self, from: data)
@@ -391,6 +409,7 @@ extension URLSession {
                     } catch {
                         observer.send(error: error as NSError)
                     }
+                    observer.sendCompleted()
                 } else if let error = error {
                     observer.send(error: error as NSError)
                     observer.sendCompleted()
