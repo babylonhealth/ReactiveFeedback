@@ -43,9 +43,9 @@ final class PaginationViewController: UICollectionViewController {
         }
     }
 
-    func showAlert(for error: NSError) {
+    func showAlert(for error: MovieError) {
         let alert = UIAlertController(title: "Error",
-                                      message: error.localizedDescription,
+                                      message: error.message,
                                       preferredStyle: .alert)
         let action = UIAlertAction(title: "Retry", style: .cancel, handler: { _ in
             self.retryObserver.send(value: ())
@@ -65,7 +65,7 @@ final class PaginationViewModel {
 
     private let stateProperty: Property<State>
     let movies: Property<[Movie]>
-    let errors: Property<NSError?>
+    let errors: Property<MovieError?>
     let refreshing: Property<Bool>
 
     var nearBottomBinding: BindingTarget<Void> {
@@ -160,7 +160,7 @@ final class PaginationViewModel {
         case loadedPage(context: Context)
         case refreshing(context: Context)
         case refreshed(context: Context)
-        case error(error: NSError, context: Context)
+        case error(error: MovieError, context: Context)
         case retry(context: Context)
 
         var newMovies: [Movie]? {
@@ -232,7 +232,7 @@ final class PaginationViewModel {
             }
         }
 
-        var lastError: NSError? {
+        var lastError: MovieError? {
             switch self {
             case .error(error:let error, context:_):
                 return error
@@ -279,7 +279,7 @@ final class PaginationViewModel {
     enum Event {
         case startLoadingNextPage
         case response(Results)
-        case failed(NSError)
+        case failed(MovieError)
         case retry
     }
 }
@@ -387,31 +387,34 @@ func switchFail() {
     shouldFail = !shouldFail
 }
 
-extension URLSession {
-    func fetchMovies(page: Int) -> SignalProducer<Results, NSError> {
-        let failThisTime = shouldFail
-        switchFail()
+struct MovieError: Error {
+    let message: String
+    let underlying: NSError?
+}
 
-        print("Fail counts: \(failCounts) success counts: \(successCounts)")
+extension URLSession {
+    func fetchMovies(page: Int) -> SignalProducer<Results, MovieError> {
         return SignalProducer.init({ (observer, lifetime) in
+            let failThisTime = shouldFail
+            switchFail()
             let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(failThisTime ? apiKey : correctKey)&sort_by=popularity.desc&page=\(page)")!
             let task = self.dataTask(with: url, completionHandler: { (data, response, error) in
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 401 {
                     let error = NSError(domain: "come.reactivefeedback",
                                         code: 401,
                                         userInfo: [NSLocalizedDescriptionKey: "Forced failure to illustrate Retry"])
-                    observer.send(error: error)
+                    observer.send(error: MovieError(message: "Forced failure to illustrate Retry", underlying: error))
                     observer.sendCompleted()
                 } else if let data = data {
                     do {
                         let results = try JSONDecoder().decode(Results.self, from: data)
                         observer.send(value: results)
                     } catch {
-                        observer.send(error: error as NSError)
+                        observer.send(error: MovieError(message: "Parsing Failed", underlying: error as NSError))
                     }
                     observer.sendCompleted()
                 } else if let error = error {
-                    observer.send(error: error as NSError)
+                    observer.send(error: MovieError(message: "Download Failed", underlying: error as NSError))
                     observer.sendCompleted()
                 } else {
                     observer.sendCompleted()
