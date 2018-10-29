@@ -39,7 +39,7 @@ references:
 jobs:
     build:
         macos:
-            xcode: "9.4.1"
+            xcode: "10.0.0"
         working_directory: /Users/distiller/project
         shell: /bin/bash --login -eo pipefail
         steps:
@@ -53,15 +53,15 @@ jobs:
             - run:
                 name: "Test: iOS"
                 command: |
-                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone X" ReactiveFeedback
+                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone X" ReactiveFeedback-iOS
             - run:
                 name: "Test: macOS"
                 command: |
-                    script/test macosx "arch=x86_64" ReactiveFeedback
+                    script/test macosx "arch=x86_64" ReactiveFeedback-macOS
             - run:
                 name: "Test: tvOS"
                 command: |
-                    script/test appletvsimulator "platform=tvOS Simulator,name=Apple TV 4K" ReactiveFeedback
+                    script/test appletvsimulator "platform=tvOS Simulator,name=Apple TV 4K" ReactiveFeedback-tvOS
             - run:
                 name: "Example app"
                 command: |
@@ -72,6 +72,6 @@ jobs:
             - run:
                 name: "Package manager validation"
                 command: |
-                     pod lib lint
+                     pod lib lint --use-libraries
                      carthage build --no-skip-current --cache-builds
 
