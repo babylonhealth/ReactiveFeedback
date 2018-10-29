@@ -72,6 +72,6 @@ jobs:
             - run:
                 name: "Package manager validation"
                 command: |
-                     pod lib lint
+                     pod lib lint --use-libraries
                      carthage build --no-skip-current --cache-builds
 
