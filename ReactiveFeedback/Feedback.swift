@@ -87,7 +87,7 @@ public struct Feedback<State, Event> {
     /// the previous one would automatically be cancelled.
     ///
     /// - parameters:
-    ///   - transform: The predicate to apply on the state.
+    ///   - predicate: The predicate to apply on the state.
     ///   - effects: The side effect accepting the state and yielding events
     ///              that eventually affect the state.
     public init<Effect: SignalProducerConvertible>(
