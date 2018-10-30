@@ -88,13 +88,13 @@ final class PaginationViewModel {
             Feedbacks.retryPagingFeedback()
         ]
 
-        let input = Feedback.InputCollection.empty()
+        let inputs = Feedback.InputCollection.empty()
             .add(Inputs.nearBottomInput(for: nearBottomSignal))
             .add(Inputs.retryInput(for: retrySignal))
 
-        let system: SignalProducer<State, NoError> = .system(input: input,
+        let system: SignalProducer<State, NoError> = .system(input: inputs,
                                                              initial: State.initial,
-        scheduler: UIScheduler(),
+                                                             scheduler: UIScheduler(),
                                                              reduce: State.reduce,
                                                              feedbacks: feedbacks)
 
