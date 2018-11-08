@@ -36,6 +36,14 @@ references:
             paths:
                 - Carthage
 
+    - &swift_package_manager
+        run:
+            name: Swift Package Manager validation
+            command: |
+                swift --version
+                swift build
+                swift test
+
 jobs:
     build:
         macos:
@@ -74,4 +82,5 @@ jobs:
                 command: |
                      pod lib lint --use-libraries
                      carthage build --no-skip-current --cache-builds
+            - *swift_package_manager
 
