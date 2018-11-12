@@ -147,7 +147,7 @@ let increment = Feedback<Int, Event> { _ in
 let decrement = Feedback<Int, Event> { _ in
     return self.minusButton.reactive
         .controlEvents(.touchUpInside)
-        .map { _ in Event.increment }
+        .map { _ in Event.decrement }
 }
 
 let system = SignalProducer<Int, NoError>.system(initial: 0,
