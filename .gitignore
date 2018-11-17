@@ -189,3 +189,9 @@ backboneLocalizationBuilder
 fastlane/README.md
 fastlane/report.xml
 vendor/
+
+
+# SwiftPackageManager #
+Packages
+.build/
+DerivedData/
