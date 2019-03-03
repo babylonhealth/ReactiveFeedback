@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25CCF318222C719300AC3EC3 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCF317222C719300AC3EC3 /* ColorPickerViewController.swift */; };
 		25E1D2211F5493D000D90192 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2201F5493D000D90192 /* AppDelegate.swift */; };
 		25E1D2231F5493D000D90192 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2221F5493D000D90192 /* ViewController.swift */; };
 		25E1D2261F5493D000D90192 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2241F5493D000D90192 /* Main.storyboard */; };
@@ -135,6 +136,7 @@
 /* Begin PBXFileReference section */
 		25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactiveFeedback.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25CC87B11F92855300A6EBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		25CCF317222C719300AC3EC3 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		25E1D21D1F5493D000D90192 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25E1D2201F5493D000D90192 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25E1D2221F5493D000D90192 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 				25E1D2201F5493D000D90192 /* AppDelegate.swift */,
 				25E1D2221F5493D000D90192 /* ViewController.swift */,
 				25E1D2371F56091A00D90192 /* PaginationViewController.swift */,
+				25CCF317222C719300AC3EC3 /* ColorPickerViewController.swift */,
 				25E1D2241F5493D000D90192 /* Main.storyboard */,
 				25E1D2271F5493D000D90192 /* Assets.xcassets */,
 				25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */,
@@ -600,6 +603,7 @@
 			files = (
 				25E1D2231F5493D000D90192 /* ViewController.swift in Sources */,
 				25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */,
+				25CCF318222C719300AC3EC3 /* ColorPickerViewController.swift in Sources */,
 				25E1D2211F5493D000D90192 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

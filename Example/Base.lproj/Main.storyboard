@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zMS-h2-fCg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zMS-h2-fCg">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -26,7 +25,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIl-cr-uQn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="266" y="-529"/>
+            <point key="canvasLocation" x="921" y="-547"/>
         </scene>
         <!--Counter-->
         <scene sceneID="tne-QT-ifu">
@@ -98,14 +97,14 @@
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="175"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="wCE-LK-fSd">
+                                        <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="wCE-LK-fSd">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OdR-FR-C6U">
-                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="147"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="127"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gds-4d-1Bp">
-                                                    <rect key="frame" x="0.0" y="147" width="100" height="20"/>
+                                                    <rect key="frame" x="0.0" y="127" width="100" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="VFY-Xd-YCv"/>
                                                     </constraints>
@@ -140,9 +139,89 @@
             </objects>
             <point key="canvasLocation" x="630" y="221"/>
         </scene>
+        <!--Color Picker View Controller-->
+        <scene sceneID="s1A-Qj-Ymu">
+            <objects>
+                <viewController storyboardIdentifier="ColorPickerViewController" id="VnP-XF-p7T" customClass="ColorPickerViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tg1-Bv-1t7"/>
+                        <viewControllerLayoutGuide type="bottom" id="rDA-wp-gAe"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nFR-GP-2h0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="9p3-Lu-mN9">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xNg-sF-KFU">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="111"/>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Red"/>
+                                        <connections>
+                                            <action selector="colorPickedWithSender:" destination="VnP-XF-p7T" eventType="primaryActionTriggered" id="6Mv-rv-OPe"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dXy-gb-IXh">
+                                        <rect key="frame" x="0.0" y="111" width="375" height="111.5"/>
+                                        <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Green"/>
+                                        <connections>
+                                            <action selector="colorPickedWithSender:" destination="VnP-XF-p7T" eventType="primaryActionTriggered" id="0iz-j1-aGF"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n4s-DF-78u">
+                                        <rect key="frame" x="0.0" y="222.5" width="375" height="111"/>
+                                        <color key="backgroundColor" red="0.40000000600000002" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Cyan"/>
+                                        <connections>
+                                            <action selector="colorPickedWithSender:" destination="VnP-XF-p7T" eventType="primaryActionTriggered" id="9qi-Pg-Mlt"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GCh-ob-TTM">
+                                        <rect key="frame" x="0.0" y="333.5" width="375" height="111"/>
+                                        <color key="backgroundColor" red="0.46620205044746399" green="0.15637357532978058" blue="0.6434749960899353" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Violet"/>
+                                        <connections>
+                                            <action selector="colorPickedWithSender:" destination="VnP-XF-p7T" eventType="primaryActionTriggered" id="czo-92-aL8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bZm-Jq-LC5">
+                                        <rect key="frame" x="0.0" y="444.5" width="375" height="111.5"/>
+                                        <color key="backgroundColor" red="0.91498154401779175" green="0.37833490967750549" blue="0.73496383428573608" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Pink"/>
+                                        <connections>
+                                            <action selector="colorPickedWithSender:" destination="VnP-XF-p7T" eventType="primaryActionTriggered" id="1Nj-RA-mox"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t7x-yK-udK">
+                                        <rect key="frame" x="0.0" y="556" width="375" height="111"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
+                                        <state key="normal" title="Cancel"/>
+                                        <connections>
+                                            <action selector="cancelPressedWithSender:" destination="VnP-XF-p7T" eventType="primaryActionTriggered" id="5X3-3Q-5bS"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="9p3-Lu-mN9" firstAttribute="top" secondItem="nFR-GP-2h0" secondAttribute="top" id="CbN-VL-4wy"/>
+                            <constraint firstItem="rDA-wp-gAe" firstAttribute="top" secondItem="9p3-Lu-mN9" secondAttribute="bottom" id="GUH-EX-pCc"/>
+                            <constraint firstAttribute="trailing" secondItem="9p3-Lu-mN9" secondAttribute="trailing" id="IV7-Xd-jTD"/>
+                            <constraint firstItem="9p3-Lu-mN9" firstAttribute="leading" secondItem="nFR-GP-2h0" secondAttribute="leading" id="XnO-Ff-hcZ"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xG6-l6-g9d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1537" y="221"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="counter" width="25" height="25"/>
-        <image name="movie" width="25" height="25"/>
+        <image name="counter" width="75" height="75"/>
+        <image name="movie" width="75" height="75"/>
     </resources>
 </document>

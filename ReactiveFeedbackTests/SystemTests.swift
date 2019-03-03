@@ -181,4 +181,36 @@ class SystemTests: XCTestCase {
         expect(value) == "initial_a"
         expect(startCount) == 2
     }
+    
+    func test_appointment() {
+        let (signal, observer) = Signal<String, NoError>.pipe()
+        let feedback1 = Feedback<String, String> { state -> SignalProducer<String, NoError> in
+            if state == "initial_a" {
+                return SignalProducer(value: "_b").delay(0.1, on: QueueScheduler.main)
+            }
+            return .empty
+        }
+        let feedback2 = Feedback<String, String> { _ -> Signal<String, NoError> in
+            return signal
+        }
+        var results = [String]()
+        
+        let system = SignalProducer.system(initial: "initial",
+                                           reduce: { (state: String, event: String) in
+                                            return state + event
+        },
+                                           feedbacks: [feedback1, feedback2])
+        system.take(first: 3).startWithValues {
+            results.append($0)
+        }
+        
+        observer.send(value: "_a")
+        
+        let expected = [
+            "initial",
+            "initial_a",
+            "initial_a_b"
+        ]
+        expect(results).toEventually(equal(expected))
+    }
 }

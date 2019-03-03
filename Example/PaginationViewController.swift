@@ -15,7 +15,7 @@ import enum Result.NoError
 
 final class PaginationViewController: UICollectionViewController {
     let dataSource = ArrayCollectionViewDataSource<Movie>()
-    let viewModel = PaginationViewModel()
+    private lazy var viewModel = PaginationViewModel(flowController: FlowController(viewController: self))
     private let (retrySignal, retryObserver) = Signal<Void, NoError>.pipe()
 
     override func viewDidLoad() {
@@ -33,6 +33,9 @@ final class PaginationViewController: UICollectionViewController {
             .startWithValues { [weak self] in
                 self?.showAlert(for: $0)
             }
+        viewModel.color.startWithValues { [weak self] in
+            self?.collectionView?.backgroundColor = $0
+        }
     }
 
     func setupDataSource() {
@@ -41,6 +44,7 @@ final class PaginationViewController: UICollectionViewController {
             cell.configure(with: item)
             return cell
         }
+        self.collectionView?.delegate = self
     }
 
     func showAlert(for error: NSError) {
@@ -53,6 +57,35 @@ final class PaginationViewController: UICollectionViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.selectColor()
+    }
+}
+
+final class FlowController {
+    private weak var viewController: UIViewController?
+    private let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+    init(viewController: UIViewController) {
+        self.viewController = viewController
+    }
+    
+    func showColorPicker() -> SignalProducer<UIColor, NoError> {
+        return SignalProducer { [storyBoard, viewController] (observer, lifetime) in
+            let vc = storyBoard.instantiateViewController(withIdentifier: "ColorPickerViewController") as! ColorPickerViewController
+            vc.didPickColor = { color in
+                observer.send(value: color)
+                observer.sendCompleted()
+            }
+            vc.didCancel = observer.sendInterrupted
+            
+            viewController?.present(vc, animated: true, completion: nil)
+            
+            lifetime += AnyDisposable {
+                vc.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
 }
 
 final class PaginationViewModel {
@@ -62,11 +95,13 @@ final class PaginationViewModel {
     }
     private let nearBottomObserver: Signal<Void, NoError>.Observer
     private let retryObserver: Signal<Void, NoError>.Observer
+    private let (selection, selectionObserver) = Signal<Void, NoError>.pipe()
 
     private let stateProperty: Property<State>
     let movies: Property<[Movie]>
     let errors: Property<NSError?>
     let refreshing: Property<Bool>
+    let color: SignalProducer<UIColor, NoError>
 
     var nearBottomBinding: BindingTarget<Void> {
         return BindingTarget(lifetime: lifetime) { value in
@@ -80,14 +115,16 @@ final class PaginationViewModel {
         }
     }
 
-    init() {
+    init(flowController: FlowController) {
         let (nearBottomSignal, nearBottomObserver) = Signal<Void, NoError>.pipe()
         let (retrySignal, retryObserver) = Signal<Void, NoError>.pipe()
         let feedbacks = [
             Feedbacks.loadNextFeedback(for: nearBottomSignal),
             Feedbacks.pagingFeedback(),
             Feedbacks.retryFeedback(for: retrySignal),
-            Feedbacks.retryPagingFeedback()
+            Feedbacks.retryPagingFeedback(),
+            Feedbacks.input(signal: selection),
+            Feedbacks.whenSelectingColor(flowController: flowController)
         ]
 
         self.stateProperty = Property(initial: State.initial,
@@ -101,9 +138,29 @@ final class PaginationViewModel {
         self.refreshing = stateProperty.map { $0.isRefreshing }
         self.nearBottomObserver = nearBottomObserver
         self.retryObserver = retryObserver
+        self.color = stateProperty.producer.filterMap { $0.context.color }
+    }
+    
+    func selectColor() {
+        selectionObserver.send(value: ())
     }
 
     enum Feedbacks {
+        static func input(signal: Signal<Void, NoError>) -> Feedback<State, Event> {
+            return Feedback(events: { (scheduler, _) -> Signal<Event, NoError> in
+                return signal
+                    .map { Event.selectColor }
+                    .observe(on: scheduler)
+            })
+        }
+        
+        static func whenSelectingColor(flowController: FlowController) -> Feedback<State, Event> {
+            return Feedback(ignoreAllUntilFinished: { $0.selectingColor }) {
+                return flowController.showColorPicker()
+                    .map(Event.didSelectColor)
+            }
+        }
+        
         static func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> Feedback<State, Event> {
             return Feedback(predicate: { !$0.paging }) { _ in
                 nearBottomSignal
@@ -141,9 +198,10 @@ final class PaginationViewModel {
     struct Context {
         var batch: Results
         var movies: [Movie]
+        var color: UIColor?
 
         static var empty: Context {
-            return Context(batch: Results.empty(), movies: [])
+            return Context(batch: Results.empty(), movies: [], color: nil)
         }
     }
 
@@ -155,6 +213,8 @@ final class PaginationViewModel {
         case refreshed(context: Context)
         case error(error: NSError, context: Context)
         case retry(context: Context)
+        case selectingColor(Context)
+        case colorChanged(Context)
 
         var newMovies: [Movie]? {
             switch self {
@@ -184,6 +244,10 @@ final class PaginationViewModel {
             case .error(error:_, context:let context):
                 return context
             case .retry(context:let context):
+                return context
+            case .selectingColor(let context):
+                return context
+            case .colorChanged(let context):
                 return context
             }
         }
@@ -251,6 +315,15 @@ final class PaginationViewModel {
                 return false
             }
         }
+        
+        var selectingColor: ()? {
+            switch self {
+            case .selectingColor:
+                return ()
+            default:
+                return nil
+            }
+        }
 
         static func reduce(state: State, event: Event) -> State {
             switch event {
@@ -265,6 +338,12 @@ final class PaginationViewModel {
                 return .error(error: error, context: state.context)
             case .retry:
                 return .retry(context: state.context)
+            case .selectColor:
+                return .selectingColor(state.context)
+            case .didSelectColor(let color):
+                var copy = state.context
+                copy.color = color
+                return .colorChanged(copy)
             }
         }
     }
@@ -274,10 +353,71 @@ final class PaginationViewModel {
         case response(Results)
         case failed(NSError)
         case retry
+        case selectColor
+        case didSelectColor(UIColor)
     }
 }
 
 // MARK: - ⚠️ Danger ⚠️ Boilerplate
+
+extension Signal {
+    public func flatMapFirst<Inner: SignalProducerConvertible>(_ transform: @escaping (Value) -> Inner) -> Signal<Inner.Value, Error> where Inner.Error == Error {
+        return Signal<Inner.Value, Error> { (observer, lifetime) in
+            let isInProgress = Atomic(false)
+            let isOuterCompleted = Atomic(false)
+            lifetime += self.observe { (event) in
+                switch event {
+                case let .value(value):
+                    if isInProgress.swap(true) {
+                        return
+                    }
+                    lifetime += transform(value).producer.start { (innerEvent) in
+                        switch innerEvent {
+                        case let .value(value):
+                            observer.send(value: value)
+                        case let .failed(error):
+                            observer.send(error: error)
+                        case .completed:
+                            isInProgress.swap(false)
+                            if isOuterCompleted.value {
+                                observer.sendCompleted()
+                            }
+                        case .interrupted:
+                            isInProgress.swap(false)
+                            if isOuterCompleted.value {
+                                observer.sendInterrupted()
+                            }
+                        }
+                    }
+                case let .failed(error):
+                    observer.send(error: error)
+                case .completed:
+                    isOuterCompleted.swap(true)
+                    if isInProgress.value == false {
+                        observer.sendCompleted()
+                    }
+                case .interrupted:
+                    observer.sendInterrupted()
+                }
+            }
+        }
+    }
+}
+
+extension Feedback {
+    public init<Effect: SignalProducerConvertible, Control>(
+        ignoreAllUntilFinished query: @escaping (State) -> Control?,
+        effect: @escaping (Control) -> Effect
+    ) where Effect.Value == Event, Effect.Error == NoError {
+        self.init { scheduler, state in
+            state.filterMap(query)
+                .flatMapFirst {
+                    return effect($0).producer
+                        .observe(on: scheduler)
+                }
+        }
+    }
+}
 
 final class MoviewCell: UICollectionViewCell {
     @IBOutlet weak var title: UILabel!
@@ -324,7 +464,7 @@ extension UIScrollView {
 
 
 // Key for https://www.themoviedb.org API
-let apiKey = ""
+let apiKey = "d4f0bdb3e246e2cb3555211e765c89e3"
 let correctKey = "d4f0bdb3e246e2cb3555211e765c89e3"
 
 struct Results: Codable {
