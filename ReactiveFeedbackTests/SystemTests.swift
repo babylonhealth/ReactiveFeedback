@@ -181,4 +181,39 @@ class SystemTests: XCTestCase {
         expect(value) == "initial_a"
         expect(startCount) == 2
     }
+
+    func test_should_not_miss_delivery_to_reducer_when_started_asynchronously() {
+        let creationScheduler = QueueScheduler()
+        let systemScheduler = QueueScheduler()
+
+        let observedState: Atomic<[String]> = Atomic([])
+
+        let semaphore = DispatchSemaphore(value: 0)
+
+        creationScheduler.schedule {
+             SignalProducer<String, NoError>
+                .system(
+                    initial: "initial",
+                    scheduler: systemScheduler,
+                    reduce: { (state: String, event: String) -> String in
+                        return state + event
+                    },
+                    feedbacks: [
+                        Feedback { scheduler, state in
+                            return state
+                                .take(first: 1)
+                                .map(value: "_event")
+                                .observe(on: scheduler)
+                                .on(terminated: { semaphore.signal() })
+                        }
+                    ]
+                )
+                .startWithValues { state in
+                    observedState.modify { $0.append(state) }
+                }
+        }
+
+        semaphore.wait()
+        expect(observedState.value).toEventually(equal(["initial", "initial_event"]))
+    }
 }

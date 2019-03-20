@@ -29,8 +29,25 @@ extension SignalProducer where Error == NoError {
 
             return SignalProducer<Event, NoError>(Signal.merge(events))
                 .scan(initial, reduce)
+                .on(
+                    started: {
+                        // NOTE: Due to the nature of `prefix` lazily starting the producer being prefixed, we cannot rely
+                        //       on `on(value:)` to ignite the feedbacks with the initial state.
+                        //
+                        //       At the time `prefix(value:)` calls `on(value:)` for the initial value, the events-reducer
+                        //       producer has not yet been started yet. Consequentially, it would lead to dropped events
+                        //       when the system is instantiated on a queue different from the queue used for
+                        //       serializing events.
+                        //
+                        //       Having said that, `prefix(value:)` is guaranteed to have started the prefixed producer as
+                        //       part of the synchronous producer starting process. So we can address the issue by applying
+                        //       `on(started:)` after `prefix(value:)` to ignite the system, while having `on(value:)`
+                        //       instead applied before `prefix(value:)` to keep the reducer-to-feedbacks path open.
+                        stateObserver.send(value: initial)
+                    },
+                    value: stateObserver.send(value:)
+                )
                 .prefix(value: initial)
-                .on(value: stateObserver.send(value:))
         }
     }
 
