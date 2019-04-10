@@ -3,7 +3,8 @@ import ReactiveSwift
 import enum Result.NoError
 
 public struct Feedback<State, Event> {
-    let events: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
+    /// - todo: Refactor feedback mechanism and change `Event?` to `Event`.
+    let events: (Scheduler, Signal<(Event?, State), NoError>) -> Signal<Event, NoError>
     
     /// Creates an arbitrary Feedback, which evaluates side effects reactively
     /// to the latest state, and eventually produces events that affect the
@@ -12,8 +13,14 @@ public struct Feedback<State, Event> {
     /// - parameters:
     ///   - events: The transform which derives a `Signal` of events from the
     ///             latest state.
-    public init(events: @escaping (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>) {
+    public init(events: @escaping (Scheduler, Signal<(Event?, State), NoError>) -> Signal<Event, NoError>) {
         self.events = events
+    }
+
+    public init(events: @escaping (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>) {
+        self.init { scheduler, signal -> Signal<Event, NoError> in
+            return events(scheduler, signal.map { $1 })
+        }
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
@@ -32,13 +39,13 @@ public struct Feedback<State, Event> {
         deriving transform: @escaping (Signal<State, NoError>) -> Signal<U, NoError>,
         effects: @escaping (U) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.events = { scheduler, state in
+        self.init(events: { scheduler, state in
             // NOTE: `observe(on:)` should be applied on the inner producers, so
             //       that cancellation due to state changes would be able to
             //       cancel outstanding events that have already been scheduled.
             return transform(state)
                 .flatMap(.latest) { effects($0).producer.observe(on: scheduler) }
-        }
+        })
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
