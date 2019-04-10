@@ -13,14 +13,21 @@ public struct Feedback<State, Event> {
     /// - parameters:
     ///   - events: The transform which derives a `Signal` of events from the
     ///             latest state.
-    public init(events: @escaping (Scheduler, Signal<(Event?, State), NoError>) -> Signal<Event, NoError>) {
+    public init(events: @escaping (Scheduler, Signal<(Event?, State), NoError>) -> Signal<Event, NoError>, _ dummy: Void = ()) {
         self.events = events
     }
 
+    /// Creates an arbitrary Feedback, which evaluates side effects reactively
+    /// to the latest state, and eventually produces events that affect the
+    /// state.
+    ///
+    /// - parameters:
+    ///   - events: The transform which derives a `Signal` of events from the
+    ///             latest state.
     public init(events: @escaping (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>) {
-        self.init { scheduler, signal -> Signal<Event, NoError> in
+        self.init(events: { scheduler, signal -> Signal<Event, NoError> in
             return events(scheduler, signal.map { $1 })
-        }
+        })
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
