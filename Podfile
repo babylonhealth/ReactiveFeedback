@@ -3,7 +3,7 @@ install! 'cocoapods',
 use_frameworks!
 
 def shared_pods
-    pod "ReactiveSwift", "~> 4.0"
+    pod "ReactiveSwift", "~> 5.0"
 end
 
 target "ReactiveFeedback" do
@@ -14,7 +14,7 @@ end
 target "ReactiveFeedbackTests" do
     platform :ios, "8.0"
     shared_pods
-    pod "Nimble", "~> 7.0"
+    pod "Nimble", "~> 8.0"
 end
 
 target "Example" do
