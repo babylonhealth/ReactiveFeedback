@@ -6,6 +6,12 @@ def shared_pods
     pod "ReactiveSwift", "~> 5.0"
 end
 
+target "Example" do
+  platform :ios, "8.0"
+  pod "Kingfisher"
+  shared_pods
+end
+
 target "ReactiveFeedback" do
     platform :ios, "8.0"
     shared_pods
@@ -15,13 +21,6 @@ target "ReactiveFeedbackTests" do
     platform :ios, "8.0"
     shared_pods
     pod "Nimble", "~> 8.0"
-end
-
-target "Example" do
-    platform :ios, "10.0"
-    shared_pods
-    pod "Kingfisher", "~> 4.0"
-    pod "ReactiveCocoa", "~> 9.0.0"
 end
 
 post_install do |installer|

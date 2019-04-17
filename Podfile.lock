@@ -1,33 +1,28 @@
 PODS:
-  - Kingfisher (4.1.0)
-  - Nimble (7.0.2)
-  - ReactiveCocoa (8.0.0):
-    - ReactiveSwift (~> 4.0)
-  - ReactiveSwift (4.0.0):
-    - Result (~> 4.0)
-  - Result (4.0.0)
+  - Kingfisher (4.10.1)
+  - Nimble (8.0.1)
+  - ReactiveSwift (5.0.1):
+    - Result (~> 4.1)
+  - Result (4.1.0)
 
 DEPENDENCIES:
-  - Kingfisher (~> 4.0)
-  - Nimble (~> 7.0)
-  - ReactiveCocoa (~> 8.0)
-  - ReactiveSwift (~> 4.0)
+  - Kingfisher
+  - Nimble (~> 8.0)
+  - ReactiveSwift (~> 5.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Kingfisher
     - Nimble
-    - ReactiveCocoa
     - ReactiveSwift
     - Result
 
 SPEC CHECKSUMS:
-  Kingfisher: f14df8cbe576bf55f211fa589e9869bceb4ea87d
-  Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
-  ReactiveCocoa: 87cb64d78424d749a0bbfd9b07e4825e8d834066
-  ReactiveSwift: a2bb9ace428a109e9c0209615645d9d286c8c433
-  Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
+  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
+  Nimble: 45f786ae66faa9a709624227fae502db55a8bdd0
+  ReactiveSwift: cac20a5bbe560c5806bd29c0fccf90d03b996ac1
+  Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
 
-PODFILE CHECKSUM: cb3e36c06f0aad276b3bae5804f78b4c467c2030
+PODFILE CHECKSUM: c48887843d650c5ab915d0ed50cb30912a276222
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1
