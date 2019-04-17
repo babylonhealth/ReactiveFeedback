@@ -7,16 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07F3BCBE3D226FD99D216776 /* Pods_ReactiveFeedback_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D34DA74D61CD33109CA18562 /* Pods_ReactiveFeedback_iOS.framework */; };
 		25E1D2211F5493D000D90192 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2201F5493D000D90192 /* AppDelegate.swift */; };
 		25E1D2231F5493D000D90192 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2221F5493D000D90192 /* ViewController.swift */; };
 		25E1D2261F5493D000D90192 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2241F5493D000D90192 /* Main.storyboard */; };
 		25E1D2281F5493D000D90192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2271F5493D000D90192 /* Assets.xcassets */; };
 		25E1D22B1F5493D000D90192 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */; };
 		25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2371F56091A00D90192 /* PaginationViewController.swift */; };
-		2B37DF9C2A5D204080A8418B /* Pods_ReactiveFeedback_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2943B686BE4A47160AA6708E /* Pods_ReactiveFeedback_macOS.framework */; };
-		37B924D2DC56537F2A30510B /* Pods_ReactiveFeedback_macOS_ReactiveFeedbackTests_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0F4FD24E4FE9726A98E59B /* Pods_ReactiveFeedback_macOS_ReactiveFeedbackTests_macOS.framework */; };
-		3CDD07BE0D03021B31D8589C /* Pods_ReactiveFeedback_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F7F93ABF74793F450EDBFF /* Pods_ReactiveFeedback_tvOS.framework */; };
 		5898B6D11F97ADDD005EEAEC /* SystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898B6D01F97ADDD005EEAEC /* SystemTests.swift */; };
 		65F8C260218371A800924657 /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95097E70D3CBFF05FA7B8CC /* Feedback.swift */; };
 		65F8C261218371A800924657 /* SignalProducer+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */; };
@@ -30,7 +26,6 @@
 		65F8C2972183725900924657 /* ReactiveFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */; };
 		65F8C2CF218378F500924657 /* ReactiveFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F8C26B218371A800924657 /* ReactiveFeedback.framework */; };
 		65F8C2D0218378F500924657 /* ReactiveFeedback.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65F8C26B218371A800924657 /* ReactiveFeedback.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9AB1648F67927A5A71AC541A /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37E438059E09F7F7D76E00 /* Pods_Example.framework */; };
 		9AD5D42D1F97375E00E6AE5A /* Property+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD5D42C1F97375E00E6AE5A /* Property+System.swift */; };
 		9AE181BB1F95A71B00A07551 /* ReactiveFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */; };
 		9AE9563C2186341B005A8C69 /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563921863415005A8C69 /* Kingfisher.framework */; };
@@ -59,8 +54,6 @@
 		9AFA21261F9511A5001DBF7C /* ReactiveFeedback.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 9AFA21251F9511A5001DBF7C /* ReactiveFeedback.podspec */; };
 		A950943401765BB90FA846B2 /* SignalProducer+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */; };
 		A9509BE4551098F4A5503820 /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95097E70D3CBFF05FA7B8CC /* Feedback.swift */; };
-		ECECD3EE340B9232AC174D7F /* Pods_ReactiveFeedback_tvOS_ReactiveFeedbackTests_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C051DA3947FC5B25873A06 /* Pods_ReactiveFeedback_tvOS_ReactiveFeedbackTests_tvOS.framework */; };
-		FEB74723B5ACA063034C8F2E /* Pods_ReactiveFeedback_iOS_ReactiveFeedbackTests_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85F25927DFE2FB2A120DF38F /* Pods_ReactiveFeedback_iOS_ReactiveFeedbackTests_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,10 +133,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0DD9929B662EB5EE4B42BEF4 /* Pods-ReactiveFeedback-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-iOS.release.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-iOS/Pods-ReactiveFeedback-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		0EE323B7ADC497BD7863202F /* Pods-ReactiveFeedback-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-tvOS/Pods-ReactiveFeedback-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		1726FD00A74DE24B052A9A02 /* Pods-ReactiveFeedback-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-iOS.debug.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-iOS/Pods-ReactiveFeedback-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		1D9518BD0C4623883FD7C9FA /* Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS.debug.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS/Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactiveFeedback.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25CC87B11F92855300A6EBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25E1D21D1F5493D000D90192 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,21 +143,12 @@
 		25E1D22A1F5493D000D90192 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		25E1D22C1F5493D000D90192 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25E1D2371F56091A00D90192 /* PaginationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationViewController.swift; sourceTree = "<group>"; };
-		2943B686BE4A47160AA6708E /* Pods_ReactiveFeedback_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReactiveFeedback_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2A37E438059E09F7F7D76E00 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		46C47C19031DC2FC873493DB /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		587F0720201F647400ACD219 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5898B6D01F97ADDD005EEAEC /* SystemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTests.swift; sourceTree = "<group>"; };
-		5AA4940C291BB4F5B2C13946 /* Pods-ReactiveFeedback-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-tvOS/Pods-ReactiveFeedback-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		65F8C26B218371A800924657 /* ReactiveFeedback.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactiveFeedback.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65F8C27A218371AC00924657 /* ReactiveFeedback.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactiveFeedback.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65F8C28E2183723F00924657 /* ReactiveFeedbackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveFeedbackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		65F8C2A22183725900924657 /* ReactiveFeedbackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveFeedbackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		70F7F93ABF74793F450EDBFF /* Pods_ReactiveFeedback_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReactiveFeedback_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		79B71FC0D205EE292002E52C /* Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS.release.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS/Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS.release.xcconfig"; sourceTree = "<group>"; };
-		85F25927DFE2FB2A120DF38F /* Pods_ReactiveFeedback_iOS_ReactiveFeedbackTests_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReactiveFeedback_iOS_ReactiveFeedbackTests_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		89BC8A9821E3F1BD1F5D145B /* Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS.release.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS/Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		8E982039B564C85100323435 /* Pods-ReactiveFeedback-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-macOS.debug.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-macOS/Pods-ReactiveFeedback-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		9AD5D42C1F97375E00E6AE5A /* Property+System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Property+System.swift"; sourceTree = "<group>"; };
 		9AE181B61F95A71B00A07551 /* ReactiveFeedbackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveFeedbackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE181BA1F95A71B00A07551 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -184,16 +164,8 @@
 		9AE95658218634C4005A8C69 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE9565A218634CA005A8C69 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AFA21251F9511A5001DBF7C /* ReactiveFeedback.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReactiveFeedback.podspec; sourceTree = "<group>"; };
-		A814471B75BC2623B5CFB59E /* Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS/Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		A95097E70D3CBFF05FA7B8CC /* Feedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
 		A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducer+System.swift"; sourceTree = "<group>"; };
-		B1C051DA3947FC5B25873A06 /* Pods_ReactiveFeedback_tvOS_ReactiveFeedbackTests_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReactiveFeedback_tvOS_ReactiveFeedbackTests_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B41F272160AE29151B459FFD /* Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS/Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		CE0F4FD24E4FE9726A98E59B /* Pods_ReactiveFeedback_macOS_ReactiveFeedbackTests_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReactiveFeedback_macOS_ReactiveFeedbackTests_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D34DA74D61CD33109CA18562 /* Pods_ReactiveFeedback_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReactiveFeedback_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D6E10DB8ECD1EB01E9F834CA /* Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS.debug.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS/Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		DEFB7FD3202F96D4C8521B08 /* Pods-ReactiveFeedback-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveFeedback-macOS.release.xcconfig"; path = "Target Support Files/Pods-ReactiveFeedback-macOS/Pods-ReactiveFeedback-macOS.release.xcconfig"; sourceTree = "<group>"; };
-		FBBB3E92182134C78765FB93 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,7 +175,6 @@
 			files = (
 				9AE9564921863459005A8C69 /* ReactiveSwift.framework in Frameworks */,
 				9AE9564B21863459005A8C69 /* Result.framework in Frameworks */,
-				2B37DF9C2A5D204080A8418B /* Pods_ReactiveFeedback_macOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +187,6 @@
 				9AE956422186341B005A8C69 /* Result.framework in Frameworks */,
 				65F8C2CF218378F500924657 /* ReactiveFeedback.framework in Frameworks */,
 				9AE956402186341B005A8C69 /* ReactiveSwift.framework in Frameworks */,
-				9AB1648F67927A5A71AC541A /* Pods_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,7 +196,6 @@
 			files = (
 				9AE9564421863440005A8C69 /* ReactiveSwift.framework in Frameworks */,
 				9AE9564521863440005A8C69 /* Result.framework in Frameworks */,
-				07F3BCBE3D226FD99D216776 /* Pods_ReactiveFeedback_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,7 +205,6 @@
 			files = (
 				9AE9564F2186346C005A8C69 /* ReactiveSwift.framework in Frameworks */,
 				9AE956512186346C005A8C69 /* Result.framework in Frameworks */,
-				3CDD07BE0D03021B31D8589C /* Pods_ReactiveFeedback_tvOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,7 +216,6 @@
 				65F8C2832183723F00924657 /* ReactiveFeedback.framework in Frameworks */,
 				9AE9564621863449005A8C69 /* ReactiveSwift.framework in Frameworks */,
 				9AE9564721863449005A8C69 /* Result.framework in Frameworks */,
-				FEB74723B5ACA063034C8F2E /* Pods_ReactiveFeedback_iOS_ReactiveFeedbackTests_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,7 +227,6 @@
 				65F8C2972183725900924657 /* ReactiveFeedback.framework in Frameworks */,
 				9AE9565221863484005A8C69 /* ReactiveSwift.framework in Frameworks */,
 				9AE9565321863484005A8C69 /* Result.framework in Frameworks */,
-				ECECD3EE340B9232AC174D7F /* Pods_ReactiveFeedback_tvOS_ReactiveFeedbackTests_tvOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,7 +238,6 @@
 				9AE181BB1F95A71B00A07551 /* ReactiveFeedback.framework in Frameworks */,
 				9AE956542186349E005A8C69 /* ReactiveSwift.framework in Frameworks */,
 				9AE956552186349E005A8C69 /* Result.framework in Frameworks */,
-				37B924D2DC56537F2A30510B /* Pods_ReactiveFeedback_macOS_ReactiveFeedbackTests_macOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +265,6 @@
 				9AE181B71F95A71B00A07551 /* ReactiveFeedbackTests */,
 				25E1D21E1F5493D000D90192 /* Products */,
 				9AFA21271F95135B001DBF7C /* Frameworks */,
-				521341C737D163409747E3F0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -332,27 +296,6 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
-		521341C737D163409747E3F0 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				46C47C19031DC2FC873493DB /* Pods-Example.debug.xcconfig */,
-				FBBB3E92182134C78765FB93 /* Pods-Example.release.xcconfig */,
-				1726FD00A74DE24B052A9A02 /* Pods-ReactiveFeedback-iOS.debug.xcconfig */,
-				0DD9929B662EB5EE4B42BEF4 /* Pods-ReactiveFeedback-iOS.release.xcconfig */,
-				D6E10DB8ECD1EB01E9F834CA /* Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS.debug.xcconfig */,
-				89BC8A9821E3F1BD1F5D145B /* Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS.release.xcconfig */,
-				8E982039B564C85100323435 /* Pods-ReactiveFeedback-macOS.debug.xcconfig */,
-				DEFB7FD3202F96D4C8521B08 /* Pods-ReactiveFeedback-macOS.release.xcconfig */,
-				1D9518BD0C4623883FD7C9FA /* Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS.debug.xcconfig */,
-				79B71FC0D205EE292002E52C /* Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS.release.xcconfig */,
-				5AA4940C291BB4F5B2C13946 /* Pods-ReactiveFeedback-tvOS.debug.xcconfig */,
-				0EE323B7ADC497BD7863202F /* Pods-ReactiveFeedback-tvOS.release.xcconfig */,
-				A814471B75BC2623B5CFB59E /* Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS.debug.xcconfig */,
-				B41F272160AE29151B459FFD /* Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		9AE181B71F95A71B00A07551 /* ReactiveFeedbackTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,13 +319,6 @@
 				9AE9563B21863415005A8C69 /* ReactiveCocoa.framework */,
 				9AE9563821863414005A8C69 /* ReactiveSwift.framework */,
 				9AE9563A21863415005A8C69 /* Result.framework */,
-				2A37E438059E09F7F7D76E00 /* Pods_Example.framework */,
-				D34DA74D61CD33109CA18562 /* Pods_ReactiveFeedback_iOS.framework */,
-				85F25927DFE2FB2A120DF38F /* Pods_ReactiveFeedback_iOS_ReactiveFeedbackTests_iOS.framework */,
-				2943B686BE4A47160AA6708E /* Pods_ReactiveFeedback_macOS.framework */,
-				CE0F4FD24E4FE9726A98E59B /* Pods_ReactiveFeedback_macOS_ReactiveFeedbackTests_macOS.framework */,
-				70F7F93ABF74793F450EDBFF /* Pods_ReactiveFeedback_tvOS.framework */,
-				B1C051DA3947FC5B25873A06 /* Pods_ReactiveFeedback_tvOS_ReactiveFeedbackTests_tvOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -418,7 +354,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25CC87B91F92855300A6EBFC /* Build configuration list for PBXNativeTarget "ReactiveFeedback-macOS" */;
 			buildPhases = (
-				44B7F5D04A9920D8C4DCC5FF /* [CP] Check Pods Manifest.lock */,
 				25CC87A91F92855300A6EBFC /* Sources */,
 				25CC87AA1F92855300A6EBFC /* Frameworks */,
 				25CC87AB1F92855300A6EBFC /* Headers */,
@@ -437,12 +372,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25E1D22F1F5493D100D90192 /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
-				B8C07DD4903A7A1F9B090DB2 /* [CP] Check Pods Manifest.lock */,
 				25E1D2191F5493D000D90192 /* Sources */,
 				25E1D21A1F5493D000D90192 /* Frameworks */,
 				25E1D21B1F5493D000D90192 /* Resources */,
 				25CC87BA1F92855300A6EBFC /* Embed Frameworks */,
-				9BE03D6921A0C89233D3268A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -458,7 +391,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 65F8C268218371A800924657 /* Build configuration list for PBXNativeTarget "ReactiveFeedback-iOS" */;
 			buildPhases = (
-				EEDC18FD3D66499B39F2C9CC /* [CP] Check Pods Manifest.lock */,
 				65F8C25F218371A800924657 /* Sources */,
 				65F8C263218371A800924657 /* Frameworks */,
 				65F8C266218371A800924657 /* Headers */,
@@ -477,7 +409,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 65F8C277218371AC00924657 /* Build configuration list for PBXNativeTarget "ReactiveFeedback-tvOS" */;
 			buildPhases = (
-				5FD00D7604804C8586802E36 /* [CP] Check Pods Manifest.lock */,
 				65F8C26E218371AC00924657 /* Sources */,
 				65F8C272218371AC00924657 /* Frameworks */,
 				65F8C275218371AC00924657 /* Headers */,
@@ -496,12 +427,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 65F8C28B2183723F00924657 /* Build configuration list for PBXNativeTarget "ReactiveFeedbackTests-iOS" */;
 			buildPhases = (
-				B21F12EAC842A2F1C27844EF /* [CP] Check Pods Manifest.lock */,
 				65F8C27F2183723F00924657 /* Sources */,
 				65F8C2812183723F00924657 /* Frameworks */,
 				65F8C2862183723F00924657 /* Resources */,
 				65F8C2872183723F00924657 /* CopyFiles */,
-				5F274E33E8E126C5ED57C81B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -517,12 +446,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 65F8C29F2183725900924657 /* Build configuration list for PBXNativeTarget "ReactiveFeedbackTests-tvOS" */;
 			buildPhases = (
-				1AA346166613FE119878779A /* [CP] Check Pods Manifest.lock */,
 				65F8C2932183725900924657 /* Sources */,
 				65F8C2952183725900924657 /* Frameworks */,
 				65F8C29A2183725900924657 /* Resources */,
 				65F8C29B2183725900924657 /* CopyFiles */,
-				6DDCD1649FD9571C4BE73230 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -538,12 +465,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9AE181C01F95A71B00A07551 /* Build configuration list for PBXNativeTarget "ReactiveFeedbackTests-macOS" */;
 			buildPhases = (
-				E33DDD0100CAFDFE0B0D2F2E /* [CP] Check Pods Manifest.lock */,
 				9AE181B21F95A71B00A07551 /* Sources */,
 				9AE181B31F95A71B00A07551 /* Frameworks */,
 				9AE181B41F95A71B00A07551 /* Resources */,
 				9AE181C11F95A76B00A07551 /* CopyFiles */,
-				6758D8717824B4E8EE034C4A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -663,269 +588,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		1AA346166613FE119878779A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		44B7F5D04A9920D8C4DCC5FF /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ReactiveFeedback-macOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5F274E33E8E126C5ED57C81B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS/Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/ReactiveSwift-iOS8.0/ReactiveSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Result-iOS8.0/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/Nimble-iOS/Nimble.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS/Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5FD00D7604804C8586802E36 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ReactiveFeedback-tvOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6758D8717824B4E8EE034C4A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS/Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/ReactiveSwift-macOS10.10/ReactiveSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Result-macOS10.10/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/Nimble-macOS/Nimble.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS/Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6DDCD1649FD9571C4BE73230 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS/Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/ReactiveSwift-tvOS9.0/ReactiveSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Result-tvOS9.0/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/Nimble-tvOS/Nimble.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS/Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9BE03D6921A0C89233D3268A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/ReactiveSwift-iOS10.0/ReactiveSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Result-iOS10.0/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
-				"${BUILT_PRODUCTS_DIR}/ReactiveCocoa/ReactiveCocoa.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveCocoa.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B21F12EAC842A2F1C27844EF /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B8C07DD4903A7A1F9B090DB2 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Example-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E33DDD0100CAFDFE0B0D2F2E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EEDC18FD3D66499B39F2C9CC /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ReactiveFeedback-iOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		25CC87A91F92855300A6EBFC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1038,7 +700,6 @@
 /* Begin XCBuildConfiguration section */
 		25CC87B71F92855300A6EBFC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E982039B564C85100323435 /* Pods-ReactiveFeedback-macOS.debug.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1059,7 +720,6 @@
 		};
 		25CC87B81F92855300A6EBFC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DEFB7FD3202F96D4C8521B08 /* Pods-ReactiveFeedback-macOS.release.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1081,7 +741,6 @@
 		25E1D22D1F5493D100D90192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1145,7 +804,6 @@
 		25E1D22E1F5493D100D90192 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1201,9 +859,8 @@
 		};
 		25E1D2301F5493D100D90192 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 46C47C19031DC2FC873493DB /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1221,9 +878,8 @@
 		};
 		25E1D2311F5493D100D90192 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FBBB3E92182134C78765FB93 /* Pods-Example.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1241,7 +897,6 @@
 		};
 		65F8C269218371A800924657 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1726FD00A74DE24B052A9A02 /* Pods-ReactiveFeedback-iOS.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -1263,7 +918,6 @@
 		};
 		65F8C26A218371A800924657 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0DD9929B662EB5EE4B42BEF4 /* Pods-ReactiveFeedback-iOS.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -1285,7 +939,6 @@
 		};
 		65F8C278218371AC00924657 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5AA4940C291BB4F5B2C13946 /* Pods-ReactiveFeedback-tvOS.debug.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1306,7 +959,6 @@
 		};
 		65F8C279218371AC00924657 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0EE323B7ADC497BD7863202F /* Pods-ReactiveFeedback-tvOS.release.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1327,9 +979,8 @@
 		};
 		65F8C28C2183723F00924657 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D6E10DB8ECD1EB01E9F834CA /* Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1346,9 +997,8 @@
 		};
 		65F8C28D2183723F00924657 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89BC8A9821E3F1BD1F5D145B /* Pods-ReactiveFeedback-iOS-ReactiveFeedbackTests-iOS.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1365,9 +1015,8 @@
 		};
 		65F8C2A02183725900924657 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A814471B75BC2623B5CFB59E /* Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1384,9 +1033,8 @@
 		};
 		65F8C2A12183725900924657 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B41F272160AE29151B459FFD /* Pods-ReactiveFeedback-tvOS-ReactiveFeedbackTests-tvOS.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1403,9 +1051,8 @@
 		};
 		9AE181BE1F95A71B00A07551 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D9518BD0C4623883FD7C9FA /* Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1422,9 +1069,8 @@
 		};
 		9AE181BF1F95A71B00A07551 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79B71FC0D205EE292002E52C /* Pods-ReactiveFeedback-macOS-ReactiveFeedbackTests-macOS.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
