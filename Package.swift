@@ -7,8 +7,8 @@ let package = Package(
         .library(name: "ReactiveFeedback", targets: ["ReactiveFeedback"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/ReactiveCocoa/ReactiveSwift", from: "4.0.0"),
-        .package(url: "https://github.com/Quick/Nimble.git", from: "7.0.0"),
+        .package(url: "https://github.com/ReactiveCocoa/ReactiveSwift", from: "5.0.0"),
+        .package(url: "https://github.com/Quick/Nimble.git", from: "8.0.0"),
     ],
     targets: [
         .target(name: "ReactiveFeedback", dependencies: ["ReactiveSwift"], path: "ReactiveFeedback"),
