@@ -11,12 +11,11 @@ import ReactiveSwift
 import ReactiveCocoa
 import Kingfisher
 import ReactiveFeedback
-import enum Result.NoError
 
 final class PaginationViewController: UICollectionViewController {
     let dataSource = ArrayCollectionViewDataSource<Movie>()
     let viewModel = PaginationViewModel()
-    private let (retrySignal, retryObserver) = Signal<Void, NoError>.pipe()
+    private let (retrySignal, retryObserver) = Signal<Void, Never>.pipe()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,8 +59,8 @@ final class PaginationViewModel {
     private var lifetime: Lifetime {
         return Lifetime(token)
     }
-    private let nearBottomObserver: Signal<Void, NoError>.Observer
-    private let retryObserver: Signal<Void, NoError>.Observer
+    private let nearBottomObserver: Signal<Void, Never>.Observer
+    private let retryObserver: Signal<Void, Never>.Observer
 
     private let stateProperty: Property<State>
     let movies: Property<[Movie]>
@@ -81,8 +80,8 @@ final class PaginationViewModel {
     }
 
     init() {
-        let (nearBottomSignal, nearBottomObserver) = Signal<Void, NoError>.pipe()
-        let (retrySignal, retryObserver) = Signal<Void, NoError>.pipe()
+        let (nearBottomSignal, nearBottomObserver) = Signal<Void, Never>.pipe()
+        let (retrySignal, retryObserver) = Signal<Void, Never>.pipe()
         let feedbacks = [
             Feedbacks.loadNextFeedback(for: nearBottomSignal),
             Feedbacks.pagingFeedback(),
@@ -104,7 +103,7 @@ final class PaginationViewModel {
     }
 
     enum Feedbacks {
-        static func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> Feedback<State, Event> {
+        static func loadNextFeedback(for nearBottomSignal: Signal<Void, Never>) -> Feedback<State, Event> {
             return Feedback(predicate: { !$0.paging }) { _ in
                 nearBottomSignal
                     .map { Event.startLoadingNextPage }
@@ -112,7 +111,7 @@ final class PaginationViewModel {
         }
 
         static func pagingFeedback() -> Feedback<State, Event> {
-            return Feedback<State, Event>(skippingRepeated: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+            return Feedback<State, Event>(skippingRepeated: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, Never> in
                 URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
                     .flatMapError { error in
@@ -121,14 +120,14 @@ final class PaginationViewModel {
             }
         }
 
-        static func retryFeedback(for retrySignal: Signal<Void, NoError>) -> Feedback<State, Event> {
-            return Feedback<State, Event>(skippingRepeated: { $0.lastError }) { _ -> Signal<Event, NoError> in
+        static func retryFeedback(for retrySignal: Signal<Void, Never>) -> Feedback<State, Event> {
+            return Feedback<State, Event>(skippingRepeated: { $0.lastError }) { _ -> Signal<Event, Never> in
                 retrySignal.map { Event.retry }
             }
         }
 
         static func retryPagingFeedback() -> Feedback<State, Event> {
-            return Feedback<State, Event>(skippingRepeated: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+            return Feedback<State, Event>(skippingRepeated: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, Never> in
                 URLSession.shared.fetchMovies(page: nextPage)
                     .map(Event.response)
                     .flatMapError { error in
@@ -297,7 +296,7 @@ final class MoviewCell: UICollectionViewCell {
 }
 
 extension UIScrollView {
-    var rac_contentOffset: Signal<CGPoint, NoError> {
+    var rac_contentOffset: Signal<CGPoint, Never> {
         return self.reactive.signal(forKeyPath: "contentOffset")
             .filterMap { change in
                 guard let value = change as? NSValue else {
@@ -307,7 +306,7 @@ extension UIScrollView {
             }
     }
 
-    var rac_nearBottomSignal: Signal<Void, NoError> {
+    var rac_nearBottomSignal: Signal<Void, Never> {
         func isNearBottomEdge(scrollView: UIScrollView, edgeOffset: CGFloat = 44.0) -> Bool {
             return scrollView.contentOffset.y + scrollView.frame.size.height + edgeOffset > scrollView.contentSize.height
         }
@@ -406,7 +405,7 @@ extension URLSession {
 }
 
 extension UICollectionView {
-    func rac_items<DataSource:RACCollectionViewDataSourceType & UICollectionViewDataSource, S:SignalProtocol>(dataSource: DataSource) -> (S) -> Disposable? where S.Error == NoError, S.Value == DataSource.Element {
+    func rac_items<DataSource:RACCollectionViewDataSourceType & UICollectionViewDataSource, S:SignalProtocol>(dataSource: DataSource) -> (S) -> Disposable? where S.Error == Never, S.Value == DataSource.Element {
         return { source in
             self.dataSource = dataSource
             return source.signal.observe({ [weak self] (event) in
@@ -418,7 +417,7 @@ extension UICollectionView {
         }
     }
 
-    func rac_items<DataSource:RACCollectionViewDataSourceType & UICollectionViewDataSource, S:SignalProducerProtocol>(dataSource: DataSource) -> (S) -> Disposable? where S.Error == NoError, S.Value == DataSource.Element {
+    func rac_items<DataSource:RACCollectionViewDataSourceType & UICollectionViewDataSource, S:SignalProducerProtocol>(dataSource: DataSource) -> (S) -> Disposable? where S.Error == Never, S.Value == DataSource.Element {
         return { source in
             self.dataSource = dataSource
             return source.producer.start { [weak self] event in
@@ -434,7 +433,7 @@ extension UICollectionView {
 public protocol RACCollectionViewDataSourceType {
     associatedtype Element
 
-    func collectionView(_ collectionView: UICollectionView, observedEvent: Signal<Element, NoError>.Event)
+    func collectionView(_ collectionView: UICollectionView, observedEvent: Signal<Element, Never>.Event)
 }
 
 final class ArrayCollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
@@ -463,7 +462,7 @@ final class ArrayCollectionViewDataSource<T>: NSObject, UICollectionViewDataSour
 }
 
 extension ArrayCollectionViewDataSource: RACCollectionViewDataSourceType {
-    func collectionView(_ collectionView: UICollectionView, observedEvent: Signal<[T], NoError>.Event) {
+    func collectionView(_ collectionView: UICollectionView, observedEvent: Signal<[T], Never>.Event) {
         switch observedEvent {
         case .value(let value):
             update(with: value)

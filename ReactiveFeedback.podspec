@@ -18,5 +18,5 @@ Pod::Spec.new do |s|
   s.source        = { :git => "https://github.com/Babylonpartners/ReactiveFeedback.git", :tag => "#{s.version}" }
   s.source_files  = "ReactiveFeedback/*.{swift}"
 
-  s.dependency "ReactiveSwift", "~> 5.0"
+  s.dependency "ReactiveSwift", "~> 6.0"
 end

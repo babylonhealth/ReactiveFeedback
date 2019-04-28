@@ -87,14 +87,14 @@ static func reduce(state: State, event: Event) -> State {
 
 ##### Feedback
 
-While `State` represents where the system is at a given time, `Event` represents a state change, and a `Reducer` is the pure function that enacts the event causing the state to change, there is not as of yet any type to decide which event should take place given a particular current state. That's the job of the `Feedback`. It's essentially a "processing engine", listening to changes in the current `State` and emitting the corresponding next events to take place. It's represented by a pure function with a signature of `Signal<State, NoError> -> Signal<Event, NoError>`. Feedbacks don't directly mutate states. Instead, they only emit events which then cause states to change in reducers.
+While `State` represents where the system is at a given time, `Event` represents a state change, and a `Reducer` is the pure function that enacts the event causing the state to change, there is not as of yet any type to decide which event should take place given a particular current state. That's the job of the `Feedback`. It's essentially a "processing engine", listening to changes in the current `State` and emitting the corresponding next events to take place. It's represented by a pure function with a signature of `Signal<State, Never> -> Signal<Event, Never>`. Feedbacks don't directly mutate states. Instead, they only emit events which then cause states to change in reducers.
 
 ```swift
 public struct Feedback<State, Event> {
-    public let events: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
+    public let events: (Scheduler, Signal<State, Never>) -> Signal<Event, Never>
 }
 
-func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> Feedback<State, Event> {
+func loadNextFeedback(for nearBottomSignal: Signal<Void, Never>) -> Feedback<State, Event> {
     return Feedback(predicate: { !$0.paging }) { _ in
         return nearBottomSignal
             .map { Event.startLoadingNextPage }
@@ -102,26 +102,26 @@ func loadNextFeedback(for nearBottomSignal: Signal<Void, NoError>) -> Feedback<S
 }
 
 func pagingFeedback() -> Feedback<State, Event> {
-    return Feedback<State, Event>(skippingRepeated: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+    return Feedback<State, Event>(skippingRepeated: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, Never> in
         return URLSession.shared.fetchMovies(page: nextPage)
             .map(Event.response)
-            .flatMapError { (error) -> SignalProducer<Event, NoError> in
+            .flatMapError { (error) -> SignalProducer<Event, Never> in
                 return SignalProducer(value: Event.failed(error))
             }
         }
 }
 
-func retryFeedback(for retrySignal: Signal<Void, NoError>) -> Feedback<State, Event> {
-    return Feedback<State, Event>(skippingRepeated: { $0.lastError }) { _ -> Signal<Event, NoError> in
+func retryFeedback(for retrySignal: Signal<Void, Never>) -> Feedback<State, Event> {
+    return Feedback<State, Event>(skippingRepeated: { $0.lastError }) { _ -> Signal<Event, Never> in
         return retrySignal.map { Event.retry }
     }
 }
 
 func retryPagingFeedback() -> Feedback<State, Event> {
-    return Feedback<State, Event>(skippingRepeated: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, NoError> in
+    return Feedback<State, Event>(skippingRepeated: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, Never> in
         return URLSession.shared.fetchMovies(page: nextPage)
             .map(Event.response)
-            .flatMapError { (error) -> SignalProducer<Event, NoError> in
+            .flatMapError { (error) -> SignalProducer<Event, Never> in
                 return SignalProducer(value: Event.failed(error))
             }
         }
@@ -150,7 +150,7 @@ let decrement = Feedback<Int, Event> { _ in
         .map { _ in Event.decrement }
 }
 
-let system = SignalProducer<Int, NoError>.system(initial: 0,
+let system = SignalProducer<Int, Never>.system(initial: 0,
     reduce: { (count, event) -> Int in
         switch event {
         case .increment:

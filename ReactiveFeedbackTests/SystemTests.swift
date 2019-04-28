@@ -1,7 +1,6 @@
 import XCTest
 import Nimble
 import ReactiveSwift
-import enum Result.NoError
 @testable import ReactiveFeedback
 
 class SystemTests: XCTestCase {
@@ -11,7 +10,7 @@ class SystemTests: XCTestCase {
         let feedback = Feedback<String, String> { state in
             return SignalProducer(value: "_a")
         }
-        let system = SignalProducer<String, NoError>.system(
+        let system = SignalProducer<String, Never>.system(
             initial: initial,
             reduce: { (state: String, event: String) in
                 return state + event
@@ -26,7 +25,7 @@ class SystemTests: XCTestCase {
         let feedback = Feedback<String, String> { state in
             return SignalProducer(value: "_a")
         }
-        let system = SignalProducer<String, NoError>.system(
+        let system = SignalProducer<String, Never>.system(
             initial: "initial",
             reduce: { (state: String, event: String) in
                 return state + event
@@ -55,7 +54,7 @@ class SystemTests: XCTestCase {
         let feedback2 = Feedback<String, String> { state in
             return !state.hasSuffix("_b") ? SignalProducer(value: "_b") : .empty
         }
-        let system = SignalProducer<String, NoError>.system(
+        let system = SignalProducer<String, Never>.system(
             initial: "initial",
             reduce: { (state: String, event: String) in
                 return state + event
@@ -80,7 +79,7 @@ class SystemTests: XCTestCase {
     }
 
     func test_reduce_with_async_feedback_loop() {
-        let feedback = Feedback<String, String> { state -> SignalProducer<String, NoError> in
+        let feedback = Feedback<String, String> { state -> SignalProducer<String, Never> in
             if state == "initial" {
                 return SignalProducer(value: "_a")
                     .delay(0.1, on: QueueScheduler.main)
@@ -93,7 +92,7 @@ class SystemTests: XCTestCase {
             }
             return SignalProducer.empty
         }
-        let system = SignalProducer<String, NoError>.system(
+        let system = SignalProducer<String, Never>.system(
             initial: "initial",
             reduce: { (state: String, event: String) in
                 return state + event
@@ -118,16 +117,16 @@ class SystemTests: XCTestCase {
 
     func test_should_observe_signals_immediately() {
         let scheduler = TestScheduler()
-        let (signal, observer) = Signal<String, NoError>.pipe()
+        let (signal, observer) = Signal<String, Never>.pipe()
 
-        let system = SignalProducer<String, NoError>.system(
+        let system = SignalProducer<String, Never>.system(
             initial: "initial",
             scheduler: scheduler,
             reduce: { (state: String, event: String) -> String in
                 return state + event
             },
             feedbacks: [
-                Feedback { state -> Signal<String, NoError> in
+                Feedback { state -> Signal<String, Never> in
                     return signal
                 }
             ]
@@ -150,14 +149,14 @@ class SystemTests: XCTestCase {
         let scheduler = TestScheduler()
         var startCount = 0
 
-        let system = SignalProducer<String, NoError>.system(
+        let system = SignalProducer<String, Never>.system(
             initial: "initial",
             scheduler: scheduler,
             reduce: { (state: String, event: String) -> String in
                 return state + event
             },
             feedbacks: [
-                Feedback { state -> SignalProducer<String, NoError> in
+                Feedback { state -> SignalProducer<String, Never> in
                     return SignalProducer(value: "_a")
                         .on(starting: { startCount += 1 })
                 }
@@ -191,7 +190,7 @@ class SystemTests: XCTestCase {
         let semaphore = DispatchSemaphore(value: 0)
 
         creationScheduler.schedule {
-             SignalProducer<String, NoError>
+             SignalProducer<String, Never>
                 .system(
                     initial: "initial",
                     scheduler: systemScheduler,

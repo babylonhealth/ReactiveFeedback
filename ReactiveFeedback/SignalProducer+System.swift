@@ -1,8 +1,7 @@
 import Foundation
 import ReactiveSwift
-import enum Result.NoError
 
-extension SignalProducer where Error == NoError {
+extension SignalProducer where Error == Never {
 
     /// Feedback-controlled State Machine. The system state is represented as a `State` parameter.
     /// Events are represented by an `Event` parameter. It represents all the possible Events that may occur in the System
@@ -19,15 +18,15 @@ extension SignalProducer where Error == NoError {
         scheduler: Scheduler = QueueScheduler.main,
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: [Feedback<Value, Event>]
-    ) -> SignalProducer<Value, NoError> {
+    ) -> SignalProducer<Value, Never> {
         return SignalProducer.deferred {
-            let (state, stateObserver) = Signal<Value, NoError>.pipe()
+            let (state, stateObserver) = Signal<Value, Never>.pipe()
 
             let events = feedbacks.map { feedback in
                 return feedback.events(scheduler, state)
             }
 
-            return SignalProducer<Event, NoError>(Signal.merge(events))
+            return SignalProducer<Event, Never>(Signal.merge(events))
                 .scan(initial, reduce)
                 .on(
                     started: {
