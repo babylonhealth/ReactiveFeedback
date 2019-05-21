@@ -246,7 +246,7 @@ class SystemTests: XCTestCase {
 
         func increment(numberOfTimes: Int) {
             guard numberOfTimes > 0 else {
-                token.dispose()
+                DispatchQueue.main.async { token.dispose() }
                 return
             }
             DispatchQueue.main.async {
@@ -254,7 +254,7 @@ class SystemTests: XCTestCase {
                 increment(numberOfTimes: numberOfTimes - 1)
             }
         }
-        increment(numberOfTimes: 3)
+        increment(numberOfTimes: 7)
 
         let expected = [0, 1, 2]
 
