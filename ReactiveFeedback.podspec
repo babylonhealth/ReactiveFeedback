@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '9.0'
   s.source        = { :git => "https://github.com/Babylonpartners/ReactiveFeedback.git", :tag => "#{s.version}" }
   s.source_files  = "ReactiveFeedback/*.{swift}"
+  s.swift_version = '5.0'
 
   s.dependency "ReactiveSwift", "~> 6.0"
 end

@@ -28,6 +28,8 @@
 		65F8C2D0218378F500924657 /* ReactiveFeedback.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65F8C26B218371A800924657 /* ReactiveFeedback.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		97555B3722752B86000F2005 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97555B3622752B86000F2005 /* ReactiveSwift.framework */; };
 		97555EB022787D54000F2005 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97555EAF22787D54000F2005 /* ReactiveSwift.framework */; };
+		9770710A2295B328002BD567 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 977071082295B2FC002BD567 /* ReactiveSwift.framework */; };
+		9770710B2295B33C002BD567 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97555EAF22787D54000F2005 /* ReactiveSwift.framework */; };
 		9AD5D42D1F97375E00E6AE5A /* Property+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD5D42C1F97375E00E6AE5A /* Property+System.swift */; };
 		9AE181BB1F95A71B00A07551 /* ReactiveFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */; };
 		9AE9563C2186341B005A8C69 /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563921863415005A8C69 /* Kingfisher.framework */; };
@@ -37,8 +39,6 @@
 		9AE956402186341B005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563821863414005A8C69 /* ReactiveSwift.framework */; };
 		9AE956412186341B005A8C69 /* ReactiveSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563821863414005A8C69 /* ReactiveSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE9564621863449005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563821863414005A8C69 /* ReactiveSwift.framework */; };
-		9AE9564921863459005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9564821863459005A8C69 /* ReactiveSwift.framework */; };
-		9AE9564F2186346C005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9564E2186346C005A8C69 /* ReactiveSwift.framework */; };
 		9AE956542186349E005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9564821863459005A8C69 /* ReactiveSwift.framework */; };
 		9AE95657218634AF005A8C69 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE95656218634AF005A8C69 /* Nimble.framework */; };
 		9AE95659218634C4005A8C69 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE95658218634C4005A8C69 /* Nimble.framework */; };
@@ -142,6 +142,7 @@
 		65F8C2A22183725900924657 /* ReactiveFeedbackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveFeedbackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97555B3622752B86000F2005 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		97555EAF22787D54000F2005 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/tvOS/ReactiveSwift.framework; sourceTree = "<group>"; };
+		977071082295B2FC002BD567 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/Mac/ReactiveSwift.framework; sourceTree = "<group>"; };
 		9AD5D42C1F97375E00E6AE5A /* Property+System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Property+System.swift"; sourceTree = "<group>"; };
 		9AE181B61F95A71B00A07551 /* ReactiveFeedbackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveFeedbackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE181BA1F95A71B00A07551 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -166,7 +167,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AE9564921863459005A8C69 /* ReactiveSwift.framework in Frameworks */,
+				9770710A2295B328002BD567 /* ReactiveSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,7 +194,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AE9564F2186346C005A8C69 /* ReactiveSwift.framework in Frameworks */,
+				9770710B2295B33C002BD567 /* ReactiveSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +297,7 @@
 			children = (
 				97555B3622752B86000F2005 /* ReactiveSwift.framework */,
 				97555EAF22787D54000F2005 /* ReactiveSwift.framework */,
+				977071082295B2FC002BD567 /* ReactiveSwift.framework */,
 				9AE9565A218634CA005A8C69 /* Nimble.framework */,
 				9AE95658218634C4005A8C69 /* Nimble.framework */,
 				9AE95656218634AF005A8C69 /* Nimble.framework */,
@@ -699,6 +701,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = ReactiveFeedback/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @loader_path/../Frameworks @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedback;
@@ -718,6 +724,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = ReactiveFeedback/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @loader_path/../Frameworks @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedback;
@@ -861,7 +871,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -880,7 +889,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -941,6 +949,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				INFOPLIST_FILE = ReactiveFeedback/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @loader_path/../Frameworks @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedback;
@@ -961,6 +973,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				INFOPLIST_FILE = ReactiveFeedback/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @loader_path/../Frameworks @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedback;
