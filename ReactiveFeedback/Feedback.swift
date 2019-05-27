@@ -94,8 +94,10 @@ public struct Feedback<State, Event> {
         predicate: @escaping (State) -> Bool,
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == NoError {
-        self.init(deriving: { $0.filter(predicate) },
-                  effects: effects)
+        self.init(deriving: { $0 },
+                  effects: { state -> SignalProducer<Event, NoError> in
+                      predicate(state) ? effects(state).producer : .empty                      
+                  })
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the

@@ -216,4 +216,48 @@ class SystemTests: XCTestCase {
         semaphore.wait()
         expect(observedState.value).toEventually(equal(["initial", "initial_event"]))
     }
+
+    func test_predicate_prevents_state_updates() {
+        enum Event {
+            case increment
+        }
+        let (incrementSignal, incrementObserver) = Signal<Void, NoError>.pipe()
+        let feedback = Feedback<Int, Event>(predicate: { $0 < 2 }) { _ in
+            incrementSignal.map { _ in Event.increment }
+        }
+        let system = SignalProducer<Int, NoError>.system(
+            initial: 0,
+            reduce: { (state: Int, event: Event) in
+                switch event {
+                case .increment:
+                    return state + 1
+                }
+            },
+            feedbacks: [feedback])
+
+        let (lifetime, token) = Lifetime.make()
+
+        var result: [Int]!
+        system.take(during: lifetime)
+            .collect()
+            .startWithValues {
+                result = $0
+            }
+
+        func increment(numberOfTimes: Int) {
+            guard numberOfTimes > 0 else {
+                DispatchQueue.main.async { token.dispose() }
+                return
+            }
+            DispatchQueue.main.async {
+                incrementObserver.send(value: ())
+                increment(numberOfTimes: numberOfTimes - 1)
+            }
+        }
+        increment(numberOfTimes: 7)
+
+        let expected = [0, 1, 2]
+
+        expect(result).toEventually(equal(expected))
+    }
 }
