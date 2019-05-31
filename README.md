@@ -164,7 +164,7 @@ let system = SignalProducer<Int, NoError>.system(initial: 0,
 label.reactive.text <~ system.map(String.init)
 ```
 
-![](diagrams/increment_example.gif)]
+![](diagrams/increment_example.gif)
 
 ### Advantages
 
