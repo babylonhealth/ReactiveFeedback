@@ -10,7 +10,6 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 import ReactiveFeedback
-import enum Result.NoError
 
 enum Event {
     case increment
@@ -22,11 +21,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var label: UILabel!
 
-    private var incrementSignal: Signal<Void, NoError> {
+    private var incrementSignal: Signal<Void, Never> {
         return plusButton.reactive.controlEvents(.touchUpInside).map { _ in }
     }
 
-    private var decrementSignal: Signal<Void, NoError> {
+    private var decrementSignal: Signal<Void, Never> {
         return minusButton.reactive.controlEvents(.touchUpInside).map { _ in }
     }
 
@@ -45,7 +44,7 @@ final class ViewModel {
     private let state: Property<Int>
     let counter: Property<String>
 
-    init(increment: Signal<Void, NoError>, decrement: Signal<Void, NoError>) {
+    init(increment: Signal<Void, Never>, decrement: Signal<Void, Never>) {
 
         let incrementFeedback = Feedback<Int, Event>(predicate: { $0 < 10}) { _ in
             increment.map { _ in Event.increment }
