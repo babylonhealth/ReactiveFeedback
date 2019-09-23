@@ -1,9 +1,8 @@
 import Foundation
 import ReactiveSwift
-import enum Result.NoError
 
 public struct Feedback<State, Event> {
-    let events: (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>
+    let events: (Scheduler, Signal<State, Never>) -> Signal<Event, Never>
     
     /// Creates an arbitrary Feedback, which evaluates side effects reactively
     /// to the latest state, and eventually produces events that affect the
@@ -12,7 +11,7 @@ public struct Feedback<State, Event> {
     /// - parameters:
     ///   - events: The transform which derives a `Signal` of events from the
     ///             latest state.
-    public init(events: @escaping (Scheduler, Signal<State, NoError>) -> Signal<Event, NoError>) {
+    public init(events: @escaping (Scheduler, Signal<State, Never>) -> Signal<Event, Never>) {
         self.events = events
     }
 
@@ -29,9 +28,9 @@ public struct Feedback<State, Event> {
     ///              `transform` and yielding events that eventually affect
     ///              the state.
     public init<U, Effect: SignalProducerConvertible>(
-        deriving transform: @escaping (Signal<State, NoError>) -> Signal<U, NoError>,
+        deriving transform: @escaping (Signal<State, Never>) -> Signal<U, Never>,
         effects: @escaping (U) -> Effect
-    ) where Effect.Value == Event, Effect.Error == NoError {
+    ) where Effect.Value == Event, Effect.Error == Never {
         self.events = { scheduler, state in
             // NOTE: `observe(on:)` should be applied on the inner producers, so
             //       that cancellation due to state changes would be able to
@@ -56,7 +55,7 @@ public struct Feedback<State, Event> {
     public init<Control: Equatable, Effect: SignalProducerConvertible>(
         skippingRepeated transform: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
-    ) where Effect.Value == Event, Effect.Error == NoError {
+    ) where Effect.Value == Event, Effect.Error == Never {
         self.init(deriving: { $0.map(transform).skipRepeats() },
                   effects: { $0.map(effects)?.producer ?? .empty })
     }
@@ -75,7 +74,7 @@ public struct Feedback<State, Event> {
     public init<Control, Effect: SignalProducerConvertible>(
         lensing transform: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
-    ) where Effect.Value == Event, Effect.Error == NoError {
+    ) where Effect.Value == Event, Effect.Error == Never {
         self.init(deriving: { $0.map(transform) },
                   effects: { $0.map(effects)?.producer ?? .empty })
     }
@@ -93,9 +92,9 @@ public struct Feedback<State, Event> {
     public init<Effect: SignalProducerConvertible>(
         predicate: @escaping (State) -> Bool,
         effects: @escaping (State) -> Effect
-    ) where Effect.Value == Event, Effect.Error == NoError {
+    ) where Effect.Value == Event, Effect.Error == Never {
         self.init(deriving: { $0 },
-                  effects: { state -> SignalProducer<Event, NoError> in
+                  effects: { state -> SignalProducer<Event, Never> in
                       predicate(state) ? effects(state).producer : .empty                      
                   })
     }
@@ -111,7 +110,7 @@ public struct Feedback<State, Event> {
     ///              that eventually affect the state.
     public init<Effect: SignalProducerConvertible>(
         effects: @escaping (State) -> Effect
-    ) where Effect.Value == Event, Effect.Error == NoError {
+    ) where Effect.Value == Event, Effect.Error == Never {
         self.init(deriving: { $0 }, effects: effects)
     }
 }
@@ -121,7 +120,7 @@ extension Feedback {
     public init<Control: Equatable, Effect: SignalProducerConvertible>(
         query: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
-    ) where Effect.Value == Event, Effect.Error == NoError {
+    ) where Effect.Value == Event, Effect.Error == Never {
         fatalError()
     }
 
@@ -129,7 +128,7 @@ extension Feedback {
     public init<Control, Effect: SignalProducerConvertible>(
         query: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
-    ) where Effect.Value == Event, Effect.Error == NoError {
+    ) where Effect.Value == Event, Effect.Error == Never {
         fatalError()
     }
 }

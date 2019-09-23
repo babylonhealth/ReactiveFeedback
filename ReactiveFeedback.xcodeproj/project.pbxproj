@@ -34,22 +34,12 @@
 		9AE9563F2186341B005A8C69 /* ReactiveCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563B21863415005A8C69 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE956402186341B005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563821863414005A8C69 /* ReactiveSwift.framework */; };
 		9AE956412186341B005A8C69 /* ReactiveSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563821863414005A8C69 /* ReactiveSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9AE956422186341B005A8C69 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563A21863415005A8C69 /* Result.framework */; };
-		9AE956432186341B005A8C69 /* Result.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563A21863415005A8C69 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE9564421863440005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563821863414005A8C69 /* ReactiveSwift.framework */; };
-		9AE9564521863440005A8C69 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563A21863415005A8C69 /* Result.framework */; };
 		9AE9564621863449005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563821863414005A8C69 /* ReactiveSwift.framework */; };
-		9AE9564721863449005A8C69 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563A21863415005A8C69 /* Result.framework */; };
 		9AE9564921863459005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9564821863459005A8C69 /* ReactiveSwift.framework */; };
-		9AE9564B21863459005A8C69 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9564A21863459005A8C69 /* Result.framework */; };
 		9AE9564F2186346C005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9564E2186346C005A8C69 /* ReactiveSwift.framework */; };
-		9AE956512186346C005A8C69 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE956502186346C005A8C69 /* Result.framework */; };
 		9AE9565221863484005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9564E2186346C005A8C69 /* ReactiveSwift.framework */; };
-		9AE9565321863484005A8C69 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE956502186346C005A8C69 /* Result.framework */; };
 		9AE956542186349E005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9564821863459005A8C69 /* ReactiveSwift.framework */; };
-		9AE956552186349E005A8C69 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9564A21863459005A8C69 /* Result.framework */; };
-		9AE95657218634AF005A8C69 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE95656218634AF005A8C69 /* Nimble.framework */; };
-		9AE95659218634C4005A8C69 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE95658218634C4005A8C69 /* Nimble.framework */; };
 		9AE9565B218634CA005A8C69 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9565A218634CA005A8C69 /* Nimble.framework */; };
 		9AFA21261F9511A5001DBF7C /* ReactiveFeedback.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 9AFA21251F9511A5001DBF7C /* ReactiveFeedback.podspec */; };
 		A950943401765BB90FA846B2 /* SignalProducer+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */; };
@@ -96,7 +86,6 @@
 			files = (
 				9AE9563D2186341B005A8C69 /* Kingfisher.framework in Embed Frameworks */,
 				9AE9563F2186341B005A8C69 /* ReactiveCocoa.framework in Embed Frameworks */,
-				9AE956432186341B005A8C69 /* Result.framework in Embed Frameworks */,
 				65F8C2D0218378F500924657 /* ReactiveFeedback.framework in Embed Frameworks */,
 				9AE956412186341B005A8C69 /* ReactiveSwift.framework in Embed Frameworks */,
 			);
@@ -154,14 +143,9 @@
 		9AE181BA1F95A71B00A07551 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AE9563821863414005A8C69 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ReactiveSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE9563921863415005A8C69 /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9AE9563A21863415005A8C69 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Result.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE9563B21863415005A8C69 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ReactiveCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE9564821863459005A8C69 /* ReactiveSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ReactiveSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9AE9564A21863459005A8C69 /* Result.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Result.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE9564E2186346C005A8C69 /* ReactiveSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ReactiveSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9AE956502186346C005A8C69 /* Result.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Result.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9AE95656218634AF005A8C69 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9AE95658218634C4005A8C69 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE9565A218634CA005A8C69 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AFA21251F9511A5001DBF7C /* ReactiveFeedback.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReactiveFeedback.podspec; sourceTree = "<group>"; };
 		A95097E70D3CBFF05FA7B8CC /* Feedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
@@ -174,7 +158,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AE9564921863459005A8C69 /* ReactiveSwift.framework in Frameworks */,
-				9AE9564B21863459005A8C69 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,7 +167,6 @@
 			files = (
 				9AE9563C2186341B005A8C69 /* Kingfisher.framework in Frameworks */,
 				9AE9563E2186341B005A8C69 /* ReactiveCocoa.framework in Frameworks */,
-				9AE956422186341B005A8C69 /* Result.framework in Frameworks */,
 				65F8C2CF218378F500924657 /* ReactiveFeedback.framework in Frameworks */,
 				9AE956402186341B005A8C69 /* ReactiveSwift.framework in Frameworks */,
 			);
@@ -195,7 +177,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AE9564421863440005A8C69 /* ReactiveSwift.framework in Frameworks */,
-				9AE9564521863440005A8C69 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,7 +185,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AE9564F2186346C005A8C69 /* ReactiveSwift.framework in Frameworks */,
-				9AE956512186346C005A8C69 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,10 +192,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AE95659218634C4005A8C69 /* Nimble.framework in Frameworks */,
 				65F8C2832183723F00924657 /* ReactiveFeedback.framework in Frameworks */,
 				9AE9564621863449005A8C69 /* ReactiveSwift.framework in Frameworks */,
-				9AE9564721863449005A8C69 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,7 +204,6 @@
 				9AE9565B218634CA005A8C69 /* Nimble.framework in Frameworks */,
 				65F8C2972183725900924657 /* ReactiveFeedback.framework in Frameworks */,
 				9AE9565221863484005A8C69 /* ReactiveSwift.framework in Frameworks */,
-				9AE9565321863484005A8C69 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,10 +211,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AE95657218634AF005A8C69 /* Nimble.framework in Frameworks */,
 				9AE181BB1F95A71B00A07551 /* ReactiveFeedback.framework in Frameworks */,
 				9AE956542186349E005A8C69 /* ReactiveSwift.framework in Frameworks */,
-				9AE956552186349E005A8C69 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,16 +284,11 @@
 			isa = PBXGroup;
 			children = (
 				9AE9565A218634CA005A8C69 /* Nimble.framework */,
-				9AE95658218634C4005A8C69 /* Nimble.framework */,
-				9AE95656218634AF005A8C69 /* Nimble.framework */,
 				9AE9564E2186346C005A8C69 /* ReactiveSwift.framework */,
-				9AE956502186346C005A8C69 /* Result.framework */,
 				9AE9564821863459005A8C69 /* ReactiveSwift.framework */,
-				9AE9564A21863459005A8C69 /* Result.framework */,
 				9AE9563921863415005A8C69 /* Kingfisher.framework */,
 				9AE9563B21863415005A8C69 /* ReactiveCocoa.framework */,
 				9AE9563821863414005A8C69 /* ReactiveSwift.framework */,
-				9AE9563A21863415005A8C69 /* Result.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -500,6 +470,9 @@
 						ProvisioningStyle = Automatic;
 					};
 					65F8C25E218371A800924657 = {
+						LastSwiftMigration = 1020;
+					};
+					65F8C27C2183723F00924657 = {
 						LastSwiftMigration = 1020;
 					};
 					9AE181B51F95A71B00A07551 = {
@@ -712,7 +685,7 @@
 				PRODUCT_NAME = ReactiveFeedback;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -732,7 +705,7 @@
 				PRODUCT_NAME = ReactiveFeedback;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -771,10 +744,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Result",
-					"$(BUILT_PRODUCTS_DIR)/ReactiveSwift",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/ReactiveSwift";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -796,7 +766,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
@@ -834,10 +804,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Result",
-					"$(BUILT_PRODUCTS_DIR)/ReactiveSwift",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/ReactiveSwift";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -851,7 +818,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -910,7 +877,7 @@
 				PRODUCT_NAME = ReactiveFeedback;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -931,7 +898,7 @@
 				PRODUCT_NAME = ReactiveFeedback;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -951,7 +918,7 @@
 				PRODUCT_NAME = ReactiveFeedback;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -971,7 +938,7 @@
 				PRODUCT_NAME = ReactiveFeedback;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -991,7 +958,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedbackTests;
 				PRODUCT_NAME = ReactiveFeedbackTests;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1009,7 +976,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedbackTests;
 				PRODUCT_NAME = ReactiveFeedbackTests;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1027,7 +994,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedbackTests;
 				PRODUCT_NAME = ReactiveFeedbackTests;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1045,7 +1012,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedbackTests;
 				PRODUCT_NAME = ReactiveFeedbackTests;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1063,7 +1030,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedbackTests;
 				PRODUCT_NAME = ReactiveFeedbackTests;
 				SDKROOT = macosx;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1081,7 +1048,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.babylonhealth.ReactiveFeedbackTests;
 				PRODUCT_NAME = ReactiveFeedbackTests;
 				SDKROOT = macosx;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

@@ -14,7 +14,7 @@ The goal of this library is to provide a simple and intuitive approach to design
 
 ### Core Concepts
 
-##### State 
+##### State
 
 `State` is the single source of truth. It represents a state of your system and is usually a plain Swift type (which doesn't contain any ReactiveSwift primitives). Your state is immutable. The only way to transition from one `State` to another is to emit an `Event`.
 
@@ -63,7 +63,7 @@ enum Event {
 }
 ```
 
-##### Reducer 
+##### Reducer
 
 A Reducer is a pure function with a signature of `(State, Event) -> State`. While `Event` represents an action that results in a `State` change, it's actually not what _causes_ the change. An `Event` is just that, a representation of the intention to transition from one state to another. What actually causes the `State` to change, the embodiment of the corresponding `Event`, is a Reducer. A Reducer is the only place where a `State` can be changed.
 
