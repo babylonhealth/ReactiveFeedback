@@ -1,86 +1,161 @@
-version: 2
+version: 2.1
 
 references:
-    - &cocoapods_cache_key
-        2-pods-{{ checksum "Podfile.lock" }}
-
-    - &restore_cocoapods_cache
-        restore_cache:
-            key: *cocoapods_cache_key
-
-    - &pod_install
-        run:
-            name: Pod Install
-            command: |
-                bundle exec pod --version
-                diff Podfile.lock Pods/Manifest.lock || curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
-                bundle exec pod install
-
-    - &save_cocoapods_cache
-        save_cache:
-            key: *cocoapods_cache_key
-            paths:
-                - Pods
-                - ~/.cocoapods/repos
-
-    - &carthage_cache_key
-        101-carthage-{{ checksum "Cartfile.resolved" }}
-
-    - &restore_carthage_cache
-        restore_cache:
-            key: *carthage_cache_key
-
-    - &save_carthage_cache
-        save_cache:
-            key: *carthage_cache_key
-            paths:
-                - Carthage
-
-    - &swift_package_manager
-        run:
-            name: Swift Package Manager validation
-            command: |
-                swift --version
-                swift build
-                swift test
-
-jobs:
-    build:
+    - &container_config
         macos:
             xcode: "10.3.0"
         working_directory: /Users/distiller/project
         shell: /bin/bash --login -eo pipefail
+
+    - &Target
+        type: enum
+        enum: [iOS, macOS, tvOS, ExampleApp]
+
+
+commands:
+
+    save_workspace:
+      parameters:
+        path:
+          type: string
+          default: .
+      steps:
+        - persist_to_workspace:
+            root: .
+            paths:
+              - << parameters.path >>
+
+    restore_workspace:
+      steps:
+        - attach_workspace:
+            at: .
+
+    cocoapods:
         steps:
-            - checkout
-            - *restore_carthage_cache
+            - restore_cache:
+                key: &cocoapods_cache_key 2-pods-{{ checksum "Podfile.lock" }}
+            - run:
+                name: Pod Install
+                command: |
+                    if ! diff -q Podfile.lock Pods/Manifest.lock &>/dev/null; then
+                        curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
+                        bundle exec pod install || bundle exec pod install --repo-update
+                    fi
+            - save_cache:
+                key: *cocoapods_cache_key
+                paths:
+                    - Pods
+
+    carthage:
+        steps:
+            - restore_cache:
+                key: &carthage_cache_key 101-carthage-{{ checksum "Cartfile.resolved" }}
             - run:
                 name: "Bootstrap Carthage"
                 command: |
                     carthage bootstrap --no-build
-            - *save_carthage_cache
-            - run:
-                name: "Test: iOS"
-                command: |
-                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone X" ReactiveFeedback-iOS
-            - run:
-                name: "Test: macOS"
-                command: |
-                    script/test macosx "arch=x86_64" ReactiveFeedback-macOS
-            - run:
-                name: "Test: tvOS"
-                command: |
-                    script/test appletvsimulator "platform=tvOS Simulator,name=Apple TV 4K" ReactiveFeedback-tvOS
-            - run:
-                name: "Example app"
-                command: |
-                    script/test iphonesimulator "platform=iOS Simulator,name=iPhone X" Example build
-            - *restore_cocoapods_cache
-            - *pod_install
-            - *save_cocoapods_cache
-            - run:
-                name: "Package manager validation"
-                command: |
-                     pod lib lint --use-libraries
-                     carthage build --no-skip-current --cache-builds
-            - *swift_package_manager
+            - save_cache:
+                key: *carthage_cache_key
+                paths:
+                    - Carthage
 
+
+    test:
+        parameters:
+            target: *Target
+        steps:
+            - run:
+                name: "Test: << parameters.target >>"
+                command: |
+                    if [ << parameters.target >> == iOS ]
+                    then
+                        script/test iphonesimulator "platform=iOS Simulator,name=iPhone X" ReactiveFeedback-iOS
+                    elif [ << parameters.target >> == macOS ]
+                    then
+                        script/test macosx "arch=x86_64" ReactiveFeedback-macOS
+                    elif [ << parameters.target >> == tvOS ]
+                    then
+                        script/test appletvsimulator "platform=tvOS Simulator,name=Apple TV 4K" ReactiveFeedback-tvOS
+                    elif [ << parameters.target >> == ExampleApp ]
+                    then
+                        script/test iphonesimulator "platform=iOS Simulator,name=iPhone X" Example build
+                    fi
+            
+
+jobs:
+
+    checkout_code:
+      <<: *container_config
+      steps:
+        - checkout
+        - cocoapods
+        - carthage
+        - save_workspace
+
+    test:
+        parameters:
+            target: *Target
+        <<: *container_config
+        steps:
+            - restore_workspace
+            - test:
+                target: << parameters.target >>
+    
+    cocoapods_validation:
+        <<: *container_config
+        steps:
+            - restore_workspace
+            - run: pod lib lint --use-libraries
+
+    carthage_validation:
+        <<: *container_config
+        steps:    
+            - restore_workspace
+            - run: carthage build --no-skip-current --cache-builds
+    
+    spm_validation:
+        <<: *container_config
+        steps:
+            - restore_workspace
+            - run:
+                command: |
+                    swift --version
+                    swift build
+                    swift test
+    
+workflows:
+    version: 2
+
+    build:
+        jobs:
+            - checkout_code
+            - test:
+                name: Test-iOS
+                target: iOS
+                requires:
+                    - checkout_code
+            - test:
+                name: Test-macOS
+                target: macOS
+                requires:
+                    - checkout_code
+            - test:
+                name: Test-tvOS
+                target: tvOS
+                requires:
+                    - checkout_code
+            - test:
+                name: ExampleApp
+                target: ExampleApp
+                requires:
+                    - checkout_code
+            - cocoapods_validation:
+                requires: &all_tests
+                    - Test-iOS
+                    - Test-macOS
+                    - Test-tvOS
+                    - ExampleApp
+            - carthage_validation:
+                requires: *all_tests
+            - spm_validation:
+                requires: *all_tests
