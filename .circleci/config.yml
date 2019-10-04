@@ -103,7 +103,6 @@ jobs:
       steps:
         - checkout
         - gems
-        - cocoapods
         - carthage
         - save_workspace
 
@@ -120,6 +119,7 @@ jobs:
         <<: *container_config
         steps:
             - restore_workspace
+            - cocoapods
             - run: pod lib lint --use-libraries
 
     carthage_validation:
