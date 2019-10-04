@@ -29,7 +29,6 @@ commands:
       steps:
         - attach_workspace:
             at: .
-        - gems
 
     gems:
       steps:
@@ -112,6 +111,7 @@ jobs:
         <<: *container_config
         steps:
             - restore_workspace
+            - gems
             - test:
                 target: << parameters.target >>
     
@@ -119,6 +119,7 @@ jobs:
         <<: *container_config
         steps:
             - restore_workspace
+            - gems
             - cocoapods
             - run: pod lib lint --use-libraries
 
