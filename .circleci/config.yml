@@ -7,11 +7,6 @@ references:
         working_directory: /Users/distiller/project
         shell: /bin/bash --login -eo pipefail
 
-    - &Target
-        type: enum
-        enum: [iOS, macOS, tvOS, ExampleApp]
-
-
 commands:
 
     save_workspace:
@@ -71,30 +66,6 @@ commands:
                 paths:
                     - Carthage
 
-
-    test:
-        parameters:
-            target: *Target
-        steps:
-            - gems
-            - run:
-                name: "Test: << parameters.target >>"
-                command: |
-                    if [ << parameters.target >> == iOS ]
-                    then
-                        script/test iphonesimulator "platform=iOS Simulator,name=iPhone X" ReactiveFeedback-iOS
-                    elif [ << parameters.target >> == macOS ]
-                    then
-                        script/test macosx "arch=x86_64" ReactiveFeedback-macOS
-                    elif [ << parameters.target >> == tvOS ]
-                    then
-                        script/test appletvsimulator "platform=tvOS Simulator,name=Apple TV 4K" ReactiveFeedback-tvOS
-                    elif [ << parameters.target >> == ExampleApp ]
-                    then
-                        script/test iphonesimulator "platform=iOS Simulator,name=iPhone X" Example build
-                    fi
-            
-
 jobs:
 
     checkout_code:
@@ -107,13 +78,13 @@ jobs:
 
     test:
         parameters:
-            target: *Target
+            parameters:
+                type: string
         <<: *container_config
         steps:
             - restore_workspace
             - gems
-            - test:
-                target: << parameters.target >>
+            - run: script/test << parameters.parameters >>
     
     cocoapods_validation:
         <<: *container_config
@@ -146,23 +117,23 @@ workflows:
         jobs:
             - checkout_code
             - test:
+                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone X" ReactiveFeedback-iOS
                 name: Test-iOS
-                target: iOS
                 requires:
                     - checkout_code
             - test:
+                parameters: macosx "arch=x86_64" ReactiveFeedback-macOS
                 name: Test-macOS
-                target: macOS
                 requires:
                     - checkout_code
             - test:
+                parameters: appletvsimulator "platform=tvOS Simulator,name=Apple TV 4K" ReactiveFeedback-tvOS
                 name: Test-tvOS
-                target: tvOS
                 requires:
                     - checkout_code
             - test:
+                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone X" Example build
                 name: ExampleApp
-                target: ExampleApp
                 requires:
                     - checkout_code
             - cocoapods_validation:
