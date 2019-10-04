@@ -29,11 +29,24 @@ commands:
       steps:
         - attach_workspace:
             at: .
+        - gems
+
+    gems:
+      steps:
+        - restore_cache:
+            key: &gems_cache_key 1-gems-{{ checksum "Gemfile.lock" }}
+        - run:             
+            name: Bundle Install
+            command: bundle check --path=.vendor/bundle || bundle install --path=.vendor/bundle --jobs=4 --retry=3
+        - save_cache:
+            key: *gems_cache_key
+            paths:
+              - .vendor/bundle
 
     cocoapods:
         steps:
             - restore_cache:
-                key: &cocoapods_cache_key 2-pods-{{ checksum "Podfile.lock" }}
+                key: &cocoapods_cache_key 3-pods-{{ checksum "Podfile.lock" }}
             - run:
                 name: Pod Install
                 command: |
@@ -64,6 +77,7 @@ commands:
         parameters:
             target: *Target
         steps:
+            - gems
             - run:
                 name: "Test: << parameters.target >>"
                 command: |
@@ -88,6 +102,7 @@ jobs:
       <<: *container_config
       steps:
         - checkout
+        - gems
         - cocoapods
         - carthage
         - save_workspace
