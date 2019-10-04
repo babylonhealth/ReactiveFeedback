@@ -14,7 +14,7 @@ The goal of this library is to provide a simple and intuitive approach to design
 
 ### Core Concepts
 
-##### State 
+##### State
 
 `State` is the single source of truth. It represents a state of your system and is usually a plain Swift type (which doesn't contain any ReactiveSwift primitives). Your state is immutable. The only way to transition from one `State` to another is to emit an `Event`.
 
@@ -63,7 +63,7 @@ enum Event {
 }
 ```
 
-##### Reducer 
+##### Reducer
 
 A Reducer is a pure function with a signature of `(State, Event) -> State`. While `Event` represents an action that results in a `State` change, it's actually not what _causes_ the change. An `Event` is just that, a representation of the intention to transition from one state to another. What actually causes the `State` to change, the embodiment of the corresponding `Event`, is a Reducer. A Reducer is the only place where a `State` can be changed.
 
@@ -87,7 +87,7 @@ static func reduce(state: State, event: Event) -> State {
 
 ##### Feedback
 
-While `State` represents where the system is at a given time, `Event` represents a state change, and a `Reducer` is the pure function that enacts the event causing the state to change, there is not as of yet any type to decide which event should take place given a particular current state. That's the job of the `Feedback`. It's essentially a "processing engine", listening to changes in the current `State` and emitting the corresponding next events to take place. It's represented by a pure function with a signature of `Signal<State, NoError> -> Signal<Event, NoError>`. Feedbacks don't directly mutate states. Instead, they only emit events which then cause states to change in reducers.
+While `State` represents where the system is at a given time, `Event` represents a trigger for state change, and a `Reducer` is the pure function that changes the state depending on current state and type of event received, there is not as of yet any type to emit events given a particular current state. That's the job of the `Feedback`. It's essentially a "processing engine", listening to changes in the current `State` and emitting the corresponding next events to take place. It's represented by a pure function with a signature of `Signal<State, NoError> -> Signal<Event, NoError>`. Feedbacks don't directly mutate states. Instead, they only emit events which then cause states to change in reducers.
 
 ```swift
 public struct Feedback<State, Event> {

@@ -8,12 +8,13 @@ extension Property {
         feedbacks: [Feedback<Value, Event>]
     ) {
         let state = MutableProperty(initial)
-        state <~ SignalProducer.system(initial: initial,
-                                       scheduler: scheduler,
-                                       reduce: reduce,
-                                       feedbacks: feedbacks)
-            .skip(first: 1)
-
+        state <~ SignalProducer.system(
+            initial: initial,
+            scheduler: scheduler,
+            reduce: reduce,
+            feedbacks: feedbacks
+        )
+        .skip(first: 1)
         self.init(capturing: state)
     }
 
