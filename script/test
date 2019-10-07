@@ -1,7 +1,5 @@
 #!/bin/bash
 
-bundle install
-
 if [[ "$1" == "macosx" ]]; then
   XCODE_ACTION="build"
 fi
