@@ -116,6 +116,37 @@ public struct Feedback<State, Event> {
 }
 
 extension Feedback {
+    public static func input() -> (feedback: Feedback<State, Event>, observer: (Event) -> Void) {
+        let pipe = Signal<Event, Never>.pipe()
+        let feedback = Feedback { (scheduler, _) -> Signal<Event, Never> in
+            return pipe.output.observe(on: scheduler)
+        }
+        return (feedback, pipe.input.send)
+    }
+
+    public static func combine(_ feedbacks: Feedback<State, Event>...) -> Feedback<State, Event> {
+        return Feedback(events: { scheduler, state in
+            let events = feedbacks
+                .map { feedbacks in
+                    return feedbacks.events(scheduler, state)
+                }
+            return Signal.merge(events)
+        })
+    }
+
+    public static func pullback<LocalState, LocalEvent>(
+        feedback: Feedback<LocalState, LocalEvent>,
+        value: KeyPath<State, LocalState>,
+        event: @escaping (LocalEvent) -> Event
+    ) -> Feedback<State, Event> {
+        Feedback<State, Event>(events: { (scheduler, state) in
+            feedback.events(scheduler, state.map(value))
+                .map(event)
+        })
+    }
+}
+
+extension Feedback {
     @available(*, unavailable, renamed: "init(skippingRepeated:effects:)")
     public init<Control: Equatable, Effect: SignalProducerConvertible>(
         query: @escaping (State) -> Control?,
