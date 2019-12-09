@@ -11,15 +11,11 @@ import ReactiveSwift
 import ReactiveCocoa
 import ReactiveFeedback
 
-enum Event {
-    case increment
-    case decrement
-}
-
 class ViewController: UIViewController {
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var label: UILabel!
+    private lazy var contentView = CounterView.loadFromNib()
 
     private var incrementSignal: Signal<Void, Never> {
         return plusButton.reactive.controlEvents(.touchUpInside).map { _ in }
@@ -29,46 +25,27 @@ class ViewController: UIViewController {
         return minusButton.reactive.controlEvents(.touchUpInside).map { _ in }
     }
 
-    lazy var viewModel: ViewModel = {
-        return ViewModel(increment: self.incrementSignal,
-                         decrement: self.decrementSignal)
-    }()
+    private let viewModel = Counter.ViewModel()
+
+    override func loadView() {
+        self.view = contentView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        label.reactive.text <~ viewModel.counter
+        viewModel.state.producer.startWithValues(contentView.render)
     }
 }
 
-final class ViewModel {
-    private let state: Property<Int>
-    let counter: Property<String>
-
-    init(increment: Signal<Void, Never>, decrement: Signal<Void, Never>) {
-
-        let incrementFeedback = Feedback<Int, Event>(predicate: { $0 < 10}) { _ in
-            increment.map { _ in Event.increment }
-        }
-
-        let decrementFeedback = Feedback<Int, Event>(predicate: { $0 > -10 }) { _ in
-            decrement.map { _ in Event.decrement }
-        }
-
-        self.state = Property(initial: 0,
-                              reduce: ViewModel.reduce,
-                              feedbacks: incrementFeedback, decrementFeedback)
-
-        self.counter = state.map(String.init)
-    }
-}
-
-extension ViewModel {
-    static func reduce(state: Int, event: Event) -> Int {
-        switch event {
-        case .increment:
-            return state + 1
-        case .decrement:
-            return state - 1
+extension Counter {
+    final class ViewModel: Store<State, Event> {
+        init() {
+            super.init(
+                initial: State(),
+                reducer: Counter.reduce,
+                feedbacks: [],
+                scheduler: QueueScheduler.main
+            )
         }
     }
 }
