@@ -13,6 +13,11 @@
 		25E1D2281F5493D000D90192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2271F5493D000D90192 /* Assets.xcassets */; };
 		25E1D22B1F5493D000D90192 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */; };
 		25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2371F56091A00D90192 /* PaginationViewController.swift */; };
+		5810F032239EB2C400708F62 /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5810F031239EB2C400708F62 /* MoviesView.swift */; };
+		5810F034239EB2D200708F62 /* MoviesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5810F033239EB2D200708F62 /* MoviesView.xib */; };
+		5810F036239EB31900708F62 /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5810F035239EB31900708F62 /* MovieCell.xib */; };
+		5810F038239EB5A700708F62 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5810F037239EB5A700708F62 /* MovieCell.swift */; };
+		5810F03A239EBEA100708F62 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5810F039239EBEA100708F62 /* RootViewController.swift */; };
 		585CD87B239E6A39004BE9CC /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585CD87A239E6A39004BE9CC /* Reducer.swift */; };
 		585CD87C239E6A3E004BE9CC /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585CD87A239E6A39004BE9CC /* Reducer.swift */; };
 		585CD87D239E6A3E004BE9CC /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585CD87A239E6A39004BE9CC /* Reducer.swift */; };
@@ -25,6 +30,7 @@
 		585CD88A239E9077004BE9CC /* Counter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585CD889239E9077004BE9CC /* Counter.swift */; };
 		585CD88C239E90EB004BE9CC /* CounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585CD88B239E90EB004BE9CC /* CounterView.swift */; };
 		585CD88E239E9104004BE9CC /* CounterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 585CD88D239E9104004BE9CC /* CounterView.xib */; };
+		585CD891239EA8E6004BE9CC /* Movies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585CD890239EA8E6004BE9CC /* Movies.swift */; };
 		5898B6D11F97ADDD005EEAEC /* SystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898B6D01F97ADDD005EEAEC /* SystemTests.swift */; };
 		65F8C260218371A800924657 /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95097E70D3CBFF05FA7B8CC /* Feedback.swift */; };
 		65F8C261218371A800924657 /* SignalProducer+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */; };
@@ -144,12 +150,18 @@
 		25E1D22A1F5493D000D90192 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		25E1D22C1F5493D000D90192 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25E1D2371F56091A00D90192 /* PaginationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationViewController.swift; sourceTree = "<group>"; };
+		5810F031239EB2C400708F62 /* MoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesView.swift; sourceTree = "<group>"; };
+		5810F033239EB2D200708F62 /* MoviesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoviesView.xib; sourceTree = "<group>"; };
+		5810F035239EB31900708F62 /* MovieCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCell.xib; sourceTree = "<group>"; };
+		5810F037239EB5A700708F62 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
+		5810F039239EBEA100708F62 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		585CD87A239E6A39004BE9CC /* Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reducer.swift; sourceTree = "<group>"; };
 		585CD87E239E6A98004BE9CC /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		585CD882239E6AF1004BE9CC /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		585CD889239E9077004BE9CC /* Counter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counter.swift; sourceTree = "<group>"; };
 		585CD88B239E90EB004BE9CC /* CounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterView.swift; sourceTree = "<group>"; };
 		585CD88D239E9104004BE9CC /* CounterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CounterView.xib; sourceTree = "<group>"; };
+		585CD890239EA8E6004BE9CC /* Movies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movies.swift; sourceTree = "<group>"; };
 		587F0720201F647400ACD219 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5898B6D01F97ADDD005EEAEC /* SystemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTests.swift; sourceTree = "<group>"; };
 		65F8C26B218371A800924657 /* ReactiveFeedback.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactiveFeedback.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -281,10 +293,9 @@
 		25E1D21F1F5493D000D90192 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				585CD88F239EA8B0004BE9CC /* MultiStoreExample */,
 				585CD886239E904E004BE9CC /* SingleStoreExample */,
 				25E1D2201F5493D000D90192 /* AppDelegate.swift */,
-				25E1D2221F5493D000D90192 /* ViewController.swift */,
-				25E1D2371F56091A00D90192 /* PaginationViewController.swift */,
 				25E1D2241F5493D000D90192 /* Main.storyboard */,
 				25E1D2271F5493D000D90192 /* Assets.xcassets */,
 				25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */,
@@ -298,6 +309,7 @@
 			children = (
 				585CD888239E9069004BE9CC /* Movies */,
 				585CD887239E905E004BE9CC /* Counter */,
+				5810F039239EBEA100708F62 /* RootViewController.swift */,
 			);
 			path = SingleStoreExample;
 			sourceTree = "<group>";
@@ -315,8 +327,22 @@
 		585CD888239E9069004BE9CC /* Movies */ = {
 			isa = PBXGroup;
 			children = (
+				585CD890239EA8E6004BE9CC /* Movies.swift */,
+				5810F031239EB2C400708F62 /* MoviesView.swift */,
+				5810F037239EB5A700708F62 /* MovieCell.swift */,
+				5810F033239EB2D200708F62 /* MoviesView.xib */,
+				5810F035239EB31900708F62 /* MovieCell.xib */,
 			);
 			path = Movies;
+			sourceTree = "<group>";
+		};
+		585CD88F239EA8B0004BE9CC /* MultiStoreExample */ = {
+			isa = PBXGroup;
+			children = (
+				25E1D2221F5493D000D90192 /* ViewController.swift */,
+				25E1D2371F56091A00D90192 /* PaginationViewController.swift */,
+			);
+			path = MultiStoreExample;
 			sourceTree = "<group>";
 		};
 		9AE181B71F95A71B00A07551 /* ReactiveFeedbackTests */ = {
@@ -566,8 +592,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				585CD88E239E9104004BE9CC /* CounterView.xib in Resources */,
+				5810F034239EB2D200708F62 /* MoviesView.xib in Resources */,
 				9AFA21261F9511A5001DBF7C /* ReactiveFeedback.podspec in Resources */,
 				25E1D22B1F5493D000D90192 /* LaunchScreen.storyboard in Resources */,
+				5810F036239EB31900708F62 /* MovieCell.xib in Resources */,
 				25E1D2281F5493D000D90192 /* Assets.xcassets in Resources */,
 				25E1D2261F5493D000D90192 /* Main.storyboard in Resources */,
 			);
@@ -630,7 +658,11 @@
 			files = (
 				585CD88A239E9077004BE9CC /* Counter.swift in Sources */,
 				25E1D2231F5493D000D90192 /* ViewController.swift in Sources */,
+				5810F03A239EBEA100708F62 /* RootViewController.swift in Sources */,
+				5810F038239EB5A700708F62 /* MovieCell.swift in Sources */,
+				585CD891239EA8E6004BE9CC /* Movies.swift in Sources */,
 				25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */,
+				5810F032239EB2C400708F62 /* MoviesView.swift in Sources */,
 				25E1D2211F5493D000D90192 /* AppDelegate.swift in Sources */,
 				585CD88C239E90EB004BE9CC /* CounterView.swift in Sources */,
 			);

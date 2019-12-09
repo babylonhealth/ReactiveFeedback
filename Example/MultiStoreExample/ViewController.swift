@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  ReactiveFeedback
-//
-//  Created by sergdort on 28/08/2017.
-//  Copyright © 2017 sergdort. All rights reserved.
-//
-
 import UIKit
 import ReactiveSwift
 import ReactiveCocoa
