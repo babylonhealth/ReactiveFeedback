@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ColorPickerView" customModule="Example" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dcL-aN-yL5">
+                    <rect key="frame" x="132" y="228" width="150" height="450"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3cM-5h-5hl">
+                            <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="150" id="RTy-DQ-dsc"/>
+                                <constraint firstAttribute="width" constant="150" id="vZU-TN-dys"/>
+                            </constraints>
+                            <connections>
+                                <action selector="didTapButtonWithSender:" destination="iN0-l3-epB" eventType="primaryActionTriggered" id="02Y-Sc-5rx"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fee-sn-HdN">
+                            <rect key="frame" x="0.0" y="150" width="150" height="150"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="150" id="G4u-UF-00X"/>
+                                <constraint firstAttribute="width" constant="150" id="fBh-Vp-hV5"/>
+                            </constraints>
+                            <connections>
+                                <action selector="didTapButtonWithSender:" destination="iN0-l3-epB" eventType="primaryActionTriggered" id="u8O-Sw-Bz0"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aa0-QV-jH8">
+                            <rect key="frame" x="0.0" y="300" width="150" height="150"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="150" id="1nx-7c-Ds5"/>
+                                <constraint firstAttribute="width" constant="150" id="Cow-ey-3zd"/>
+                            </constraints>
+                            <connections>
+                                <action selector="didTapButtonWithSender:" destination="iN0-l3-epB" eventType="primaryActionTriggered" id="9XK-bv-RdV"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="dcL-aN-yL5" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="NnF-bt-E4r"/>
+                <constraint firstItem="dcL-aN-yL5" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="XN2-S5-Ize"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="stackView" destination="dcL-aN-yL5" id="NjX-EE-V9L"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="144"/>
+        </view>
+    </objects>
+</document>

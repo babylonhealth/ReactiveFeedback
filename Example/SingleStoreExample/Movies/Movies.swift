@@ -1,12 +1,14 @@
 import Foundation
 import ReactiveFeedback
 import ReactiveSwift
+import UIKit
 
 enum Movies {
     struct State: Builder {
         var batch: Results
         var movies: [Movie]
         var status: Status
+        var backgroundColor = UIColor.black
 
         static var empty: State {
             return State(batch: Results.empty(), movies: [], status: .initial)
@@ -69,6 +71,15 @@ enum Movies {
                 return false
             }
         }
+
+        var colorPicker: ColorPicker.State {
+            get {
+                ColorPicker.State(selectedColor: backgroundColor)
+            }
+            set {
+                self.backgroundColor = newValue.selectedColor
+            }
+        }
     }
 
     enum Status {
@@ -86,6 +97,18 @@ enum Movies {
         case response(Results)
         case failed(NSError)
         case retry
+        case picker(ColorPicker.Event)
+
+        var colorPicker: ColorPicker.Event? {
+            get {
+                guard case let .picker(value) = self else { return nil }
+                return value
+            }
+            set {
+                guard case .picker = self, let newValue = newValue else { return }
+                self = .picker(newValue)
+            }
+        }
     }
 
     static var feedback: Feedback<State, Event> {
@@ -95,7 +118,18 @@ enum Movies {
         )
     }
 
-    static func reduce(state: State, event: Event) -> State {
+    static var reduce: Reducer<State, Event> {
+        return combine(
+            reducer,
+            pullback(
+                ColorPicker.reduce,
+                value: \.colorPicker,
+                event: \.colorPicker
+            )
+        )
+    }
+
+    private static func reducer(state: State, event: Event) -> State {
         switch event {
         case .startLoadingNextPage:
             return state.set(\.status, .paging)
@@ -106,6 +140,12 @@ enum Movies {
             return state.set(\.status, .error(error))
         case .retry:
             return state.set(\.status, .retry)
+        case .picker(_):
+            // The beauty of state composition is that at the parent level
+            // we can also intercept events of the child and react to them
+            // The rule should be tho that we should not mutate the state of the child
+            // to not get conflicts
+            return state
         }
     }
 

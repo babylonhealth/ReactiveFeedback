@@ -1,11 +1,9 @@
-import UIKit
-import ReactiveSwift
 import ReactiveFeedback
+import ReactiveSwift
+import UIKit
 
 final class RootViewController: UITabBarController {
     private let store: Store<State, Event>
-    private lazy var counterVC = ContainerViewController<CounterView>()
-    private lazy var moviesVC = ContainerViewController<MoviesView>()
 
     init() {
         let appReducer: Reducer<State, Event> = combine(
@@ -28,7 +26,7 @@ final class RootViewController: UITabBarController {
                 event: Event.movies
             )
         )
-        self.store = Store(
+        store = Store(
             initial: State(),
             reducer: appReducer,
             feedbacks: [appFeedbacks],
@@ -43,43 +41,56 @@ final class RootViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [counterVC, moviesVC]
+        let counterVC = CounterViewController(
+            store: store.view(
+                value: \.counter,
+                event: Event.counter
+            )
+        )
+        let moviesVC = MoviesViewController(
+            store: store.view(
+                value: \.movies,
+                event: Event.movies
+            )
+        )
+        viewControllers = [
+            UINavigationController(rootViewController: counterVC),
+            UINavigationController(rootViewController: moviesVC)
+        ]
+        if #available(iOS 11.0, *) {
+            counterVC.navigationItem.largeTitleDisplayMode = .always
+        }
+        counterVC.title = "Counter"
         counterVC.tabBarItem = UITabBarItem(
             title: "Counter",
             image: UIImage(named: "counter"),
             selectedImage: UIImage(named: "counter")
         )
+        if #available(iOS 11.0, *) {
+            moviesVC.navigationItem.largeTitleDisplayMode = .always
+        }
+        moviesVC.title = "Movies"
         moviesVC.tabBarItem = UITabBarItem(
             title: "Movies",
             image: UIImage(named: "movie"),
             selectedImage: UIImage(named: "movie")
         )
-        bindStore()
-    }
-
-    func bindStore() {
-        store.state.producer
-            .map { $0.view(value: \.counter, event: Event.counter) }
-            .startWithValues(counterVC.contentView.render)
-        store.state.producer
-            .map { $0.view(value: \.movies, event: Event.movies) }
-            .startWithValues(moviesVC.contentView.render)
     }
 }
 
-final class ContainerViewController<Content: UIView & NibLoadable>: UIViewController {
-    lazy private(set) var contentView = Content.loadFromNib()
+open class ContainerViewController<Content: UIView & NibLoadable>: UIViewController {
+    private(set) lazy var contentView = Content.loadFromNib()
 
     init() {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        self.view = contentView
+    override open func loadView() {
+        view = contentView
     }
 }
 

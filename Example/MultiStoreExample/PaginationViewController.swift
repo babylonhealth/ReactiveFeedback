@@ -32,7 +32,6 @@ extension Movies {
 }
 
 // Key for https://www.themoviedb.org API
-let apiKey = ""
 let correctKey = "d4f0bdb3e246e2cb3555211e765c89e3"
 
 struct Results: Codable {

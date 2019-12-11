@@ -1,6 +1,24 @@
 import UIKit
 import ReactiveFeedback
 
+final class CounterViewController: ContainerViewController<CounterView> {
+    private let store: Store<Counter.State, Counter.Event>
+
+    init(store: Store<Counter.State, Counter.Event>) {
+        self.store = store
+        super.init()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        store.state.producer.startWithValues(contentView.render)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 final class CounterView: UIView, NibLoadable {
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var minusButton: UIButton!
@@ -32,6 +50,10 @@ final class CounterView: UIView, NibLoadable {
 
 final class Command {
     var action: () -> Void = {}
+}
+
+final class CommandWith<T> {
+    var action: (T) -> Void = { _ in }
 }
 
 public protocol NibLoadable {

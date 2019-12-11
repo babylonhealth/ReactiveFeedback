@@ -1,13 +1,13 @@
 import SwiftUI
 
 @dynamicMemberLookup
-public struct Context<State, Action> {
+public struct Context<State, Event> {
     private let state: State
-    private let send: (Action) -> Void
+    private let send: (Event) -> Void
 
     public init(
         state: State,
-        send: @escaping (Action) -> Void
+        send: @escaping (Event) -> Void
     ) {
         self.state = state
         self.send = send
@@ -17,13 +17,13 @@ public struct Context<State, Action> {
         return state[keyPath: keyPath]
     }
 
-    public func send(event: Action) {
+    public func send(event: Event) {
         send(event)
     }
 
     public func view<LocalState, LocalEvent>(
-        value: WritableKeyPath<State, LocalState>,
-        event: @escaping (LocalEvent) -> Action
+        value: KeyPath<State, LocalState>,
+        event: @escaping (LocalEvent) -> Event
     ) -> Context<LocalState, LocalEvent> {
         return Context<LocalState, LocalEvent>(
             state: state[keyPath: value],

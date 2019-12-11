@@ -8,15 +8,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var label: UILabel!
     private lazy var contentView = CounterView.loadFromNib()
-
-    private var incrementSignal: Signal<Void, Never> {
-        return plusButton.reactive.controlEvents(.touchUpInside).map { _ in }
-    }
-
-    private var decrementSignal: Signal<Void, Never> {
-        return minusButton.reactive.controlEvents(.touchUpInside).map { _ in }
-    }
-
     private let viewModel = Counter.ViewModel()
 
     override func loadView() {

@@ -18,6 +18,9 @@
 		5810F036239EB31900708F62 /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5810F035239EB31900708F62 /* MovieCell.xib */; };
 		5810F038239EB5A700708F62 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5810F037239EB5A700708F62 /* MovieCell.swift */; };
 		5810F03A239EBEA100708F62 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5810F039239EBEA100708F62 /* RootViewController.swift */; };
+		5810F03D239FA9F200708F62 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5810F03C239FA9F200708F62 /* ColorPicker.swift */; };
+		5810F03F239FAB0200708F62 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5810F03E239FAB0200708F62 /* ColorPickerView.swift */; };
+		5810F041239FAB8B00708F62 /* ColorPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5810F040239FAB8B00708F62 /* ColorPickerView.xib */; };
 		585CD87B239E6A39004BE9CC /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585CD87A239E6A39004BE9CC /* Reducer.swift */; };
 		585CD87C239E6A3E004BE9CC /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585CD87A239E6A39004BE9CC /* Reducer.swift */; };
 		585CD87D239E6A3E004BE9CC /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585CD87A239E6A39004BE9CC /* Reducer.swift */; };
@@ -155,6 +158,9 @@
 		5810F035239EB31900708F62 /* MovieCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCell.xib; sourceTree = "<group>"; };
 		5810F037239EB5A700708F62 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		5810F039239EBEA100708F62 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		5810F03C239FA9F200708F62 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
+		5810F03E239FAB0200708F62 /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
+		5810F040239FAB8B00708F62 /* ColorPickerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorPickerView.xib; sourceTree = "<group>"; };
 		585CD87A239E6A39004BE9CC /* Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reducer.swift; sourceTree = "<group>"; };
 		585CD87E239E6A98004BE9CC /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		585CD882239E6AF1004BE9CC /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -304,9 +310,20 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
+		5810F03B239FA9E000708F62 /* ColorPicker */ = {
+			isa = PBXGroup;
+			children = (
+				5810F03C239FA9F200708F62 /* ColorPicker.swift */,
+				5810F03E239FAB0200708F62 /* ColorPickerView.swift */,
+				5810F040239FAB8B00708F62 /* ColorPickerView.xib */,
+			);
+			path = ColorPicker;
+			sourceTree = "<group>";
+		};
 		585CD886239E904E004BE9CC /* SingleStoreExample */ = {
 			isa = PBXGroup;
 			children = (
+				5810F03B239FA9E000708F62 /* ColorPicker */,
 				585CD888239E9069004BE9CC /* Movies */,
 				585CD887239E905E004BE9CC /* Counter */,
 				5810F039239EBEA100708F62 /* RootViewController.swift */,
@@ -595,6 +612,7 @@
 				5810F034239EB2D200708F62 /* MoviesView.xib in Resources */,
 				9AFA21261F9511A5001DBF7C /* ReactiveFeedback.podspec in Resources */,
 				25E1D22B1F5493D000D90192 /* LaunchScreen.storyboard in Resources */,
+				5810F041239FAB8B00708F62 /* ColorPickerView.xib in Resources */,
 				5810F036239EB31900708F62 /* MovieCell.xib in Resources */,
 				25E1D2281F5493D000D90192 /* Assets.xcassets in Resources */,
 				25E1D2261F5493D000D90192 /* Main.storyboard in Resources */,
@@ -663,6 +681,8 @@
 				585CD891239EA8E6004BE9CC /* Movies.swift in Sources */,
 				25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */,
 				5810F032239EB2C400708F62 /* MoviesView.swift in Sources */,
+				5810F03F239FAB0200708F62 /* ColorPickerView.swift in Sources */,
+				5810F03D239FA9F200708F62 /* ColorPicker.swift in Sources */,
 				25E1D2211F5493D000D90192 /* AppDelegate.swift in Sources */,
 				585CD88C239E90EB004BE9CC /* CounterView.swift in Sources */,
 			);

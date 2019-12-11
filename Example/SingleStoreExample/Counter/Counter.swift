@@ -29,3 +29,5 @@ extension Builder {
         return copy
     }
 }
+
+extension NSObject: Builder {}
