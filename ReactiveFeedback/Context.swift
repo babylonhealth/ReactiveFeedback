@@ -1,5 +1,3 @@
-import SwiftUI
-
 @dynamicMemberLookup
 public struct Context<State, Event> {
     private let state: State
