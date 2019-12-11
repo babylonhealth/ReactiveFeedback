@@ -74,17 +74,10 @@ struct Movie: Codable {
     }
 }
 
-var shouldFail = false
-
-func switchFail() {
-    //shouldFail = !shouldFail
-}
-
 extension URLSession {
     func fetchMovies(page: Int) -> SignalProducer<Results, NSError> {
         return SignalProducer.init({ (observer, lifetime) in
-            let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(shouldFail ? apiKey : correctKey)&sort_by=popularity.desc&page=\(page)")!
-            switchFail()
+            let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(correctKey)&sort_by=popularity.desc&page=\(page)")!
             let task = self.dataTask(with: url, completionHandler: { (data, response, error) in
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 401 {
                     let error = NSError(domain: "come.reactivefeedback",
