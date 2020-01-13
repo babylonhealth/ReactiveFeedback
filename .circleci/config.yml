@@ -3,7 +3,7 @@ version: 2.1
 references:
     - &container_config
         macos:
-            xcode: "11.1"
+            xcode: "11.1.0"
         working_directory: /Users/distiller/project
         shell: /bin/bash --login -eo pipefail
 
@@ -84,6 +84,10 @@ jobs:
         steps:
             - restore_workspace
             - gems
+            - run:
+                name: pre-start-simulator
+                command: |
+                    instruments -s devices
             - run: script/test << parameters.parameters >>
     
     cocoapods_validation:
@@ -117,7 +121,7 @@ workflows:
         jobs:
             - checkout_code
             - test:
-                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone X" ReactiveFeedback-iOS
+                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 11,OS=13.1" ReactiveFeedback-iOS
                 name: Test-iOS
                 requires:
                     - checkout_code
@@ -132,7 +136,7 @@ workflows:
                 requires:
                     - checkout_code
             - test:
-                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone X" Example build
+                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 11,OS=13.1" Example build
                 name: ExampleApp
                 requires:
                     - checkout_code
