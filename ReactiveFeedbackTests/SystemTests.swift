@@ -259,4 +259,75 @@ class SystemTests: XCTestCase {
 
         expect(result).toEventually(equal(expected))
     }
+
+    func test_occurrencesPassing_should_cancel_events_after_the_first_one() {
+        typealias State = Int
+        enum Event { case add(Int) }
+
+        func reduce(_ state: State, _ event: Event) -> State {
+          switch event {
+          case let .add(count):
+            return state + count
+          }
+        }
+
+        let addingFiniteSeries = Feedback<State, Event>(occurrencesPassing: { count in count == 0 }) { _ in
+          SignalProducer(1 ... 100)
+             .map(Event.add)
+        }
+
+        let scheduler = TestScheduler()
+        let system = Property(initial: 0, scheduler: scheduler, reduce: reduce(_:_:), feedbacks: addingFiniteSeries)
+        scheduler.advance()
+
+        expect(system.value) == 1
+    }
+
+    func test_occurrencesPassing_should_always_restart_effects_for_every_occurrence() {
+        typealias State = Int
+        enum Event { case add(Int) }
+
+        func reduce(_ state: State, _ event: Event) -> State {
+          switch event {
+          case let .add(count):
+            return state + count
+          }
+        }
+
+        let addingFiniteSeries = Feedback<State, Event>(occurrencesPassing: { count in count < 5 }) { _ in
+          SignalProducer(1 ... 100)
+             .map(Event.add)
+        }
+
+        let scheduler = TestScheduler()
+        let system = Property(initial: 0, scheduler: scheduler, reduce: reduce(_:_:), feedbacks: addingFiniteSeries)
+        scheduler.advance()
+
+        expect(system.value) == 5
+    }
+
+    func test_skippingRepeated_should_not_cancel_effect() {
+        typealias State = Int
+        enum Event { case add(Int) }
+
+        func reduce(_ state: State, _ event: Event) -> State {
+          switch event {
+          case let .add(count):
+            return state + count
+          }
+        }
+
+        let addingFiniteSeries = Feedback<State, Event>(skippingRepeated: { count in count < 200 }) { shouldBegin in
+            shouldBegin
+                ? SignalProducer(1 ... 100)
+                    .map(Event.add)
+                : .empty
+        }
+
+        let scheduler = TestScheduler()
+        let system = Property(initial: 0, scheduler: scheduler, reduce: reduce(_:_:), feedbacks: addingFiniteSeries)
+        scheduler.advance()
+
+        expect(system.value) == 210
+    }
 }

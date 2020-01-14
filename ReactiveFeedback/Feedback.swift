@@ -86,6 +86,50 @@ public struct Feedback<State, Event> {
     /// or if the predicate evaluates to `false`, the previous one would automatically
     /// be cancelled.
     ///
+    /// If your effect is intended to be alive across multiple state occurrences, or is
+    /// intended to emit multiple events over time, you should use variants with state
+    /// change ignoring semantics, e.g. `skippingRepeated:`.
+
+    /// As an example, given this feedback loop definition:
+    ///
+    /// ```
+    /// typealias State = Int
+    /// enum Event { case add(Int) }
+    ///
+    /// func reduce(_ sum: State, _ event: Event) -> State {
+    ///   switch event {
+    ///   case let .add(count):
+    ///     return sum + count
+    ///   }
+    /// }
+    ///
+    /// let addingFiniteSeries = Feedback<State, Event>(occurrencesPassing: { sum in sum == 0 }) { _ in
+    ///   SignalProducer(1 ... 100)
+    ///      .map(Event.add)
+    /// }
+    ///
+    /// let system = Property(initial: 0, reducer: reduce, feedbacks: addingFiniteSeries)
+    /// ```
+    ///
+    /// `addingFiniteSeries` might be perceived as eventually updating the state with the finite series of `[1, 100]`.
+    /// In practice, however, the effect in `addingFiniteSeries` is interrupted as soon as `{ sum in sum == 0 }`
+    /// fails, leading to `state == 1`.
+    ///
+    /// Even if we change the predicate to, say, `{ sum in sum < 5 }`, the result is still not a finite series
+    /// one might have expected. Recall that `occurrencesPassing:` always reevaluates the state and restarts the effect
+    /// for every occurrence. So it basically leads to many `.add(1)` events until the predicate fails.
+    ///
+    /// ```
+    /// |  Time   |    State    |  Pass? |   Effects   |    Event    | Next State  |
+    /// |---------|-------------|--------|-------------|-------------|-------------|
+    /// |  t = 0  |  state = 0  |  PASS  |  Restarted  |   .add(1)   |  state = 1  |
+    /// |  t = 1  |  state = 1  |  PASS  |  Restarted  |   .add(1)   |  state = 2  |
+    /// |  t = 2  |  state = 2  |  PASS  |  Restarted  |   .add(1)   |  state = 3  |
+    /// |  t = 3  |  state = 3  |  PASS  |  Restarted  |   .add(1)   |  state = 4  |
+    /// |  t = 4  |  state = 4  |  PASS  |  Restarted  |   .add(1)   |  state = 5  |
+    /// |  t = 5  |  state = 5  |  FAIL  |  Cancelled  |      -      |  state = 5  |
+    /// ```
+    ///
     /// - parameters:
     ///   - predicate: The predicate to apply on the state.
     ///   - effects: The side effect accepting the state and yielding events
