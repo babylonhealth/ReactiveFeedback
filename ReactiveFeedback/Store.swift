@@ -4,7 +4,7 @@ open class Store<State, Event> {
     public let state: Property<Context<State, Event>>
 
     private let input = Feedback<State, Event>.input()
-    private let send: (Event) -> Void
+    private let forward: (Event) -> Void
 
     public init<S: DateScheduler>(
         initial: State,
@@ -12,7 +12,7 @@ open class Store<State, Event> {
         feedbacks: [Feedback<State, Event>],
         scheduler: S
     ) {
-        self.send = { _ in }
+        self.forward = { _ in }
         self.state = Property(
             initial: Context(state: initial, send: self.input.observer),
             then: SignalProducer.system(
@@ -30,12 +30,12 @@ open class Store<State, Event> {
 
     private init(state: Property<Context<State, Event>>, send: @escaping (Event) -> Void) {
         self.state = state
-        self.send = send
+        self.forward = send
     }
 
     open func send(event: Event) {
         input.observer(event)
-        send(event)
+        forward(event)
     }
 
     public func view<LocalState, LocalEvent>(
