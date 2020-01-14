@@ -72,7 +72,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D1ED2D341AD2D09F00CFC3EB"
                BuildableName = "Kingfisher.framework"
-               BlueprintName = "Kingfisher-iOS"
+               BlueprintName = "Kingfisher"
                ReferencedContainer = "container:Carthage/Checkouts/Kingfisher/Kingfisher.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -97,8 +97,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <Testables>
-      </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
@@ -108,8 +106,8 @@
             ReferencedContainer = "container:ReactiveFeedback.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
+      <Testables>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -131,8 +129,6 @@
             ReferencedContainer = "container:ReactiveFeedback.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
