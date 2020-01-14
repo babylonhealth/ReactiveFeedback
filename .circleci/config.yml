@@ -60,7 +60,7 @@ commands:
             - run:
                 name: "Bootstrap Carthage"
                 command: |
-                    carthage bootstrap --no-build
+                    carthage bootstrap --no-build --no-use-binaries
             - save_cache:
                 key: *carthage_cache_key
                 paths:
@@ -102,7 +102,7 @@ jobs:
         <<: *container_config
         steps:    
             - restore_workspace
-            - run: carthage build --no-skip-current --cache-builds
+            - run: carthage build --no-skip-current --cache-builds --no-use-binaries --no-use-binaries
     
     spm_validation:
         <<: *container_config

@@ -49,8 +49,6 @@
 		65F8C2D0218378F500924657 /* ReactiveFeedback.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65F8C26B218371A800924657 /* ReactiveFeedback.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AD5D42D1F97375E00E6AE5A /* Property+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD5D42C1F97375E00E6AE5A /* Property+System.swift */; };
 		9AE181BB1F95A71B00A07551 /* ReactiveFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */; };
-		9AE9563C2186341B005A8C69 /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563921863415005A8C69 /* Kingfisher.framework */; };
-		9AE9563D2186341B005A8C69 /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563921863415005A8C69 /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE9563E2186341B005A8C69 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563B21863415005A8C69 /* ReactiveCocoa.framework */; };
 		9AE9563F2186341B005A8C69 /* ReactiveCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563B21863415005A8C69 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE956402186341B005A8C69 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9563821863414005A8C69 /* ReactiveSwift.framework */; };
@@ -105,7 +103,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9AE9563D2186341B005A8C69 /* Kingfisher.framework in Embed Frameworks */,
 				9AE9563F2186341B005A8C69 /* ReactiveCocoa.framework in Embed Frameworks */,
 				65F8C2D0218378F500924657 /* ReactiveFeedback.framework in Embed Frameworks */,
 				9AE956412186341B005A8C69 /* ReactiveSwift.framework in Embed Frameworks */,
@@ -201,7 +198,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AE9563C2186341B005A8C69 /* Kingfisher.framework in Frameworks */,
 				9AE9563E2186341B005A8C69 /* ReactiveCocoa.framework in Frameworks */,
 				65F8C2CF218378F500924657 /* ReactiveFeedback.framework in Frameworks */,
 				9AE956402186341B005A8C69 /* ReactiveSwift.framework in Frameworks */,

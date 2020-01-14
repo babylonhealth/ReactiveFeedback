@@ -1,7 +1,6 @@
 import UIKit
 import ReactiveSwift
 import ReactiveCocoa
-import Kingfisher
 import ReactiveFeedback
 
 final class PaginationViewController: UIViewController {
