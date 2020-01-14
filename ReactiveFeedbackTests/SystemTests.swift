@@ -221,7 +221,7 @@ class SystemTests: XCTestCase {
             case increment
         }
         let (incrementSignal, incrementObserver) = Signal<Void, Never>.pipe()
-        let feedback = Feedback<Int, Event>(predicate: { $0 < 2 }) { _ in
+        let feedback = Feedback<Int, Event>(occurrencesPassing: { $0 < 2 }) { _ in
             incrementSignal.map { _ in Event.increment }
         }
         let system = SignalProducer<Int, Never>.system(

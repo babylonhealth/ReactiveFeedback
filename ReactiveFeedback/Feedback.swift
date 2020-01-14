@@ -80,22 +80,23 @@ public struct Feedback<State, Event> {
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
-    /// given predicate passes.
+    /// predicate passes a new occurrence of `State` (i.e. every state change).
     ///
     /// If the previous effect is still alive when a new one is about to start,
-    /// the previous one would automatically be cancelled.
+    /// or if the predicate evaluates to `false`, the previous one would automatically
+    /// be cancelled.
     ///
     /// - parameters:
     ///   - predicate: The predicate to apply on the state.
     ///   - effects: The side effect accepting the state and yielding events
     ///              that eventually affect the state.
     public init<Effect: SignalProducerConvertible>(
-        predicate: @escaping (State) -> Bool,
+        occurrencesPassing predicate: @escaping (State) -> Bool,
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
         self.init(deriving: { $0 },
                   effects: { state -> SignalProducer<Event, Never> in
-                      predicate(state) ? effects(state).producer : .empty                      
+                      predicate(state) ? effects(state).producer : .empty
                   })
     }
 
@@ -130,5 +131,16 @@ extension Feedback {
         effects: @escaping (Control) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
         fatalError()
+    }
+
+    @available(*, unavailable, renamed: "init(occurrencesPassing:effects:)")
+    public init<Effect: SignalProducerConvertible>(
+        predicate: @escaping (State) -> Bool,
+        effects: @escaping (State) -> Effect
+    ) where Effect.Value == Event, Effect.Error == Never {
+        self.init(deriving: { $0 },
+                  effects: { state -> SignalProducer<Event, Never> in
+                      predicate(state) ? effects(state).producer : .empty
+                  })
     }
 }
