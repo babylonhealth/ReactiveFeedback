@@ -86,10 +86,6 @@ public struct Feedback<State, Event> {
     /// or if the predicate evaluates to `false`, the previous one would automatically
     /// be cancelled.
     ///
-    /// If your effect is intended to be alive across multiple state occurrences, or is
-    /// intended to emit multiple events over time, you should use variants with state
-    /// change ignoring semantics, e.g. `skippingRepeated:`.
-
     /// As an example, given this feedback loop definition:
     ///
     /// ```
@@ -129,6 +125,24 @@ public struct Feedback<State, Event> {
     /// |  t = 4  |  state = 4  |  PASS  |  Restarted  |   .add(1)   |  state = 5  |
     /// |  t = 5  |  state = 5  |  FAIL  |  Cancelled  |      -      |  state = 5  |
     /// ```
+    ///
+    /// ## Alternatives
+    ///
+    /// If your effect is intended to be alive across multiple state occurrences, or is
+    /// intended to emit multiple events over time, you should use variants with state
+    /// change ignoring semantics, e.g. `skippingRepeated:`.
+    ///
+    /// For example:
+    /// ```
+    /// Feedback<State, Event>(skippingRepeated: { sum in sum < 2000 }) { shouldBegin in
+    ///   shouldBegin
+    ///     ? SignalProducer(1 ... 100).map(Event.add)
+    ///     : .empty
+    /// }
+    /// ```
+    /// `skippingRepeated:` keeps the current effect alive, as long as the transform output does not change. In other
+    /// words, the producer would not be cancelled even though the events it emitted are bumping up the tally — this
+    /// lasts until the condition `sum < 2000` flips to `false`, at which point the effect would then be cancelled.
     ///
     /// - parameters:
     ///   - predicate: The predicate to apply on the state.
