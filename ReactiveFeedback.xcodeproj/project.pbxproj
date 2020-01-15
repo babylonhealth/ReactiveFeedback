@@ -20,6 +20,7 @@
 		65761B2E23CF4CA2004D5506 /* NSLock+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65761B2D23CF4CA1004D5506 /* NSLock+Extensions.swift */; };
 		65761B2F23CF4CA2004D5506 /* NSLock+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65761B2D23CF4CA1004D5506 /* NSLock+Extensions.swift */; };
 		65761B3023CF4CA2004D5506 /* NSLock+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65761B2D23CF4CA1004D5506 /* NSLock+Extensions.swift */; };
+		65761B3223CF677F004D5506 /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65761B3123CF677F004D5506 /* TextInputViewController.swift */; };
 		65F8C260218371A800924657 /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95097E70D3CBFF05FA7B8CC /* Feedback.swift */; };
 		65F8C261218371A800924657 /* SignalProducer+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */; };
 		65F8C262218371A800924657 /* Property+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD5D42C1F97375E00E6AE5A /* Property+System.swift */; };
@@ -142,6 +143,7 @@
 		5898B6D01F97ADDD005EEAEC /* SystemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTests.swift; sourceTree = "<group>"; };
 		65761B2523CF20EF004D5506 /* Floodgate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Floodgate.swift; sourceTree = "<group>"; };
 		65761B2D23CF4CA1004D5506 /* NSLock+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLock+Extensions.swift"; sourceTree = "<group>"; };
+		65761B3123CF677F004D5506 /* TextInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputViewController.swift; sourceTree = "<group>"; };
 		65F8C26B218371A800924657 /* ReactiveFeedback.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactiveFeedback.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65F8C27A218371AC00924657 /* ReactiveFeedback.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactiveFeedback.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65F8C28E2183723F00924657 /* ReactiveFeedbackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveFeedbackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -273,6 +275,7 @@
 				25E1D2201F5493D000D90192 /* AppDelegate.swift */,
 				25E1D2221F5493D000D90192 /* ViewController.swift */,
 				25E1D2371F56091A00D90192 /* PaginationViewController.swift */,
+				65761B3123CF677F004D5506 /* TextInputViewController.swift */,
 				25E1D2241F5493D000D90192 /* Main.storyboard */,
 				25E1D2271F5493D000D90192 /* Assets.xcassets */,
 				25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */,
@@ -588,6 +591,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65761B3223CF677F004D5506 /* TextInputViewController.swift in Sources */,
 				25E1D2231F5493D000D90192 /* ViewController.swift in Sources */,
 				25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */,
 				25E1D2211F5493D000D90192 /* AppDelegate.swift in Sources */,
