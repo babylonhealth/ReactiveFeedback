@@ -14,6 +14,15 @@
 		25E1D22B1F5493D000D90192 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */; };
 		25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2371F56091A00D90192 /* PaginationViewController.swift */; };
 		5898B6D11F97ADDD005EEAEC /* SystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898B6D01F97ADDD005EEAEC /* SystemTests.swift */; };
+		6508643C23D200EC009E8336 /* DirectMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508643B23D200EC009E8336 /* DirectMutation.swift */; };
+		6508643D23D200EC009E8336 /* DirectMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508643B23D200EC009E8336 /* DirectMutation.swift */; };
+		6508643E23D200EC009E8336 /* DirectMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508643B23D200EC009E8336 /* DirectMutation.swift */; };
+		6508644023D200F6009E8336 /* StateMutationRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508643F23D200F6009E8336 /* StateMutationRepresentable.swift */; };
+		6508644123D200F6009E8336 /* StateMutationRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508643F23D200F6009E8336 /* StateMutationRepresentable.swift */; };
+		6508644223D200F6009E8336 /* StateMutationRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508643F23D200F6009E8336 /* StateMutationRepresentable.swift */; };
+		656A9C8F23D0790100EFB2F8 /* FeedbackLoopLense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C8E23D0790100EFB2F8 /* FeedbackLoopLense.swift */; };
+		656A9C9023D0790100EFB2F8 /* FeedbackLoopLense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C8E23D0790100EFB2F8 /* FeedbackLoopLense.swift */; };
+		656A9C9123D0790100EFB2F8 /* FeedbackLoopLense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C8E23D0790100EFB2F8 /* FeedbackLoopLense.swift */; };
 		656A9C9323D0813500EFB2F8 /* FeedbackLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9223D0813500EFB2F8 /* FeedbackLoop.swift */; };
 		656A9C9423D0813500EFB2F8 /* FeedbackLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9223D0813500EFB2F8 /* FeedbackLoop.swift */; };
 		656A9C9523D0813500EFB2F8 /* FeedbackLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9223D0813500EFB2F8 /* FeedbackLoop.swift */; };
@@ -147,6 +156,9 @@
 		25E1D2371F56091A00D90192 /* PaginationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationViewController.swift; sourceTree = "<group>"; };
 		587F0720201F647400ACD219 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5898B6D01F97ADDD005EEAEC /* SystemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTests.swift; sourceTree = "<group>"; };
+		6508643B23D200EC009E8336 /* DirectMutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectMutation.swift; sourceTree = "<group>"; };
+		6508643F23D200F6009E8336 /* StateMutationRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMutationRepresentable.swift; sourceTree = "<group>"; };
+		656A9C8E23D0790100EFB2F8 /* FeedbackLoopLense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackLoopLense.swift; sourceTree = "<group>"; };
 		656A9C9223D0813500EFB2F8 /* FeedbackLoop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackLoop.swift; sourceTree = "<group>"; };
 		656A9C9623D0826100EFB2F8 /* FeedbackEventCustomer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEventCustomer.swift; sourceTree = "<group>"; };
 		65761B2523CF20EF004D5506 /* Floodgate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Floodgate.swift; sourceTree = "<group>"; };
@@ -240,6 +252,7 @@
 		25CC87AF1F92855300A6EBFC /* ReactiveFeedback */ = {
 			isa = PBXGroup;
 			children = (
+				656A9C8E23D0790100EFB2F8 /* FeedbackLoopLense.swift */,
 				A95097E70D3CBFF05FA7B8CC /* Feedback.swift */,
 				656A9C9223D0813500EFB2F8 /* FeedbackLoop.swift */,
 				656A9C9623D0826100EFB2F8 /* FeedbackEventCustomer.swift */,
@@ -248,6 +261,8 @@
 				25CC87B11F92855300A6EBFC /* Info.plist */,
 				65761B2523CF20EF004D5506 /* Floodgate.swift */,
 				65761B2D23CF4CA1004D5506 /* NSLock+Extensions.swift */,
+				6508643B23D200EC009E8336 /* DirectMutation.swift */,
+				6508643F23D200F6009E8336 /* StateMutationRepresentable.swift */,
 			);
 			path = ReactiveFeedback;
 			sourceTree = "<group>";
@@ -589,12 +604,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6508643C23D200EC009E8336 /* DirectMutation.swift in Sources */,
 				A9509BE4551098F4A5503820 /* Feedback.swift in Sources */,
 				A950943401765BB90FA846B2 /* SignalProducer+System.swift in Sources */,
 				65761B2E23CF4CA2004D5506 /* NSLock+Extensions.swift in Sources */,
 				9AD5D42D1F97375E00E6AE5A /* Property+System.swift in Sources */,
 				656A9C9323D0813500EFB2F8 /* FeedbackLoop.swift in Sources */,
+				6508644023D200F6009E8336 /* StateMutationRepresentable.swift in Sources */,
 				656A9C9723D0826100EFB2F8 /* FeedbackEventCustomer.swift in Sources */,
+				656A9C8F23D0790100EFB2F8 /* FeedbackLoopLense.swift in Sources */,
 				65761B2623CF20EF004D5506 /* Floodgate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -614,12 +632,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6508643D23D200EC009E8336 /* DirectMutation.swift in Sources */,
 				65F8C260218371A800924657 /* Feedback.swift in Sources */,
 				65F8C261218371A800924657 /* SignalProducer+System.swift in Sources */,
 				65761B2F23CF4CA2004D5506 /* NSLock+Extensions.swift in Sources */,
 				65F8C262218371A800924657 /* Property+System.swift in Sources */,
 				656A9C9423D0813500EFB2F8 /* FeedbackLoop.swift in Sources */,
+				6508644123D200F6009E8336 /* StateMutationRepresentable.swift in Sources */,
 				656A9C9823D0826100EFB2F8 /* FeedbackEventCustomer.swift in Sources */,
+				656A9C9023D0790100EFB2F8 /* FeedbackLoopLense.swift in Sources */,
 				65761B2723CF20EF004D5506 /* Floodgate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -628,12 +649,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6508643E23D200EC009E8336 /* DirectMutation.swift in Sources */,
 				65F8C26F218371AC00924657 /* Feedback.swift in Sources */,
 				65F8C270218371AC00924657 /* SignalProducer+System.swift in Sources */,
 				65761B3023CF4CA2004D5506 /* NSLock+Extensions.swift in Sources */,
 				65F8C271218371AC00924657 /* Property+System.swift in Sources */,
 				656A9C9523D0813500EFB2F8 /* FeedbackLoop.swift in Sources */,
+				6508644223D200F6009E8336 /* StateMutationRepresentable.swift in Sources */,
 				656A9C9923D0826100EFB2F8 /* FeedbackEventCustomer.swift in Sources */,
+				656A9C9123D0790100EFB2F8 /* FeedbackLoopLense.swift in Sources */,
 				65761B2823CF20EF004D5506 /* Floodgate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

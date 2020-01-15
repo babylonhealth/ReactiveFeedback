@@ -60,3 +60,9 @@ public final class FeedbackLoop<State, Event>: PropertyProtocol {
         stop()
     }
 }
+
+extension FeedbackLoop where Event: StateMutationRepresentable, Event.State == State {
+    public subscript<Value>(keyPath: WritableKeyPath<State, Value>) -> FeedbackLoopLense<Value> {
+        _FeedbackLoopLense(feedbackLoop: self, keyPath: keyPath)
+    }
+}

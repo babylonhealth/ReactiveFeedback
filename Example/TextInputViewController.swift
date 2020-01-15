@@ -3,7 +3,6 @@ import ReactiveSwift
 import ReactiveCocoa
 import ReactiveFeedback
 
-
 class TextInputViewController: UIViewController {
     let viewModel = TextInputViewModel()
     let textView = UITextView()
@@ -28,17 +27,14 @@ class TextInputViewController: UIViewController {
             self.automaticallyAdjustsScrollViewInsets = true
         }
 
-        textView.reactive.continuousTextValues
-            .take(duringLifetimeOf: self)
-            .observeValues { [viewModel] in viewModel.textDidChange($0) }
-
-        textView.reactive.text <~ viewModel.state
+        viewModel.$note <~ textView.reactive.continuousTextValues
+        textView.reactive.text <~ viewModel.$note
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        characterCountLabel.reactive.text <~ viewModel.state.producer
+        characterCountLabel.reactive.text <~ viewModel.$note.producer
             .map { "\($0.count) characters" }
         inputToolbar.setItems([UIBarButtonItem(customView: characterCountLabel)], animated: false)
     }
@@ -51,33 +47,48 @@ class TextInputViewController: UIViewController {
 }
 
 final class TextInputViewModel {
-    let state: Property<String>
-    private let (text, textObserver) = Signal<String, Never>.pipe()
+    @FeedbackLoopLense
+    var note: String
+
+    private let state: FeedbackLoop<State, Event>
 
     init() {
-        self.state = Property(
-            initial: "Lorem ipsum ",
+        self.state = FeedbackLoop<State, Event>(
+            initial: State(note: "Lorem ipsum "),
             reduce: TextInputViewModel.reduce,
-            feedbacks: Feedback.custom { [text] _, output in
-                text.producer.map(Event.update).enqueue(to: output).start()
-            }
+            feedbacks: []
         )
-    }
-
-    func textDidChange(_ text: String) {
-        textObserver.send(value: text)
+        _note = state[\.note]
     }
 }
 
 extension TextInputViewModel {
-    static func reduce(state: String, event: Event) -> String {
+    struct State {
+        var note: String
+    }
+
+    static func reduce(state: State, event: Event) -> State {
         switch event {
-        case let .update(text):
-            return text
+        case let .mutation(mutation):
+            var copy = state
+
+            if let note = mutation.open(as: \.note) {
+                // Accept only alphanumerics, whitespaces and newlines.
+                let chars = CharacterSet.alphanumerics.union(.whitespacesAndNewlines)
+                copy.note = note.filter { $0.unicodeScalars.allSatisfy(chars.contains) }
+            }
+
+            return copy
         }
     }
 
     enum Event {
-        case update(String)
+        case mutation(DirectMutation<State>)
+    }
+}
+
+extension TextInputViewModel.Event: StateMutationRepresentable {
+    init(_ mutation: DirectMutation<TextInputViewModel.State>) {
+        self = .mutation(mutation)
     }
 }
