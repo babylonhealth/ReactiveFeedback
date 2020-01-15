@@ -2,17 +2,19 @@ import Foundation
 import ReactiveSwift
 
 public struct Feedback<State, Event> {
-    let events: (Scheduler, Signal<State, Never>) -> Signal<Event, Never>
-    
-    /// Creates an arbitrary Feedback, which evaluates side effects reactively
-    /// to the latest state, and eventually produces events that affect the
-    /// state.
-    ///
-    /// - parameters:
-    ///   - events: The transform which derives a `Signal` of events from the
-    ///             latest state.
-    public init(events: @escaping (Scheduler, Signal<State, Never>) -> Signal<Event, Never>) {
+    let events: (_ state: SignalProducer<State, Never>, _ output: FeedbackEventConsumer<Event>) -> Disposable
+
+    internal init(events: @escaping (_ state: SignalProducer<State, Never>, _ output: FeedbackEventConsumer<Event>) -> Disposable) {
         self.events = events
+    }
+
+    public static func custom(
+        _ setup: @escaping (
+            _ state: SignalProducer<State, Never>,
+            _ output: FeedbackEventConsumer<Event>
+        ) -> Disposable
+    ) -> Feedback<State, Event> {
+        return Feedback(events: setup)
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
@@ -28,15 +30,16 @@ public struct Feedback<State, Event> {
     ///              `transform` and yielding events that eventually affect
     ///              the state.
     public init<U, Effect: SignalProducerConvertible>(
-        deriving transform: @escaping (Signal<State, Never>) -> Signal<U, Never>,
+        deriving transform: @escaping (SignalProducer<State, Never>) -> SignalProducer<U, Never>,
         effects: @escaping (U) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
-        self.events = { scheduler, state in
+        self.events = { state, output in
             // NOTE: `observe(on:)` should be applied on the inner producers, so
             //       that cancellation due to state changes would be able to
             //       cancel outstanding events that have already been scheduled.
-            return transform(state)
-                .flatMap(.latest) { effects($0).producer.observe(on: scheduler) }
+            transform(state)
+                .flatMap(.latest) { effects($0).producer.enqueue(to: output) }
+                .start()
         }
     }
 
@@ -112,6 +115,13 @@ public struct Feedback<State, Event> {
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
         self.init(deriving: { $0 }, effects: effects)
+    }
+}
+
+extension Feedback {
+    @available(*, unavailable, message:"Migrate to `Feedback.custom(_:)` which provides custom feedbacks a `SignalProducer` and a `FeedbackEventConsumer` to enable a more efficient and synchronous feedback loop.")
+    public init(_ events: @escaping (Scheduler, Signal<State, Never>) -> Signal<Event, Never>) {
+        fatalError()
     }
 }
 

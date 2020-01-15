@@ -116,12 +116,10 @@ class SystemTests: XCTestCase {
     }
 
     func test_should_observe_signals_immediately() {
-        let scheduler = TestScheduler()
         let (signal, observer) = Signal<String, Never>.pipe()
 
         let system = SignalProducer<String, Never>.system(
             initial: "initial",
-            scheduler: scheduler,
             reduce: { (state: String, event: String) -> String in
                 return state + event
             },
@@ -138,20 +136,14 @@ class SystemTests: XCTestCase {
         expect(value) == "initial"
 
         observer.send(value: "_a")
-        expect(value) == "initial"
-
-        scheduler.advance()
         expect(value) == "initial_a"
     }
 
-
     func test_should_start_producers_immediately() {
-        let scheduler = TestScheduler()
         var startCount = 0
 
         let system = SignalProducer<String, Never>.system(
             initial: "initial",
-            scheduler: scheduler,
             reduce: { (state: String, event: String) -> String in
                 return state + event
             },
@@ -163,27 +155,18 @@ class SystemTests: XCTestCase {
             ]
         )
 
-        var value: String?
+        var values: [String] = []
         system
             .skipRepeats()
             .take(first: 2)
-            .startWithValues { value = $0 }
+            .startWithValues { values.append($0) }
 
-        expect(value) == "initial"
-        expect(startCount) == 1
-
-        scheduler.advance()
-        expect(value) == "initial_a"
-        expect(startCount) == 2
-
-        scheduler.advance()
-        expect(value) == "initial_a"
+        expect(values) == ["initial", "initial_a"]
         expect(startCount) == 2
     }
 
     func test_should_not_miss_delivery_to_reducer_when_started_asynchronously() {
         let creationScheduler = QueueScheduler()
-        let systemScheduler = QueueScheduler()
 
         let observedState: Atomic<[String]> = Atomic([])
 
@@ -193,17 +176,17 @@ class SystemTests: XCTestCase {
              SignalProducer<String, Never>
                 .system(
                     initial: "initial",
-                    scheduler: systemScheduler,
                     reduce: { (state: String, event: String) -> String in
                         return state + event
                     },
                     feedbacks: [
-                        Feedback { scheduler, state in
-                            return state
+                        Feedback { state, output in
+                            state
                                 .take(first: 1)
                                 .map(value: "_event")
-                                .observe(on: scheduler)
                                 .on(terminated: { semaphore.signal() })
+                                .enqueue(to: output)
+                                .start()
                         }
                     ]
                 )
