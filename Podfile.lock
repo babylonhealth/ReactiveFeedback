@@ -9,7 +9,7 @@ DEPENDENCIES:
   - ReactiveSwift (~> 6.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Kingfisher
     - Nimble
     - ReactiveSwift
@@ -21,4 +21,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 33df60e5cfccc8aaf4daadf97c10923592f1ed87
 
-COCOAPODS: 1.6.2
+COCOAPODS: 1.8.4
