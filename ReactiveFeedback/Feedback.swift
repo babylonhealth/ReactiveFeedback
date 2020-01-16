@@ -8,6 +8,15 @@ public struct Feedback<State, Event> {
         self.events = events
     }
 
+    /// Creates a custom Feedback, with the complete liberty of defining the data flow.
+    ///
+    /// - important: While you may respond to state changes in whatever ways you prefer, you **must** enqueue produced
+    ///              events using the `SignalProducer.enqueue(to:)` operator to the `FeedbackEventConsumer` provided
+    ///              to you. Otherwise, the feedback loop will not be able to pick up and process your events.
+    ///
+    /// - parameters:
+    ///   - setup: The setup closure to construct a data flow producing events in respond to changes from `state`,
+    ///             and having them consumed by `output` using the `SignalProducer.enqueue(to:)` operator.
     public static func custom(
         _ setup: @escaping (
             _ state: SignalProducer<State, Never>,
