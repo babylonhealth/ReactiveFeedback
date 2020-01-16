@@ -6,14 +6,7 @@ extension Property {
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: [Feedback<Value, Event>]
     ) {
-        let state = MutableProperty(initial)
-        state <~ SignalProducer.system(
-            initial: initial,
-            reduce: reduce,
-            feedbacks: feedbacks
-        )
-        .skip(first: 1)
-        self.init(capturing: state)
+        self.init(capturing: FeedbackLoop(initial: initial, reduce: reduce, feedbacks: feedbacks))
     }
 
     public convenience init<Event>(
