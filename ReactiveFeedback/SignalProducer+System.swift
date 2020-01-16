@@ -18,21 +18,15 @@ extension SignalProducer where Error == Never {
         feedbacks: [Feedback<Value, Event>]
     ) -> SignalProducer<Value, Never> {
         return SignalProducer.deferred { downstreamLifetime in
-            let floodgate = Floodgate<Value, Event>(state: initial, reducer: reduce)
-
-            for feedback in feedbacks {
-                downstreamLifetime += feedback
-                    .events(floodgate.stateDidChange.producer, floodgate)
-            }
-
-            downstreamLifetime.observeEnded { floodgate.dispose() }
-
-            return floodgate.stateDidChange.producer
-                .on(
-                    started: { floodgate.bootstrap() },
-                    terminated: { floodgate.dispose() }
-                )
-        }
+             let feedbackLoop = FeedbackLoop(
+                 initial: initial,
+                 reduce: reduce,
+                 feedbacks: feedbacks,
+                 startImmediately: false
+             )
+             downstreamLifetime.observeEnded(feedbackLoop.stop)
+             return feedbackLoop.producer.on(started: feedbackLoop.start)
+         }
     }
 
     /// Feedback-controlled State Machine. The system state is represented as a `State` parameter.

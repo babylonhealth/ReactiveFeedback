@@ -1,24 +1,6 @@
 import Foundation
 import ReactiveSwift
 
-public class FeedbackEventConsumer<Event> {
-    struct Token: Equatable {
-        let value: UInt64
-
-        init() {
-            value = DispatchTime.now().uptimeNanoseconds
-        }
-    }
-
-    func process(_ event: Event, for token: Token) {
-        fatalError()
-    }
-
-    func unqueueAllEvents(for token: Token) {
-        fatalError()
-    }
-}
-
 final class Floodgate<State, Event>: FeedbackEventConsumer<Event> {
     struct QueueState {
         var events: [(Event, Token)] = []
@@ -28,9 +10,10 @@ final class Floodgate<State, Event>: FeedbackEventConsumer<Event> {
     let (stateDidChange, changeObserver) = Signal<State, Never>.pipe()
 
     private let reducerLock = NSLock()
-
-    private var queue = Atomic(QueueState())
     private var state: State
+    private var hasStarted = false
+
+    private let queue = Atomic(QueueState())
     private let reducer: (State, Event) -> State
 
     init(state: State, reducer: @escaping (State, Event) -> State) {
@@ -41,6 +24,9 @@ final class Floodgate<State, Event>: FeedbackEventConsumer<Event> {
     func bootstrap() {
         reducerLock.lock()
         defer { reducerLock.unlock() }
+
+        guard !hasStarted else { return }
+        hasStarted = true
 
         changeObserver.send(value: state)
         drainEvents()
@@ -61,6 +47,10 @@ final class Floodgate<State, Event>: FeedbackEventConsumer<Event> {
 
     override func unqueueAllEvents(for token: Token) {
         queue.modify { $0.events.removeAll(where: { _, t in t == token }) }
+    }
+
+    func withValue<Result>(_ action: (State, Bool) -> Result) -> Result {
+        reducerLock.perform { action(state, hasStarted) }
     }
 
     func dispose() {
