@@ -94,7 +94,7 @@ final class PaginationViewModel {
                                       feedbacks: feedbacks)
 
         self.movies = Property<[Movie]>(initial: [],
-                                        then: stateProperty.producer.filterMap { $0.newMovies })
+                                        then: stateProperty.producer.compactMap { $0.newMovies })
 
         self.errors = stateProperty.map { $0.lastError }
         self.refreshing = stateProperty.map { $0.isRefreshing }
@@ -104,10 +104,13 @@ final class PaginationViewModel {
 
     enum Feedbacks {
         static func loadNextFeedback(for nearBottomSignal: Signal<Void, Never>) -> Feedback<State, Event> {
-            return Feedback(predicate: { !$0.paging }) { _ in
-                nearBottomSignal
-                    .map { Event.startLoadingNextPage }
-            }
+            return Feedback(
+                condition: { !$0.paging },
+                whenBecomesTrue: { _ in
+                    nearBottomSignal
+                        .map { Event.startLoadingNextPage }
+                }
+            )
         }
 
         static func pagingFeedback() -> Feedback<State, Event> {
@@ -298,7 +301,7 @@ final class MoviewCell: UICollectionViewCell {
 extension UIScrollView {
     var rac_contentOffset: Signal<CGPoint, Never> {
         return self.reactive.signal(forKeyPath: "contentOffset")
-            .filterMap { change in
+            .compactMap { change in
                 guard let value = change as? NSValue else {
                     return nil
                 }
@@ -312,7 +315,7 @@ extension UIScrollView {
         }
 
         return rac_contentOffset
-            .filterMap { _ in
+            .compactMap { _ in
             if isNearBottomEdge(scrollView: self) {
                 return ()
             }

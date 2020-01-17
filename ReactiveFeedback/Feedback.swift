@@ -79,6 +79,50 @@ public struct Feedback<State, Event> {
                   effects: { $0.map(effects)?.producer ?? .empty })
     }
 
+    /// Creates a Feedback which starts evaluating the provided effect, every time the given condition becomes true.
+    /// When the given condition becomes false, any outstanding effect is cancelled.
+    ///
+    /// - important: The effect is started only when the condition output becomes true, or in other words, transitions
+    ///              from false to true. If the condition output evaluates to true against multiple consecutive versions
+    ///              of the state, the feedback still does not restart the effect with the later versions — only when
+    ///              the output becomes false, which resets the feedback.
+    ///
+    /// - parameters:
+    ///   - predicate: The predicate to apply on the state.
+    ///   - effects: The side effect accepting the state and yielding events
+    ///              that eventually affect the state.
+    public init<Effect: SignalProducerConvertible>(
+        condition: @escaping (State) -> Bool,
+        whenBecomesTrue effects: @escaping (State) -> Effect
+    ) where Effect.Value == Event, Effect.Error == Never {
+        self.init(
+            deriving: { state in
+                state
+                    .scan(into: EdgeTriggeredControlState<State>.negative) { output, newState in
+                        switch (output.isPositive, condition(newState)) {
+                        case (false, true):
+                            output = .positive(newState)
+                        case (true, false):
+                            output = .negative
+                        case (true, true):
+                            output = .positiveValueSent
+                        case (false, false):
+                            output = .negative
+                        }
+                    }
+                    .compactMap(EdgeTriggeredControlOutput<State>.init)
+            },
+            effects: { output -> SignalProducer<Event, Never> in
+                switch output {
+                case let .start(state):
+                    return effects(state).producer
+                case .cancel:
+                    return .empty
+                }
+            }
+        )
+    }
+
     /// Creates a Feedback which re-evaluates the given effect every time the
     /// given predicate passes.
     ///
@@ -89,6 +133,7 @@ public struct Feedback<State, Event> {
     ///   - predicate: The predicate to apply on the state.
     ///   - effects: The side effect accepting the state and yielding events
     ///              that eventually affect the state.
+    @available(*, deprecated, message:"Use `Feedback.init(condition:whenBecomesTrue:)` or other variants when appropriate.")
     public init<Effect: SignalProducerConvertible>(
         predicate: @escaping (State) -> Bool,
         effects: @escaping (State) -> Effect
@@ -130,5 +175,36 @@ extension Feedback {
         effects: @escaping (Control) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
         fatalError()
+    }
+}
+
+private enum EdgeTriggeredControlState<State> {
+    case negative
+    case positive(State)
+    case positiveValueSent
+
+    var isPositive: Bool {
+        switch self {
+        case .positiveValueSent, .positive:
+            return true
+        case .negative:
+            return false
+        }
+    }
+}
+
+private enum EdgeTriggeredControlOutput<State> {
+    case start(State)
+    case cancel
+
+    init?(_ state: EdgeTriggeredControlState<State>) {
+        switch state {
+        case .negative:
+            self = .cancel
+        case let .positive(state):
+            self = .start(state)
+        case .positiveValueSent:
+            return nil
+        }
     }
 }

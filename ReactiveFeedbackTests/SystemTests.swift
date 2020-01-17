@@ -259,4 +259,93 @@ class SystemTests: XCTestCase {
 
         expect(result).toEventually(equal(expected))
     }
+
+    func test_conditionBecomesTrue() {
+        let (lessThanAHundred, lessThanAHundredObserver) = Signal<Int, Never>.pipe()
+        let (greaterThanAHundred, greaterThanAHundredObserver) = Signal<Int, Never>.pipe()
+
+        var reducerCount = 0
+        var lessThanAHundredStartCount = 0
+        var greaterThanAHundredStartCount = 0
+
+        let scheduler = TestScheduler()
+        let garbage = Int.max
+
+        let system = SignalProducer<Int, Never>.system(
+            initial: 0,
+            scheduler: scheduler,
+            reduce: { (state: Int, event: Int) in
+                reducerCount += 1
+                return state + event
+            },
+            feedbacks: [
+                Feedback(
+                    condition: { $0 < 100 },
+                    whenBecomesTrue: { _ in
+                        lessThanAHundred.producer
+                            .on(started: { lessThanAHundredStartCount += 1 })
+                    }
+                ),
+                Feedback(
+                    condition: { $0 > 100 },
+                    whenBecomesTrue: { _ in
+                        greaterThanAHundred.producer
+                            .on(started: { greaterThanAHundredStartCount += 1 })
+                    }
+                )
+            ]
+        )
+
+        var history = [Int]()
+        system.startWithValues { history.append($0) }
+
+        scheduler.advance()
+        expect(history) == [0]
+        expect(lessThanAHundredStartCount) == 1
+        expect(greaterThanAHundredStartCount) == 0
+        expect(reducerCount) == 0
+
+        lessThanAHundredObserver.send(value: 25)
+        lessThanAHundredObserver.send(value: 25)
+        lessThanAHundredObserver.send(value: 25)
+        lessThanAHundredObserver.send(value: 26)
+        greaterThanAHundredObserver.send(value: garbage) // Garbage that should be ignored by the feedback
+        greaterThanAHundredObserver.send(value: garbage) // Garbage that should be ignored by the feedback
+        scheduler.advance()
+
+        expect(history) == [0, 25, 50, 75, 101]
+        expect(lessThanAHundredStartCount) == 1
+        expect(greaterThanAHundredStartCount) == 1
+        expect(reducerCount) == 4
+
+        greaterThanAHundredObserver.send(value: 25)
+        greaterThanAHundredObserver.send(value: 25)
+        greaterThanAHundredObserver.send(value: -25)
+        lessThanAHundredObserver.send(value: garbage) // Garbage that should be ignored by the feedback
+        lessThanAHundredObserver.send(value: garbage) // Garbage that should be ignored by the feedback
+        scheduler.advance()
+
+        expect(history) == [0, 25, 50, 75, 101, 126, 151, 126]
+        expect(lessThanAHundredStartCount) == 1
+        expect(greaterThanAHundredStartCount) == 1
+        expect(reducerCount) == 7
+
+        greaterThanAHundredObserver.send(value: -40)
+        lessThanAHundredObserver.send(value: garbage) // Garbage that should be ignored by the feedback
+        scheduler.advance()
+
+        expect(history) == [0, 25, 50, 75, 101, 126, 151, 126, 86]
+        expect(lessThanAHundredStartCount) == 2
+        expect(greaterThanAHundredStartCount) == 1
+        expect(reducerCount) == 8
+
+        lessThanAHundredObserver.send(value: 42)
+        greaterThanAHundredObserver.send(value: garbage) // Garbage that should be ignored by the feedback
+        scheduler.advance()
+
+        expect(history) == [0, 25, 50, 75, 101, 126, 151, 126, 86, 128]
+        expect(lessThanAHundredStartCount) == 2
+        expect(greaterThanAHundredStartCount) == 2
+        expect(reducerCount) == 9
+    }
 }

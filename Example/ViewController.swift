@@ -46,13 +46,19 @@ final class ViewModel {
 
     init(increment: Signal<Void, Never>, decrement: Signal<Void, Never>) {
 
-        let incrementFeedback = Feedback<Int, Event>(predicate: { $0 < 10}) { _ in
-            increment.map { _ in Event.increment }
-        }
+        let incrementFeedback = Feedback<Int, Event>(
+            condition: { $0 < 10 },
+            whenBecomesTrue: { _ in
+                increment.map { _ in Event.increment }
+            }
+        )
 
-        let decrementFeedback = Feedback<Int, Event>(predicate: { $0 > -10 }) { _ in
-            decrement.map { _ in Event.decrement }
-        }
+        let decrementFeedback = Feedback<Int, Event>(
+            condition: { $0 > -10 },
+            whenBecomesTrue: { _ in
+                decrement.map { _ in Event.decrement }
+            }
+        )
 
         self.state = Property(initial: 0,
                               reduce: ViewModel.reduce,
