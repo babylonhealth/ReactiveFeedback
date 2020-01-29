@@ -10,10 +10,10 @@ public class FeedbackEventConsumer<Event> {
     }
 
     func process(_ event: Event, for token: Token) {
-        fatalError()
+        fatalError("This is an abstract class. You must subclass this and provide your own implementation")
     }
 
     func unqueueAllEvents(for token: Token) {
-        fatalError()
+        fatalError("This is an abstract class. You must subclass this and provide your own implementation")
     }
 }

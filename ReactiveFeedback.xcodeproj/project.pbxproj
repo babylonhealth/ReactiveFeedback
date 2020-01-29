@@ -17,9 +17,9 @@
 		656A9C9323D0813500EFB2F8 /* FeedbackLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9223D0813500EFB2F8 /* FeedbackLoop.swift */; };
 		656A9C9423D0813500EFB2F8 /* FeedbackLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9223D0813500EFB2F8 /* FeedbackLoop.swift */; };
 		656A9C9523D0813500EFB2F8 /* FeedbackLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9223D0813500EFB2F8 /* FeedbackLoop.swift */; };
-		656A9C9723D0826100EFB2F8 /* FeedbackEventCustomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9623D0826100EFB2F8 /* FeedbackEventCustomer.swift */; };
-		656A9C9823D0826100EFB2F8 /* FeedbackEventCustomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9623D0826100EFB2F8 /* FeedbackEventCustomer.swift */; };
-		656A9C9923D0826100EFB2F8 /* FeedbackEventCustomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9623D0826100EFB2F8 /* FeedbackEventCustomer.swift */; };
+		656A9C9723D0826100EFB2F8 /* FeedbackEventConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9623D0826100EFB2F8 /* FeedbackEventConsumer.swift */; };
+		656A9C9823D0826100EFB2F8 /* FeedbackEventConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9623D0826100EFB2F8 /* FeedbackEventConsumer.swift */; };
+		656A9C9923D0826100EFB2F8 /* FeedbackEventConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A9C9623D0826100EFB2F8 /* FeedbackEventConsumer.swift */; };
 		65761B2623CF20EF004D5506 /* Floodgate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65761B2523CF20EF004D5506 /* Floodgate.swift */; };
 		65761B2723CF20EF004D5506 /* Floodgate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65761B2523CF20EF004D5506 /* Floodgate.swift */; };
 		65761B2823CF20EF004D5506 /* Floodgate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65761B2523CF20EF004D5506 /* Floodgate.swift */; };
@@ -148,7 +148,7 @@
 		587F0720201F647400ACD219 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5898B6D01F97ADDD005EEAEC /* SystemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTests.swift; sourceTree = "<group>"; };
 		656A9C9223D0813500EFB2F8 /* FeedbackLoop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackLoop.swift; sourceTree = "<group>"; };
-		656A9C9623D0826100EFB2F8 /* FeedbackEventCustomer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEventCustomer.swift; sourceTree = "<group>"; };
+		656A9C9623D0826100EFB2F8 /* FeedbackEventConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEventConsumer.swift; sourceTree = "<group>"; };
 		65761B2523CF20EF004D5506 /* Floodgate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Floodgate.swift; sourceTree = "<group>"; };
 		65761B2D23CF4CA1004D5506 /* NSLock+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLock+Extensions.swift"; sourceTree = "<group>"; };
 		65761B3123CF677F004D5506 /* TextInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputViewController.swift; sourceTree = "<group>"; };
@@ -242,7 +242,7 @@
 			children = (
 				A95097E70D3CBFF05FA7B8CC /* Feedback.swift */,
 				656A9C9223D0813500EFB2F8 /* FeedbackLoop.swift */,
-				656A9C9623D0826100EFB2F8 /* FeedbackEventCustomer.swift */,
+				656A9C9623D0826100EFB2F8 /* FeedbackEventConsumer.swift */,
 				A9509880213192F0D80EC2B3 /* SignalProducer+System.swift */,
 				9AD5D42C1F97375E00E6AE5A /* Property+System.swift */,
 				25CC87B11F92855300A6EBFC /* Info.plist */,
@@ -594,7 +594,7 @@
 				65761B2E23CF4CA2004D5506 /* NSLock+Extensions.swift in Sources */,
 				9AD5D42D1F97375E00E6AE5A /* Property+System.swift in Sources */,
 				656A9C9323D0813500EFB2F8 /* FeedbackLoop.swift in Sources */,
-				656A9C9723D0826100EFB2F8 /* FeedbackEventCustomer.swift in Sources */,
+				656A9C9723D0826100EFB2F8 /* FeedbackEventConsumer.swift in Sources */,
 				65761B2623CF20EF004D5506 /* Floodgate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -619,7 +619,7 @@
 				65761B2F23CF4CA2004D5506 /* NSLock+Extensions.swift in Sources */,
 				65F8C262218371A800924657 /* Property+System.swift in Sources */,
 				656A9C9423D0813500EFB2F8 /* FeedbackLoop.swift in Sources */,
-				656A9C9823D0826100EFB2F8 /* FeedbackEventCustomer.swift in Sources */,
+				656A9C9823D0826100EFB2F8 /* FeedbackEventConsumer.swift in Sources */,
 				65761B2723CF20EF004D5506 /* Floodgate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -633,7 +633,7 @@
 				65761B3023CF4CA2004D5506 /* NSLock+Extensions.swift in Sources */,
 				65F8C271218371AC00924657 /* Property+System.swift in Sources */,
 				656A9C9523D0813500EFB2F8 /* FeedbackLoop.swift in Sources */,
-				656A9C9923D0826100EFB2F8 /* FeedbackEventCustomer.swift in Sources */,
+				656A9C9923D0826100EFB2F8 /* FeedbackEventConsumer.swift in Sources */,
 				65761B2823CF20EF004D5506 /* Floodgate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
