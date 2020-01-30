@@ -4,7 +4,7 @@ import ReactiveSwift
 public struct Feedback<State, Event> {
     let events: (_ state: SignalProducer<State, Never>, _ output: FeedbackEventConsumer<Event>) -> Disposable
 
-    internal init(events: @escaping (_ state: SignalProducer<State, Never>, _ output: FeedbackEventConsumer<Event>) -> Disposable) {
+    public init(events: @escaping (_ state: SignalProducer<State, Never>, _ output: FeedbackEventConsumer<Event>) -> Disposable) {
         self.events = events
     }
 
