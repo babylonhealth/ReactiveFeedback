@@ -32,6 +32,7 @@ public final class FeedbackLoop<State, Event>: PropertyProtocol {
         initial: Value,
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: [Feedback<Value, Event>],
+        scheduler: Scheduler = ImmediateScheduler(),
         startImmediately: Bool = true
     ) {
         (lifetime, token) = Lifetime.make()
@@ -40,7 +41,7 @@ public final class FeedbackLoop<State, Event>: PropertyProtocol {
 
         for feedback in feedbacks {
             lifetime += feedback
-                .events(floodgate.stateDidChange.producer, floodgate)
+                .events(floodgate.stateDidChange.producer, scheduler, floodgate)
         }
 
         if startImmediately {

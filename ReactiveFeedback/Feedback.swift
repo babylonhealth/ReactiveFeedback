@@ -2,9 +2,15 @@ import Foundation
 import ReactiveSwift
 
 public struct Feedback<State, Event> {
-    let events: (_ state: SignalProducer<State, Never>, _ output: FeedbackEventConsumer<Event>) -> Disposable
+    let events: (_ state: SignalProducer<State, Never>, _ scheduler: Scheduler, _ output: FeedbackEventConsumer<Event>) -> Disposable
 
-    public init(events: @escaping (_ state: SignalProducer<State, Never>, _ output: FeedbackEventConsumer<Event>) -> Disposable) {
+    public init(
+        events: @escaping (
+        _ state: SignalProducer<State, Never>,
+        _ scheduler: Scheduler,
+        _ output: FeedbackEventConsumer<Event>
+        ) -> Disposable
+    ) {
         self.events = events
     }
 
@@ -20,6 +26,7 @@ public struct Feedback<State, Event> {
     public static func custom(
         _ setup: @escaping (
             _ state: SignalProducer<State, Never>,
+            _ scheduler: Scheduler,
             _ output: FeedbackEventConsumer<Event>
         ) -> Disposable
     ) -> Feedback<State, Event> {
@@ -42,12 +49,12 @@ public struct Feedback<State, Event> {
         compacting transform: @escaping (SignalProducer<State, Never>) -> SignalProducer<U, Never>,
         effects: @escaping (U) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
-        self.events = { state, output in
+        self.events = { state, scheduler, output in
             // NOTE: `observe(on:)` should be applied on the inner producers, so
             //       that cancellation due to state changes would be able to
             //       cancel outstanding events that have already been scheduled.
             transform(state)
-                .flatMap(.latest) { effects($0).producer.enqueue(to: output) }
+                .flatMap(.latest) { effects($0).producer.observe(on: scheduler).enqueue(to: output) }
                 .start()
         }
     }
@@ -138,13 +145,13 @@ extension Feedback {
         deriving transform: @escaping (Signal<State, Never>) -> Signal<U, Never>,
         effects: @escaping (U) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
-        self.events = { state, output in
+        self.events = { state, scheduler, output in
             // NOTE: `observe(on:)` should be applied on the inner producers, so
             //       that cancellation due to state changes would be able to
             //       cancel outstanding events that have already been scheduled.
             state.startWithSignal { state, _ in
                 transform(state)
-                    .flatMap(.latest) { effects($0).producer.enqueue(to: output) }
+                    .flatMap(.latest) { effects($0).producer.observe(on: scheduler).enqueue(to: output) }
                     .producer
                     .start()
             }

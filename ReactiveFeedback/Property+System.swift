@@ -1,19 +1,31 @@
 import ReactiveSwift
 
 extension Property {
+    @available(*, deprecated, message:"Please migrate to FeedbackLoop")
     public convenience init<Event>(
         initial: Value,
+        scheduler: Scheduler = QueueScheduler.main,
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: [Feedback<Value, Event>]
     ) {
-        self.init(capturing: FeedbackLoop(initial: initial, reduce: reduce, feedbacks: feedbacks))
+        let state = MutableProperty(initial)
+        state <~ SignalProducer.system(
+            initial: initial,
+            reduce: reduce,
+            feedbacks: feedbacks
+        )
+        .skip(first: 1)
+        .observe(on: scheduler)
+        self.init(capturing: state)
     }
 
+    @available(*, deprecated, message:"Please migrate to FeedbackLoop")
     public convenience init<Event>(
         initial: Value,
+        scheduler: Scheduler = QueueScheduler.main,
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: Feedback<Value, Event>...
     ) {
-        self.init(initial: initial, reduce: reduce, feedbacks: feedbacks)
+        self.init(initial: initial, scheduler: scheduler, reduce: reduce, feedbacks: feedbacks)
     }
 }
