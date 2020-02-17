@@ -27,17 +27,17 @@ class TextInputViewController: UIViewController {
         } else {
             self.automaticallyAdjustsScrollViewInsets = true
         }
-
-        textView.reactive.continuousTextValues
-            .take(duringLifetimeOf: self)
-            .observeValues { [viewModel] in viewModel.textDidChange($0) }
-
-        textView.reactive.text <~ viewModel.state
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.state.start()
+        
+        textView.reactive.continuousTextValues
+            .take(duringLifetimeOf: self)
+            .observeValues { [viewModel] in viewModel.textDidChange($0) }
 
+        textView.reactive.text <~ viewModel.state.producer
         characterCountLabel.reactive.text <~ viewModel.state.producer
             .map { "\($0.count) characters" }
         inputToolbar.setItems([UIBarButtonItem(customView: characterCountLabel)], animated: false)
@@ -51,16 +51,16 @@ class TextInputViewController: UIViewController {
 }
 
 final class TextInputViewModel {
-    let state: Property<String>
+    let state: FeedbackLoop<String, Event>
     private let (text, textObserver) = Signal<String, Never>.pipe()
 
     init() {
-        self.state = Property(
+        self.state = FeedbackLoop<String, Event>(
             initial: "Lorem ipsum ",
             reduce: TextInputViewModel.reduce,
-            feedbacks: Feedback.custom { [text] _, output in
-                text.producer.map(Event.update).enqueue(to: output).start()
-            }
+            feedbacks: [.custom { [text] (state, consumer) in
+                text.producer.map(Event.update).enqueue(to: consumer).start()
+            }]
         )
     }
 
