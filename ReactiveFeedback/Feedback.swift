@@ -2,35 +2,17 @@ import Foundation
 import ReactiveSwift
 
 public struct Feedback<State, Event> {
-    let events: (_ state: SignalProducer<State, Never>, _ scheduler: Scheduler, _ output: FeedbackEventConsumer<Event>) -> Disposable
-
-    public init(
-        events: @escaping (
-        _ state: SignalProducer<State, Never>,
-        _ scheduler: Scheduler,
-        _ output: FeedbackEventConsumer<Event>
-        ) -> Disposable
-    ) {
-        self.events = events
-    }
-
-    /// Creates a custom Feedback, with the complete liberty of defining the data flow.
-    ///
-    /// - important: While you may respond to state changes in whatever ways you prefer, you **must** enqueue produced
-    ///              events using the `SignalProducer.enqueue(to:)` operator to the `FeedbackEventConsumer` provided
-    ///              to you. Otherwise, the feedback loop will not be able to pick up and process your events.
+    let events: (Scheduler, Signal<State, Never>) -> Signal<Event, Never>
+    
+    /// Creates an arbitrary Feedback, which evaluates side effects reactively
+    /// to the latest state, and eventually produces events that affect the
+    /// state.
     ///
     /// - parameters:
-    ///   - setup: The setup closure to construct a data flow producing events in respond to changes from `state`,
-    ///             and having them consumed by `output` using the `SignalProducer.enqueue(to:)` operator.
-    public static func custom(
-        _ setup: @escaping (
-            _ state: SignalProducer<State, Never>,
-            _ scheduler: Scheduler,
-            _ output: FeedbackEventConsumer<Event>
-        ) -> Disposable
-    ) -> Feedback<State, Event> {
-        return Feedback(events: setup)
+    ///   - events: The transform which derives a `Signal` of events from the
+    ///             latest state.
+    public init(events: @escaping (Scheduler, Signal<State, Never>) -> Signal<Event, Never>) {
+        self.events = events
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
@@ -46,16 +28,15 @@ public struct Feedback<State, Event> {
     ///              `transform` and yielding events that eventually affect
     ///              the state.
     public init<U, Effect: SignalProducerConvertible>(
-        compacting transform: @escaping (SignalProducer<State, Never>) -> SignalProducer<U, Never>,
+        deriving transform: @escaping (Signal<State, Never>) -> Signal<U, Never>,
         effects: @escaping (U) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
-        self.events = { state, scheduler, output in
+        self.events = { scheduler, state in
             // NOTE: `observe(on:)` should be applied on the inner producers, so
             //       that cancellation due to state changes would be able to
             //       cancel outstanding events that have already been scheduled.
-            transform(state)
-                .flatMap(.latest) { effects($0).producer.observe(on: scheduler).enqueue(to: output) }
-                .start()
+            return transform(state)
+                .flatMap(.latest) { effects($0).producer.observe(on: scheduler) }
         }
     }
 
@@ -75,7 +56,7 @@ public struct Feedback<State, Event> {
         skippingRepeated transform: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
-        self.init(compacting: { $0.map(transform).skipRepeats() },
+        self.init(deriving: { $0.map(transform).skipRepeats() },
                   effects: { $0.map(effects)?.producer ?? .empty })
     }
 
@@ -94,7 +75,7 @@ public struct Feedback<State, Event> {
         lensing transform: @escaping (State) -> Control?,
         effects: @escaping (Control) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
-        self.init(compacting: { $0.map(transform) },
+        self.init(deriving: { $0.map(transform) },
                   effects: { $0.map(effects)?.producer ?? .empty })
     }
 
@@ -112,7 +93,7 @@ public struct Feedback<State, Event> {
         predicate: @escaping (State) -> Bool,
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
-        self.init(compacting: { $0 },
+        self.init(deriving: { $0 },
                   effects: { state -> SignalProducer<Event, Never> in
                       predicate(state) ? effects(state).producer : .empty                      
                   })
@@ -130,32 +111,7 @@ public struct Feedback<State, Event> {
     public init<Effect: SignalProducerConvertible>(
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
-        self.init(compacting: { $0 }, effects: effects)
-    }
-}
-
-extension Feedback {
-    @available(*, unavailable, message:"Migrate to `Feedback.custom(_:)` which provides custom feedbacks a `SignalProducer` and a `FeedbackEventConsumer` to enable a more efficient and synchronous feedback loop.")
-    public init(_ events: @escaping (Scheduler, Signal<State, Never>) -> Signal<Event, Never>) {
-        fatalError()
-    }
-
-    @available(*, deprecated, message:"Migrate to", renamed:"Feedback.init(compacting:effects:)")
-    public init<U, Effect: SignalProducerConvertible>(
-        deriving transform: @escaping (Signal<State, Never>) -> Signal<U, Never>,
-        effects: @escaping (U) -> Effect
-    ) where Effect.Value == Event, Effect.Error == Never {
-        self.events = { state, scheduler, output in
-            // NOTE: `observe(on:)` should be applied on the inner producers, so
-            //       that cancellation due to state changes would be able to
-            //       cancel outstanding events that have already been scheduled.
-            state.startWithSignal { state, _ in
-                transform(state)
-                    .flatMap(.latest) { effects($0).producer.observe(on: scheduler).enqueue(to: output) }
-                    .producer
-                    .start()
-            }
-        }
+        self.init(deriving: { $0 }, effects: effects)
     }
 }
 

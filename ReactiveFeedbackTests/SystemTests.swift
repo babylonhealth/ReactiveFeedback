@@ -7,10 +7,10 @@ class SystemTests: XCTestCase {
 
     func test_emits_initial() {
         let initial = "initial"
-        let feedback = Feedback<String, String> { state in
+        let feedback = FeedbackLoop<String, String>.Feedback { state in
             return SignalProducer(value: "_a")
         }
-        let system = SignalProducer<String, Never>.system(
+        let system = SignalProducer<String, Never>.feedbackloop(
             initial: initial,
             reduce: { (state: String, event: String) in
                 return state + event
@@ -22,10 +22,10 @@ class SystemTests: XCTestCase {
     }
 
     func test_reducer_with_one_feedback_loop() {
-        let feedback = Feedback<String, String> { state in
+        let feedback = FeedbackLoop<String, String>.Feedback { state in
             return SignalProducer(value: "_a")
         }
-        let system = SignalProducer<String, Never>.system(
+        let system = SignalProducer<String, Never>.feedbackloop(
             initial: "initial",
             reduce: { (state: String, event: String) in
                 return state + event
@@ -48,13 +48,13 @@ class SystemTests: XCTestCase {
     }
 
     func test_reduce_with_two_immediate_feedback_loops() {
-        let feedback1 = Feedback<String, String> { state in
+        let feedback1 = FeedbackLoop<String, String>.Feedback { state in
             return !state.hasSuffix("_a") ? SignalProducer(value: "_a") : .empty
         }
-        let feedback2 = Feedback<String, String> { state in
+        let feedback2 = FeedbackLoop<String, String>.Feedback { state in
             return !state.hasSuffix("_b") ? SignalProducer(value: "_b") : .empty
         }
-        let system = SignalProducer<String, Never>.system(
+        let system = SignalProducer<String, Never>.feedbackloop(
             initial: "initial",
             reduce: { (state: String, event: String) in
                 return state + event
@@ -79,7 +79,7 @@ class SystemTests: XCTestCase {
     }
 
     func test_reduce_with_async_feedback_loop() {
-        let feedback = Feedback<String, String> { state -> SignalProducer<String, Never> in
+        let feedback = FeedbackLoop<String, String>.Feedback { state -> SignalProducer<String, Never> in
             if state == "initial" {
                 return SignalProducer(value: "_a")
                     .delay(0.1, on: QueueScheduler.main)
@@ -92,7 +92,7 @@ class SystemTests: XCTestCase {
             }
             return SignalProducer.empty
         }
-        let system = SignalProducer<String, Never>.system(
+        let system = SignalProducer<String, Never>.feedbackloop(
             initial: "initial",
             reduce: { (state: String, event: String) in
                 return state + event
@@ -118,14 +118,14 @@ class SystemTests: XCTestCase {
     func test_should_observe_signals_immediately() {
         let (signal, observer) = Signal<String, Never>.pipe()
 
-        let system = SignalProducer<String, Never>.system(
+        let system = SignalProducer<String, Never>.feedbackloop(
             initial: "initial",
             reduce: { (state: String, event: String) -> String in
                 return state + event
             },
             feedbacks: [
-                Feedback { state -> Signal<String, Never> in
-                    return signal
+                FeedbackLoop<String, String>.Feedback { state in
+                    return signal.producer
                 }
             ]
         )
@@ -142,13 +142,13 @@ class SystemTests: XCTestCase {
     func test_should_start_producers_immediately() {
         var startCount = 0
 
-        let system = SignalProducer<String, Never>.system(
+        let system = SignalProducer<String, Never>.feedbackloop(
             initial: "initial",
             reduce: { (state: String, event: String) -> String in
                 return state + event
             },
             feedbacks: [
-                Feedback { state -> SignalProducer<String, Never> in
+                FeedbackLoop<String, String>.Feedback { state -> SignalProducer<String, Never> in
                     return SignalProducer(value: "_a")
                         .on(starting: { startCount += 1 })
                 }
@@ -174,18 +174,17 @@ class SystemTests: XCTestCase {
 
         creationScheduler.schedule {
              SignalProducer<String, Never>
-                .system(
+                .feedbackloop(
                     initial: "initial",
                     reduce: { (state: String, event: String) -> String in
                         return state + event
                     },
                     feedbacks: [
-                        Feedback { state, scheduler, output in
+                        FeedbackLoop<String, String>.Feedback { state, output in
                             state
                                 .take(first: 1)
                                 .map(value: "_event")
                                 .on(terminated: { semaphore.signal() })
-                                .observe(on: scheduler)
                                 .enqueue(to: output)
                                 .start()
                         }
@@ -205,10 +204,10 @@ class SystemTests: XCTestCase {
             case increment
         }
         let (incrementSignal, incrementObserver) = Signal<Void, Never>.pipe()
-        let feedback = Feedback<Int, Event>(predicate: { $0 < 2 }) { _ in
+        let feedback = FeedbackLoop<Int, Event>.Feedback(predicate: { $0 < 2 }) { _ in
             incrementSignal.map { _ in Event.increment }
         }
-        let system = SignalProducer<Int, Never>.system(
+        let system = SignalProducer<Int, Never>.feedbackloop(
             initial: 0,
             reduce: { (state: Int, event: Event) in
                 switch event {
