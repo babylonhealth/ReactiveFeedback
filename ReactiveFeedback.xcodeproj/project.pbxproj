@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		250B70DF23FC441300848429 /* FeedbackLoopSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250B70DE23FC441300848429 /* FeedbackLoopSystemTests.swift */; };
+		250B70E023FC441300848429 /* FeedbackLoopSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250B70DE23FC441300848429 /* FeedbackLoopSystemTests.swift */; };
+		250B70E123FC441300848429 /* FeedbackLoopSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250B70DE23FC441300848429 /* FeedbackLoopSystemTests.swift */; };
 		25E1D2211F5493D000D90192 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2201F5493D000D90192 /* AppDelegate.swift */; };
 		25E1D2231F5493D000D90192 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2221F5493D000D90192 /* ViewController.swift */; };
 		25E1D2261F5493D000D90192 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2241F5493D000D90192 /* Main.storyboard */; };
@@ -135,6 +138,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		250B70DE23FC441300848429 /* FeedbackLoopSystemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackLoopSystemTests.swift; sourceTree = "<group>"; };
 		25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactiveFeedback.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25CC87B11F92855300A6EBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25E1D21D1F5493D000D90192 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -299,6 +303,7 @@
 			children = (
 				5898B6D01F97ADDD005EEAEC /* SystemTests.swift */,
 				9AE181BA1F95A71B00A07551 /* Info.plist */,
+				250B70DE23FC441300848429 /* FeedbackLoopSystemTests.swift */,
 			);
 			path = ReactiveFeedbackTests;
 			sourceTree = "<group>";
@@ -643,6 +648,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65F8C2802183723F00924657 /* SystemTests.swift in Sources */,
+				250B70E023FC441300848429 /* FeedbackLoopSystemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,6 +657,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65F8C2942183725900924657 /* SystemTests.swift in Sources */,
+				250B70E123FC441300848429 /* FeedbackLoopSystemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,6 +666,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5898B6D11F97ADDD005EEAEC /* SystemTests.swift in Sources */,
+				250B70DF23FC441300848429 /* FeedbackLoopSystemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

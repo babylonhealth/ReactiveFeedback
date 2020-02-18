@@ -86,7 +86,7 @@ extension SignalProducer where Error == Never {
     ///     - reduce: A function that produces a new State of a system by applying an Event
     ///     - feedbacks: A Feedback loops that produces Events depending on the system's `State`
     ///     - returns: A SignalProducer that emits current the state of the System
-    public static func feedbackloop<Event>(
+    public static func feedbackLoop<Event>(
         initial: Value,
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: [FeedbackLoop<Value, Event>.Feedback]
@@ -111,11 +111,11 @@ extension SignalProducer where Error == Never {
     ///     - reduce: A that produces a new State of the system by applying an Event
     ///     - feedbacks: A Feedback loops that produces Events depending on the system's state.
     ///     - returns: A SignalProducer that emits current the state of the System
-    public static func feedbackloop<Event>(
+    public static func feedbackLoop<Event>(
         initial: Value,
         reduce: @escaping (Value, Event) -> Value,
         feedbacks: FeedbackLoop<Value, Event>.Feedback...
     ) -> SignalProducer<Value, Error> {
-        return feedbackloop(initial: initial, reduce: reduce, feedbacks: feedbacks)
+        return feedbackLoop(initial: initial, reduce: reduce, feedbacks: feedbacks)
     }
 }
