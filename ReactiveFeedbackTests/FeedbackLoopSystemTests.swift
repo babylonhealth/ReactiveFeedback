@@ -12,8 +12,8 @@ class FeedbackLoopSystemTests: XCTestCase {
         }
         let system = SignalProducer<String, Never>.feedbackLoop(
             initial: initial,
-            reduce: { (state: String, event: String) in
-                return state + event
+            reduce: { (state, event) in
+                state += event
             },
             feedbacks: feedback)
         let result = ((try? system.first()?.get()) as String??)
@@ -27,8 +27,8 @@ class FeedbackLoopSystemTests: XCTestCase {
         }
         let system = SignalProducer<String, Never>.feedbackLoop(
             initial: "initial",
-            reduce: { (state: String, event: String) in
-                return state + event
+            reduce: { (state, event) in
+                state += event
             },
             feedbacks: feedback)
 
@@ -56,8 +56,8 @@ class FeedbackLoopSystemTests: XCTestCase {
         }
         let system = SignalProducer<String, Never>.feedbackLoop(
             initial: "initial",
-            reduce: { (state: String, event: String) in
-                return state + event
+            reduce: { (state, event) in
+                state += event
             },
             feedbacks: feedback1, feedback2)
 
@@ -94,8 +94,8 @@ class FeedbackLoopSystemTests: XCTestCase {
         }
         let system = SignalProducer<String, Never>.feedbackLoop(
             initial: "initial",
-            reduce: { (state: String, event: String) in
-                return state + event
+            reduce: { (state, event) in
+                state += event
             },
             feedbacks: feedback)
 
@@ -120,8 +120,8 @@ class FeedbackLoopSystemTests: XCTestCase {
 
         let system = SignalProducer<String, Never>.feedbackLoop(
             initial: "initial",
-            reduce: { (state: String, event: String) -> String in
-                return state + event
+            reduce: { (state, event) in
+                state += event
             },
             feedbacks: [
                 FeedbackLoop<String, String>.Feedback { state in
@@ -144,8 +144,8 @@ class FeedbackLoopSystemTests: XCTestCase {
 
         let system = SignalProducer<String, Never>.feedbackLoop(
             initial: "initial",
-            reduce: { (state: String, event: String) -> String in
-                return state + event
+            reduce: { (state, event) in
+                state += event
             },
             feedbacks: [
                 FeedbackLoop<String, String>.Feedback { state -> SignalProducer<String, Never> in
@@ -176,8 +176,8 @@ class FeedbackLoopSystemTests: XCTestCase {
              SignalProducer<String, Never>
                 .feedbackLoop(
                     initial: "initial",
-                    reduce: { (state: String, event: String) -> String in
-                        return state + event
+                    reduce: { (state, event) in
+                        state += event
                     },
                     feedbacks: [
                         FeedbackLoop<String, String>.Feedback { state, output in
@@ -209,10 +209,10 @@ class FeedbackLoopSystemTests: XCTestCase {
         }
         let system = SignalProducer<Int, Never>.feedbackLoop(
             initial: 0,
-            reduce: { (state: Int, event: Event) in
+            reduce: { (state, event) in
                 switch event {
                 case .increment:
-                    return state + 1
+                    state += 1
                 }
             },
             feedbacks: [feedback])

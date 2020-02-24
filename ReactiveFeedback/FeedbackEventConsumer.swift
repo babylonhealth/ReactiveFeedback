@@ -13,7 +13,7 @@ public class FeedbackEventConsumer<Event> {
         fatalError("This is an abstract class. You must subclass this and provide your own implementation")
     }
 
-    func unqueueAllEvents(for token: Token) {
+    func dequeueAllEvents(for token: Token) {
         fatalError("This is an abstract class. You must subclass this and provide your own implementation")
     }
 }

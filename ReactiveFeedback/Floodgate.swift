@@ -14,9 +14,9 @@ final class Floodgate<State, Event>: FeedbackEventConsumer<Event> {
     private var hasStarted = false
 
     private let queue = Atomic(QueueState())
-    private let reducer: (State, Event) -> State
+    private let reducer: (inout State, Event) -> Void
 
-    init(state: State, reducer: @escaping (State, Event) -> State) {
+    init(state: State, reducer: @escaping (inout State, Event) -> Void) {
         self.state = state
         self.reducer = reducer
     }
@@ -45,7 +45,7 @@ final class Floodgate<State, Event>: FeedbackEventConsumer<Event> {
         }
     }
 
-    override func unqueueAllEvents(for token: Token) {
+    override func dequeueAllEvents(for token: Token) {
         queue.modify { $0.events.removeAll(where: { _, t in t == token }) }
     }
 
@@ -78,7 +78,7 @@ final class Floodgate<State, Event>: FeedbackEventConsumer<Event> {
     }
 
     private func consume(_ event: Event) {
-        state = reducer(state, event)
+        reducer(&state, event)
         changeObserver.send(value: state)
     }
 }
@@ -91,7 +91,7 @@ extension SignalProducer where Error == Never {
             lifetime += self.startWithValues { event in
                 consumer.process(event, for: token)
             }
-            lifetime.observeEnded { consumer.unqueueAllEvents(for: token) }
+            lifetime.observeEnded { consumer.dequeueAllEvents(for: token) }
         }
     }
 }

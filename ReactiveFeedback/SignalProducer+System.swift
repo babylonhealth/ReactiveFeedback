@@ -88,7 +88,7 @@ extension SignalProducer where Error == Never {
     ///     - returns: A SignalProducer that emits current the state of the System
     public static func feedbackLoop<Event>(
         initial: Value,
-        reduce: @escaping (Value, Event) -> Value,
+        reduce: @escaping (inout Value, Event) -> Void,
         feedbacks: [FeedbackLoop<Value, Event>.Feedback]
     ) -> SignalProducer<Value, Never> {
         return SignalProducer.deferred { downstreamLifetime in
@@ -113,7 +113,7 @@ extension SignalProducer where Error == Never {
     ///     - returns: A SignalProducer that emits current the state of the System
     public static func feedbackLoop<Event>(
         initial: Value,
-        reduce: @escaping (Value, Event) -> Value,
+        reduce: @escaping (inout Value, Event) -> Void,
         feedbacks: FeedbackLoop<Value, Event>.Feedback...
     ) -> SignalProducer<Value, Error> {
         return feedbackLoop(initial: initial, reduce: reduce, feedbacks: feedbacks)

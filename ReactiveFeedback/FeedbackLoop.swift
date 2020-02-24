@@ -22,7 +22,7 @@ public final class FeedbackLoop<State, Event> {
 
     public init(
         initial: State,
-        reduce: @escaping (State, Event) -> State,
+        reduce: @escaping (inout State, Event) -> Void,
         feedbacks: [Feedback]
     ) {
         (lifetime, token) = Lifetime.make()

@@ -70,10 +70,10 @@ final class TextInputViewModel {
 }
 
 extension TextInputViewModel {
-    static func reduce(state: String, event: Event) -> String {
+    static func reduce(state: inout String, event: Event) {
         switch event {
         case let .update(text):
-            return text
+            state = text
         }
     }
 
