@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zMS-h2-fCg">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zMS-h2-fCg">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,6 +18,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="zqG-cS-ENL"/>
+                        <segue destination="knD-YS-64o" kind="relationship" relationship="viewControllers" id="pa0-al-SKR"/>
                         <segue destination="Zwd-ec-GM6" kind="relationship" relationship="viewControllers" id="Y8q-do-nau"/>
                     </connections>
                 </tabBarController>
@@ -76,6 +74,25 @@
             </objects>
             <point key="canvasLocation" x="-105" y="221"/>
         </scene>
+        <!--Text-->
+        <scene sceneID="VWW-kx-XvC">
+            <objects>
+                <viewController id="knD-YS-64o" customClass="TextInputViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ul4-g5-KYw"/>
+                        <viewControllerLayoutGuide type="bottom" id="eRb-H5-rl8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="u2P-e8-Jd3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Text" image="pencil.circle" catalog="system" selectedImage="pencil.circle.fill" id="aMU-ht-hXF"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1NA-Mx-QxK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="265" y="894"/>
+        </scene>
         <!--Movies-->
         <scene sceneID="9oy-nA-Fdp">
             <objects>
@@ -98,7 +115,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="175"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="wCE-LK-fSd">
+                                        <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="wCE-LK-fSd">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OdR-FR-C6U">
@@ -144,5 +161,7 @@
     <resources>
         <image name="counter" width="25" height="25"/>
         <image name="movie" width="25" height="25"/>
+        <image name="pencil.circle" catalog="system" width="64" height="60"/>
+        <image name="pencil.circle.fill" catalog="system" width="64" height="60"/>
     </resources>
 </document>
