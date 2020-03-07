@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = "ReactiveFeedback"
-  s.version       = "0.7.0"
+  s.version       = "0.8.0"
   s.summary       = "Unidirectional reactive architecture"
 
   s.description   = <<-DESC

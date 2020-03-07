@@ -3,7 +3,7 @@ version: 2.1
 references:
     - &container_config
         macos:
-            xcode: "11.1.0"
+            xcode: "11.3.0"
         working_directory: /Users/distiller/project
         shell: /bin/bash --login -eo pipefail
 
@@ -60,7 +60,7 @@ commands:
             - run:
                 name: "Bootstrap Carthage"
                 command: |
-                    carthage bootstrap --no-build --no-use-binaries
+                    carthage bootstrap --no-build
             - save_cache:
                 key: *carthage_cache_key
                 paths:
@@ -84,10 +84,6 @@ jobs:
         steps:
             - restore_workspace
             - gems
-            - run:
-                name: pre-start-simulator
-                command: |
-                    instruments -s devices
             - run: script/test << parameters.parameters >>
     
     cocoapods_validation:
@@ -97,12 +93,6 @@ jobs:
             - gems
             - cocoapods
             - run: pod lib lint --use-libraries
-
-    carthage_validation:
-        <<: *container_config
-        steps:    
-            - restore_workspace
-            - run: carthage build --no-skip-current --cache-builds --no-use-binaries --no-use-binaries
     
     spm_validation:
         <<: *container_config
@@ -121,7 +111,7 @@ workflows:
         jobs:
             - checkout_code
             - test:
-                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 11,OS=13.1" ReactiveFeedback-iOS
+                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 11" ReactiveFeedback-iOS
                 name: Test-iOS
                 requires:
                     - checkout_code
@@ -136,7 +126,7 @@ workflows:
                 requires:
                     - checkout_code
             - test:
-                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 11,OS=13.1" Example build
+                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 11" Example build
                 name: ExampleApp
                 requires:
                     - checkout_code
@@ -146,7 +136,5 @@ workflows:
                     - Test-macOS
                     - Test-tvOS
                     - ExampleApp
-            - carthage_validation:
-                requires: *all_tests
             - spm_validation:
                 requires: *all_tests
