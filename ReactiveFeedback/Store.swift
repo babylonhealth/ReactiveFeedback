@@ -13,14 +13,14 @@ open class Store<State, Event> {
     ) {
         self.forward = { _ in }
         self.state = Property(
-            initial: Context(state: initial, forvard: self.input.observer),
+            initial: Context(state: initial, forward: self.input.observer),
             then: SignalProducer.feedbackLoop(
                 initial: initial,
                 reduce: reducer,
                 feedbacks: feedbacks.appending(input.feedback)
             )
             .map { [input] state in
-                Context(state: state, forvard: input.observer)
+                Context(state: state, forward: input.observer)
             }
             .skip(first: 1)
         )
