@@ -26,8 +26,7 @@ extension Counter {
             super.init(
                 initial: State(),
                 reducer: Counter.reduce,
-                feedbacks: [],
-                scheduler: QueueScheduler.main
+                feedbacks: []
             )
         }
     }

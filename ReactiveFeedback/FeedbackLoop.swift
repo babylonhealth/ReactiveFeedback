@@ -178,5 +178,37 @@ extension FeedbackLoop {
         ) where Effect.Value == Event, Effect.Error == Never {
             self.init(compacting: { $0 }, effects: effects)
         }
+        
+        public static var input: (feedback: Feedback, observer: (Event) -> Void) {
+            let pipe = Signal<Event, Never>.pipe()
+            let feedback = Feedback.custom { (state, consumer) -> Disposable in
+                pipe.output.producer.enqueue(to: consumer).start()
+            }
+            return (feedback, pipe.input.send)
+        }
+        
+        public static func pullback<LocalState, LocalEvent>(
+            feedback: FeedbackLoop<LocalState, LocalEvent>.Feedback,
+            value: KeyPath<State, LocalState>,
+            event: @escaping (LocalEvent) -> Event
+        ) -> Feedback {
+            return Feedback.custom { (state, consumer) -> Disposable in
+                return feedback.events(
+                    state.map(value),
+                    consumer.pullback(event)
+                )
+            }
+        }
+        
+        public static func combine(_ feedbacks: FeedbackLoop<State, Event>.Feedback...) -> Feedback {
+            return .custom { (state, consumer) -> Disposable in
+                return feedbacks.map { (feedback) in
+                    feedback.events(state, consumer)
+                }
+                .reduce(into: CompositeDisposable()) { (composite, disposable) in
+                    composite += disposable
+                }
+            }
+        }
     }
 }

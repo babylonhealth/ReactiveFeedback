@@ -5,14 +5,10 @@ import UIKit
 
 enum Movies {
     struct State: Builder {
-        var batch: Results
-        var movies: [Movie]
-        var status: Status
+        var batch: Results = .empty()
+        var movies: [Movie] = []
+        var status: Status = .initial
         var backgroundColor = UIColor.black
-
-        static var empty: State {
-            return State(batch: Results.empty(), movies: [], status: .initial)
-        }
 
         var nextPage: Int? {
             switch status {
@@ -111,8 +107,8 @@ enum Movies {
         }
     }
 
-    static var feedback: Feedback<State, Event> {
-        return Feedback.combine(
+    static var feedback: FeedbackLoop<State, Event>.Feedback {
+        return .combine(
             pagingFeedback(),
             retryPagingFeedback()
         )
@@ -129,29 +125,31 @@ enum Movies {
         )
     }
 
-    private static func reducer(state: State, event: Event) -> State {
+    private static func reducer(state: inout State, event: Event) {
         switch event {
         case .startLoadingNextPage:
-            return state.set(\.status, .paging)
+            state.status = .paging
         case .response(let batch):
-            return state.set(\.batch, batch)
-                .set(\.movies, state.movies + batch.results)
+            state.batch = batch
+            state.movies += batch.results
+            state.status = .loadedPage
         case .failed(let error):
-            return state.set(\.status, .error(error))
+            state.status = .error(error)
         case .retry:
-            return state.set(\.status, .retry)
+            state.status = .retry
         case .picker(_):
             // The beauty of state composition is that at the parent level
             // we can also intercept events of the child and react to them
             // The rule should be tho that we should not mutate the state of the child
             // to not get conflicts
-            return state
+            break;
         }
     }
 
-    private static func pagingFeedback() -> Feedback<State, Event> {
-        return Feedback<State, Event>(skippingRepeated: { $0.nextPage }) { (nextPage) -> SignalProducer<Event, Never> in
-            URLSession.shared.fetchMovies(page: nextPage)
+    private static func pagingFeedback() -> FeedbackLoop<State, Event>.Feedback {
+        return FeedbackLoop<State, Event>.Feedback(skippingRepeated: { $0.nextPage }) { nextPage in
+            return URLSession.shared.fetchMovies(page: nextPage)
+                .observe(on: UIScheduler())
                 .map(Event.response)
                 .flatMapError { error in
                     SignalProducer(value: Event.failed(error))
@@ -159,9 +157,10 @@ enum Movies {
         }
     }
 
-    private static func retryPagingFeedback() -> Feedback<State, Event> {
-        return Feedback<State, Event>(skippingRepeated: { $0.retryPage }) { (nextPage) -> SignalProducer<Event, Never> in
+    private static func retryPagingFeedback() -> FeedbackLoop<State, Event>.Feedback {
+        return .init(skippingRepeated: { $0.retryPage }) { nextPage in
             URLSession.shared.fetchMovies(page: nextPage)
+                .observe(on: UIScheduler())
                 .map(Event.response)
                 .flatMapError { error in
                     SignalProducer(value: Event.failed(error))

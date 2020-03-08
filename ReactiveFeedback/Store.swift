@@ -3,26 +3,24 @@ import ReactiveSwift
 open class Store<State, Event> {
     public let state: Property<Context<State, Event>>
 
-    private let input = Feedback<State, Event>.input()
+    private let input = FeedbackLoop<State, Event>.Feedback.input
     private let forward: (Event) -> Void
 
-    public init<S: DateScheduler>(
+    public init(
         initial: State,
         reducer: @escaping Reducer<State, Event>,
-        feedbacks: [Feedback<State, Event>],
-        scheduler: S
+        feedbacks: [FeedbackLoop<State, Event>.Feedback]
     ) {
         self.forward = { _ in }
         self.state = Property(
-            initial: Context(state: initial, send: self.input.observer),
-            then: SignalProducer.system(
+            initial: Context(state: initial, forvard: self.input.observer),
+            then: SignalProducer.feedbackLoop(
                 initial: initial,
-                scheduler: scheduler,
                 reduce: reducer,
-                feedbacks: feedbacks.appending(self.input.feedback)
+                feedbacks: feedbacks.appending(input.feedback)
             )
             .map { [input] state in
-                Context(state: state, send: input.observer)
+                Context(state: state, forvard: input.observer)
             }
             .skip(first: 1)
         )

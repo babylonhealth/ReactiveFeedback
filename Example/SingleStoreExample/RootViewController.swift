@@ -19,8 +19,8 @@ final class RootViewController: UITabBarController {
             )
         )
 
-        let appFeedbacks: Feedback<State, Event> = Feedback.combine(
-            Feedback.pullback(
+        let appFeedbacks: FeedbackLoop<State, Event>.Feedback = FeedbackLoop<State, Event>.Feedback.combine(
+            FeedbackLoop<State, Event>.Feedback.pullback(
                 feedback: Movies.feedback,
                 value: \.movies,
                 event: Event.movies
@@ -29,8 +29,7 @@ final class RootViewController: UITabBarController {
         store = Store(
             initial: State(),
             reducer: appReducer,
-            feedbacks: [appFeedbacks],
-            scheduler: QueueScheduler.main
+            feedbacks: [appFeedbacks]
         )
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,7 +54,8 @@ final class RootViewController: UITabBarController {
         )
         viewControllers = [
             UINavigationController(rootViewController: counterVC),
-            UINavigationController(rootViewController: moviesVC)
+            UINavigationController(rootViewController: moviesVC),
+            UINavigationController(rootViewController: TextInputViewController())
         ]
         if #available(iOS 11.0, *) {
             counterVC.navigationItem.largeTitleDisplayMode = .always
@@ -96,13 +96,15 @@ open class ContainerViewController<Content: UIView & NibLoadable>: UIViewControl
 
 struct State {
     var counter = Counter.State()
-    var movies = Movies.State.empty
+    var movies = Movies.State()
 }
 
 enum Event {
     case counter(Counter.Event)
     case movies(Movies.Event)
 
+    // This can be done with CasePaths
+    // https://github.com/pointfreeco/swift-case-paths
     var counter: Counter.Event? {
         get {
             guard case let .counter(value) = self else { return nil }

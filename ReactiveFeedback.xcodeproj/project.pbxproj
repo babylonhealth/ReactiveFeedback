@@ -10,12 +10,12 @@
 		250B70DF23FC441300848429 /* FeedbackLoopSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250B70DE23FC441300848429 /* FeedbackLoopSystemTests.swift */; };
 		250B70E023FC441300848429 /* FeedbackLoopSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250B70DE23FC441300848429 /* FeedbackLoopSystemTests.swift */; };
 		250B70E123FC441300848429 /* FeedbackLoopSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250B70DE23FC441300848429 /* FeedbackLoopSystemTests.swift */; };
+		251ACF2E24141B4000C600CB /* PaginationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251ACF2C24141B4000C600CB /* PaginationViewController.swift */; };
+		251ACF2F24141B4000C600CB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251ACF2D24141B4000C600CB /* ViewController.swift */; };
 		25E1D2211F5493D000D90192 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2201F5493D000D90192 /* AppDelegate.swift */; };
-		25E1D2231F5493D000D90192 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2221F5493D000D90192 /* ViewController.swift */; };
 		25E1D2261F5493D000D90192 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2241F5493D000D90192 /* Main.storyboard */; };
 		25E1D2281F5493D000D90192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2271F5493D000D90192 /* Assets.xcassets */; };
 		25E1D22B1F5493D000D90192 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */; };
-		25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1D2371F56091A00D90192 /* PaginationViewController.swift */; };
 		5810F032239EB2C400708F62 /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5810F031239EB2C400708F62 /* MoviesView.swift */; };
 		5810F034239EB2D200708F62 /* MoviesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5810F033239EB2D200708F62 /* MoviesView.xib */; };
 		5810F036239EB31900708F62 /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5810F035239EB31900708F62 /* MovieCell.xib */; };
@@ -157,16 +157,16 @@
 
 /* Begin PBXFileReference section */
 		250B70DE23FC441300848429 /* FeedbackLoopSystemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackLoopSystemTests.swift; sourceTree = "<group>"; };
+		251ACF2C24141B4000C600CB /* PaginationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationViewController.swift; sourceTree = "<group>"; };
+		251ACF2D24141B4000C600CB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		25CC87AE1F92855300A6EBFC /* ReactiveFeedback.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactiveFeedback.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25CC87B11F92855300A6EBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25E1D21D1F5493D000D90192 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25E1D2201F5493D000D90192 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		25E1D2221F5493D000D90192 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		25E1D2251F5493D000D90192 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		25E1D2271F5493D000D90192 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		25E1D22A1F5493D000D90192 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		25E1D22C1F5493D000D90192 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		25E1D2371F56091A00D90192 /* PaginationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationViewController.swift; sourceTree = "<group>"; };
 		5810F031239EB2C400708F62 /* MoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesView.swift; sourceTree = "<group>"; };
 		5810F033239EB2D200708F62 /* MoviesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoviesView.xib; sourceTree = "<group>"; };
 		5810F035239EB31900708F62 /* MovieCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCell.xib; sourceTree = "<group>"; };
@@ -324,9 +324,6 @@
 				585CD88F239EA8B0004BE9CC /* MultiStoreExample */,
 				585CD886239E904E004BE9CC /* SingleStoreExample */,
 				25E1D2201F5493D000D90192 /* AppDelegate.swift */,
-				25E1D2221F5493D000D90192 /* ViewController.swift */,
-				25E1D2371F56091A00D90192 /* PaginationViewController.swift */,
-				65761B3123CF677F004D5506 /* TextInputViewController.swift */,
 				25E1D2241F5493D000D90192 /* Main.storyboard */,
 				25E1D2271F5493D000D90192 /* Assets.xcassets */,
 				25E1D2291F5493D000D90192 /* LaunchScreen.storyboard */,
@@ -381,8 +378,9 @@
 		585CD88F239EA8B0004BE9CC /* MultiStoreExample */ = {
 			isa = PBXGroup;
 			children = (
-				25E1D2221F5493D000D90192 /* ViewController.swift */,
-				25E1D2371F56091A00D90192 /* PaginationViewController.swift */,
+				251ACF2C24141B4000C600CB /* PaginationViewController.swift */,
+				251ACF2D24141B4000C600CB /* ViewController.swift */,
+				65761B3123CF677F004D5506 /* TextInputViewController.swift */,
 			);
 			path = MultiStoreExample;
 			sourceTree = "<group>";
@@ -706,11 +704,11 @@
 			files = (
 				65761B3223CF677F004D5506 /* TextInputViewController.swift in Sources */,
 				585CD88A239E9077004BE9CC /* Counter.swift in Sources */,
-				25E1D2231F5493D000D90192 /* ViewController.swift in Sources */,
 				5810F03A239EBEA100708F62 /* RootViewController.swift in Sources */,
 				5810F038239EB5A700708F62 /* MovieCell.swift in Sources */,
+				251ACF2E24141B4000C600CB /* PaginationViewController.swift in Sources */,
 				585CD891239EA8E6004BE9CC /* Movies.swift in Sources */,
-				25E1D2381F56091A00D90192 /* PaginationViewController.swift in Sources */,
+				251ACF2F24141B4000C600CB /* ViewController.swift in Sources */,
 				5810F032239EB2C400708F62 /* MoviesView.swift in Sources */,
 				5810F03F239FAB0200708F62 /* ColorPickerView.swift in Sources */,
 				5810F03D239FA9F200708F62 /* ColorPicker.swift in Sources */,

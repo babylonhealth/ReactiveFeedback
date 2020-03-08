@@ -1,14 +1,14 @@
 @dynamicMemberLookup
 public struct Context<State, Event> {
     private let state: State
-    private let send: (Event) -> Void
+    private let forvard: (Event) -> Void
 
     public init(
         state: State,
-        send: @escaping (Event) -> Void
+        forvard: @escaping (Event) -> Void
     ) {
         self.state = state
-        self.send = send
+        self.forvard = forvard
     }
 
     public subscript<U>(dynamicMember keyPath: KeyPath<State, U>) -> U {
@@ -16,7 +16,7 @@ public struct Context<State, Event> {
     }
 
     public func send(event: Event) {
-        send(event)
+        forvard(event)
     }
 
     public func view<LocalState, LocalEvent>(
@@ -25,8 +25,8 @@ public struct Context<State, Event> {
     ) -> Context<LocalState, LocalEvent> {
         return Context<LocalState, LocalEvent>(
             state: state[keyPath: value],
-            send: { localEvent in
-                self.send(event(localEvent))
+            forvard: { localEvent in
+                self.forvard(event(localEvent))
             }
         )
     }

@@ -10,10 +10,10 @@ enum ColorPicker {
         case didPick(UIColor)
     }
 
-    static func reduce(state: State, event: Event) -> State {
+    static func reduce(state: inout State, event: Event) {
         switch event {
         case .didPick(let color):
-            return state.set(\.selectedColor, color)
+            state.selectedColor = color
         }
     }
 }

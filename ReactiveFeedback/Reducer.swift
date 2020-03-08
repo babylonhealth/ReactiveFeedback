@@ -1,11 +1,11 @@
-public typealias Reducer<State, Event> = (State, Event) -> State
+public typealias Reducer<State, Event> = (inout State, Event) -> Void
 
 public func combine<State, Event>(
     _ reducers: Reducer<State, Event>...
 ) -> Reducer<State, Event> {
     return { state, event in
-        return reducers.reduce(state) { (newState, reducer) -> State in
-            return reducer(newState, event)
+        for reducer in reducers {
+            reducer(&state, event)
         }
     }
 }
@@ -17,11 +17,8 @@ public func pullback<LocalState, GlobalState, LocalEvent, GlobalEvent>(
 ) -> Reducer<GlobalState, GlobalEvent> {
     return { globalState, globalEvent in
         guard let localAction = globalEvent[keyPath: event] else {
-            return globalState
+            return
         }
-        var globalStateCopy = globalState
-        globalStateCopy[keyPath: value] = reducer(globalState[keyPath: value], localAction)
-
-        return globalStateCopy
+        reducer(&globalState[keyPath: value], localAction)
     }
 }

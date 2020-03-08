@@ -21,10 +21,9 @@ extension Movies {
     final class ViewModel: Store<State, Event> {
         init() {
             super.init(
-                initial: Movies.State.empty,
+                initial: Movies.State(),
                 reducer: Movies.reduce,
-                feedbacks: [Movies.feedback],
-                scheduler: QueueScheduler.main
+                feedbacks: [Movies.feedback]
             )
         }
     }

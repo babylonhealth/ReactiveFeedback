@@ -11,12 +11,12 @@ enum Counter {
         case decrement
     }
 
-    static func reduce(state: State, event: Event) -> State {
+    static func reduce(state: inout State, event: Event) {
         switch event {
         case .increment:
-            return state.set(\.count, state.count + 1)
+            state.count += 1
         case .decrement:
-            return state.set(\.count, state.count - 1)
+            state.count -= 1
         }
     }
 }
