@@ -86,7 +86,7 @@ final class Floodgate<State, Event>: FeedbackEventConsumer<Event> {
 extension SignalProducer where Error == Never {
     public func enqueue(to consumer: FeedbackEventConsumer<Value>) -> SignalProducer<Never, Never> {
         SignalProducer<Never, Never> { observer, lifetime in
-            let token = FeedbackEventConsumer<Value>.Token()
+            let token = Token()
 
             lifetime += self.startWithValues { event in
                 consumer.process(event, for: token)

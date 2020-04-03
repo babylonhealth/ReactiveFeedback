@@ -14,7 +14,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Comment these lines if you want to see multi store example
+        window?.rootViewController = RootViewController()
+        window?.makeKeyAndVisible()
         return true
     }
 }
-
