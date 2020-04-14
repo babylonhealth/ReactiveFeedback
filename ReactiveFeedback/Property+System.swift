@@ -11,11 +11,11 @@ extension Property {
         let state = MutableProperty(initial)
         state <~ SignalProducer.system(
             initial: initial,
+            scheduler: scheduler,
             reduce: reduce,
             feedbacks: feedbacks
         )
         .skip(first: 1)
-        .observe(on: scheduler)
         self.init(capturing: state)
     }
 
