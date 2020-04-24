@@ -20,14 +20,16 @@ extension SignalProducer where Error == Never {
         feedbacks: [Feedback<Value, Event>]
     ) -> SignalProducer<Value, Never> {
         return SignalProducer.deferred { _ in
-            let (state, stateObserver) = Signal<Value, Never>.pipe()
+            let (state, stateObserver) = Signal<(Value, Event?), Never>.pipe()
 
             let events = feedbacks.map { feedback in
                 return feedback.events(scheduler, state)
             }
 
             return SignalProducer<Event, Never>(Signal.merge(events))
-                .scan(initial, reduce)
+                .scan((initial, nil), { (state, event) -> (Value, Event) in
+                    return (reduce(state.0, event), event)
+                })
                 .on(
                     started: {
                         // NOTE: Due to the nature of `prefix` lazily starting the producer being prefixed, we cannot rely
@@ -42,10 +44,11 @@ extension SignalProducer where Error == Never {
                         //       part of the synchronous producer starting process. So we can address the issue by applying
                         //       `on(started:)` after `prefix(value:)` to ignite the system, while having `on(value:)`
                         //       instead applied before `prefix(value:)` to keep the reducer-to-feedbacks path open.
-                        stateObserver.send(value: initial)
+                        stateObserver.send(value: (initial, nil))
                     },
                     value: stateObserver.send(value:)
                 )
+                .map(\.0)
                 .prefix(value: initial)
         }
     }

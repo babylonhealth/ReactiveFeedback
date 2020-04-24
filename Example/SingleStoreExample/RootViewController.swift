@@ -20,11 +20,12 @@ final class RootViewController: UITabBarController {
         )
 
         let appFeedbacks: FeedbackLoop<State, Event>.Feedback = FeedbackLoop<State, Event>.Feedback.combine(
-            FeedbackLoop<State, Event>.Feedback.pullback(
-                feedback: Movies.feedback,
-                value: \.movies,
-                event: Event.movies
-            )
+            Movies.feedback
+                .pullback(
+                    value: \.movies,
+                    embed: Event.movies,
+                    extract: { $0.movies }
+                )
         )
         store = Store(
             initial: State(),

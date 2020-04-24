@@ -2,7 +2,7 @@ import Foundation
 import ReactiveSwift
 
 public struct Feedback<State, Event> {
-    let events: (Scheduler, Signal<State, Never>) -> Signal<Event, Never>
+    let events: (Scheduler, Signal<(State, Event?), Never>) -> Signal<Event, Never>
     
     /// Creates an arbitrary Feedback, which evaluates side effects reactively
     /// to the latest state, and eventually produces events that affect the
@@ -11,7 +11,8 @@ public struct Feedback<State, Event> {
     /// - parameters:
     ///   - events: The transform which derives a `Signal` of events from the
     ///             latest state.
-    public init(events: @escaping (Scheduler, Signal<State, Never>) -> Signal<Event, Never>) {
+
+    public init(events: @escaping (Scheduler, Signal<(State, Event?), Never>) -> Signal<Event, Never>) {
         self.events = events
     }
 
@@ -35,9 +36,22 @@ public struct Feedback<State, Event> {
             // NOTE: `observe(on:)` should be applied on the inner producers, so
             //       that cancellation due to state changes would be able to
             //       cancel outstanding events that have already been scheduled.
-            return transform(state)
+            return transform(state.map(\.0))
                 .flatMap(.latest) { effects($0).producer.observe(on: scheduler) }
         }
+    }
+
+    public static func derivingEvents<U, Effect: SignalProducerConvertible>(
+        _ transform: @escaping (Signal<Event, Never>) -> Signal<U, Never>,
+        effects: @escaping (U) -> Effect
+    ) -> Feedback where Effect.Value == Event, Effect.Error == Never {
+        return Feedback(events: { scheduler, state in
+            // NOTE: `observe(on:)` should be applied on the inner producers, so
+            //       that cancellation due to state changes would be able to
+            //       cancel outstanding events that have already been scheduled.
+            return transform(state.map(\.1).skipNil())
+                .flatMap(.latest) { effects($0).producer.observe(on: scheduler) }
+        })
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
@@ -61,6 +75,26 @@ public struct Feedback<State, Event> {
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
+    /// state changes, and the transform consequentially yields a new value
+    /// distinct from the last yielded value.
+    ///
+    /// If the previous effect is still alive when a new one is about to start,
+    /// the previous one would automatically be cancelled.
+    ///
+    /// - parameters:
+    ///   - transform: The transform to apply on the state.
+    ///   - effects: The side effect accepting transformed values produced by
+    ///              `transform` and yielding events that eventually affect
+    ///              the state.
+
+    public static func skippingRepeatedEvents<Payload: Equatable, Effect: SignalProducerConvertible>(
+        _ transform: @escaping (Event) -> Payload?,
+        effects: @escaping (Payload) -> Effect
+    ) -> Feedback where Effect.Value == Event, Effect.Error == Never {
+        .derivingEvents({ $0.map(transform).skipRepeats() }, effects: { $0.map(effects)?.producer ?? .empty })
+    }
+
+    /// Creates a Feedback which re-evaluates the given effect every time the
     /// state changes.
     ///
     /// If the previous effect is still alive when a new one is about to start,
@@ -77,6 +111,16 @@ public struct Feedback<State, Event> {
     ) where Effect.Value == Event, Effect.Error == Never {
         self.init(deriving: { $0.map(transform) },
                   effects: { $0.map(effects)?.producer ?? .empty })
+    }
+
+    public static func lensingEvent<Payload, Effect: SignalProducerConvertible>(
+        _ transform: @escaping (Event) -> Payload?,
+        effects: @escaping (Payload) -> Effect
+    ) -> Feedback where Effect.Value == Event, Effect.Error == Never {
+        .derivingEvents(
+            { $0.map(transform) },
+            effects: { $0.map(effects)?.producer ?? .empty }
+        )
     }
 
     /// Creates a Feedback which re-evaluates the given effect every time the
@@ -112,6 +156,21 @@ public struct Feedback<State, Event> {
         effects: @escaping (State) -> Effect
     ) where Effect.Value == Event, Effect.Error == Never {
         self.init(deriving: { $0 }, effects: effects)
+    }
+
+    public static func middleware<Effect: SignalProducerConvertible>(
+        _ effects: @escaping (State, Event) -> Effect
+    ) -> Feedback where Effect.Value == Event, Effect.Error == Never {
+        Feedback(events: { scheduler, state in
+            state.compactMap { s, e -> (State, Event)? in
+                guard let e = e else {
+                    return nil
+                }
+                return (s, e)
+            }.flatMap(.latest) {
+                effects($0, $1).producer.observe(on: scheduler)
+            }
+        })
     }
 }
 

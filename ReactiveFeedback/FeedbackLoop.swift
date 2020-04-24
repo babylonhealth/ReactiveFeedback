@@ -15,7 +15,7 @@ public final class FeedbackLoop<State, Event> {
                     observer.send(value: initial)
                 }
 
-                lifetime += self.floodgate.stateDidChange.observe(observer)
+                lifetime += self.floodgate.stateDidChange.map(\.0).observe(observer)
             }
         }
     }
@@ -50,11 +50,11 @@ public final class FeedbackLoop<State, Event> {
 
 extension FeedbackLoop {
     public struct Feedback {
-        let events: (_ state: SignalProducer<State, Never>, _ output: FeedbackEventConsumer<Event>) -> Disposable
+        let events: (_ state: SignalProducer<(State, Event?), Never>, _ output: FeedbackEventConsumer<Event>) -> Disposable
 
-        public init(
+        internal init(
             events: @escaping (
-            _ state: SignalProducer<State, Never>,
+            _ state: SignalProducer<(State, Event?), Never>,
             _ output: FeedbackEventConsumer<Event>
             ) -> Disposable
         ) {
@@ -72,7 +72,7 @@ extension FeedbackLoop {
         ///             and having them consumed by `output` using the `SignalProducer.enqueue(to:)` operator.
         public static func custom(
             _ setup: @escaping (
-                _ state: SignalProducer<State, Never>,
+                _ state: SignalProducer<(State, Event?), Never>,
                 _ output: FeedbackEventConsumer<Event>
             ) -> Disposable
         ) -> Feedback {
@@ -99,7 +99,31 @@ extension FeedbackLoop {
                 // NOTE: `observe(on:)` should be applied on the inner producers, so
                 //       that cancellation due to state changes would be able to
                 //       cancel outstanding events that have already been scheduled.
-                transform(state)
+                transform(state.map(\.0))
+                    .flatMap(.latest) { effects($0).producer.enqueue(to: output) }
+                    .start()
+            }
+        }
+
+        /// Creates a Feedback which re-evaluates the given effect every time the
+        /// `Signal` derived from the latest event yields a new value.
+        ///
+        /// If the previous effect is still alive when a new one is about to start,
+        /// the previous one would automatically be cancelled.
+        ///
+        /// - parameters:
+        ///   - transform: The transform which derives a `Signal` of values from the
+        ///                latest state.
+        ///   - effects: The side effect accepting transformed values produced by
+        ///              `transform` and yielding events that eventually affect
+        ///              the state.
+
+        public static func compactingEvents<U, Effect: SignalProducerConvertible>(
+            _ transform: @escaping (SignalProducer<Event, Never>) -> SignalProducer<U, Never>,
+            effects: @escaping (U) -> Effect
+        ) -> Feedback where Effect.Value == Event, Effect.Error == Never {
+            return .custom { (state, output) -> Disposable in
+                transform(state.map(\.1).skipNil())
                     .flatMap(.latest) { effects($0).producer.enqueue(to: output) }
                     .start()
             }
@@ -126,6 +150,25 @@ extension FeedbackLoop {
         }
 
         /// Creates a Feedback which re-evaluates the given effect every time the
+        /// event is emitted, and the transform consequentially yields a new value
+        /// distinct from the last yielded value.
+        ///
+        /// If the previous effect is still alive when a new one is about to start,
+        /// the previous one would automatically be cancelled.
+        ///
+        /// - parameters:
+        ///   - transform: The transform to apply on the state.
+        ///   - effects: The side effect accepting transformed values produced by
+        ///              `transform` and yielding events that eventually affect
+        ///              the state.
+        public static func skippingRepeatedPayload<Payload: Equatable, Effect: SignalProducerConvertible>(
+            _ transform: @escaping (Event) -> Payload?,
+            effects: @escaping (Payload) -> Effect
+        ) -> Feedback where Effect.Value == Event, Effect.Error == Never {
+            compactingEvents({ $0.map(transform).skipRepeats() }, effects: { $0.map(effects)?.producer ?? .empty })
+        }
+
+        /// Creates a Feedback which re-evaluates the given effect every time the
         /// state changes.
         ///
         /// If the previous effect is still alive when a new one is about to start,
@@ -142,6 +185,24 @@ extension FeedbackLoop {
         ) where Effect.Value == Event, Effect.Error == Never {
             self.init(compacting: { $0.map(transform) },
                       effects: { $0.map(effects)?.producer ?? .empty })
+        }
+
+        /// Creates a Feedback which re-evaluates the given effect every time an
+        /// event is performed.
+        ///
+        /// If the previous effect is still alive when a new one is about to start,
+        /// the previous one would automatically be cancelled.
+        ///
+        /// - parameters:
+        ///   - transform: The transform to apply on the event.
+        ///   - effects: The side effect accepting transformed values produced by
+        ///              `transform` and yielding events that eventually affect
+        ///              the state.
+        static func extractingPayload<Payload, Effect: SignalProducerConvertible>(
+            _ transform: @escaping (Event) -> Payload?,
+            effects: @escaping (Payload) -> Effect
+        ) -> Feedback where Effect.Value == Event, Effect.Error == Never {
+            compactingEvents({ $0.map(transform) }, effects: { $0.map(effects)?.producer ?? .empty })
         }
 
         /// Creates a Feedback which re-evaluates the given effect every time the
@@ -186,16 +247,16 @@ extension FeedbackLoop {
             }
             return (feedback, pipe.input.send)
         }
-        
-        public static func pullback<LocalState, LocalEvent>(
-            feedback: FeedbackLoop<LocalState, LocalEvent>.Feedback,
-            value: KeyPath<State, LocalState>,
-            event: @escaping (LocalEvent) -> Event
-        ) -> Feedback {
-            return Feedback.custom { (state, consumer) -> Disposable in
-                return feedback.events(
-                    state.map(value),
-                    consumer.pullback(event)
+
+        public func pullback<GlobalState, GlobalEvent>(
+            value: KeyPath<GlobalState, State>,
+            embed: @escaping (Event) -> GlobalEvent,
+            extract: @escaping (GlobalEvent) -> Event?
+        ) -> FeedbackLoop<GlobalState, GlobalEvent>.Feedback {
+            return .custom { (state, consumer) -> Disposable in
+                return self.events(
+                    state.map { s, e in (s[keyPath: value], e.flatMap(extract)) },
+                    consumer.pullback(embed)
                 )
             }
         }

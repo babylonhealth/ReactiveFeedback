@@ -11,7 +11,7 @@ final class Floodgate<State, Event>: FeedbackEventConsumer<Event> {
         }
     }
 
-    let (stateDidChange, changeObserver) = Signal<State, Never>.pipe()
+    let (stateDidChange, changeObserver) = Signal<(State, Event?), Never>.pipe()
 
     private let reducerLock = NSLock()
     private var state: State
@@ -33,7 +33,7 @@ final class Floodgate<State, Event>: FeedbackEventConsumer<Event> {
 
         hasStarted = true
 
-        changeObserver.send(value: state)
+        changeObserver.send(value: (state, nil))
         drainEvents()
     }
 
@@ -102,7 +102,7 @@ final class Floodgate<State, Event>: FeedbackEventConsumer<Event> {
 
     private func consume(_ event: Event) {
         reducer(&state, event)
-        changeObserver.send(value: state)
+        changeObserver.send(value: (state, event))
     }
 }
 
