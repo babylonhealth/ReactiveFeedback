@@ -133,6 +133,5 @@ workflows:
             - cocoapods_validation:
                 requires: &all_tests
                     - Test-iOS
-                    - ExampleApp
             - spm_validation:
                 requires: *all_tests
