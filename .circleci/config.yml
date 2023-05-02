@@ -111,7 +111,7 @@ workflows:
         jobs:
             - checkout_code
             - test:
-                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 11" ReactiveFeedback-iOS
+                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 14" ReactiveFeedback-iOS
                 name: Test-iOS
                 requires:
                     - checkout_code
@@ -121,20 +121,18 @@ workflows:
                 requires:
                     - checkout_code
             - test:
-                parameters: appletvsimulator "platform=tvOS Simulator,name=Apple TV 4K" ReactiveFeedback-tvOS
+                parameters: appletvsimulator "platform=tvOS Simulator,name=Apple TV" ReactiveFeedback-tvOS
                 name: Test-tvOS
                 requires:
                     - checkout_code
             - test:
-                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 11" Example build
+                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 14" Example build
                 name: ExampleApp
                 requires:
                     - checkout_code
             - cocoapods_validation:
                 requires: &all_tests
                     - Test-iOS
-                    - Test-macOS
-                    - Test-tvOS
                     - ExampleApp
             - spm_validation:
                 requires: *all_tests
