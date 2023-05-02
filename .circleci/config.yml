@@ -44,10 +44,8 @@ commands:
             - run:
                 name: Pod Install
                 command: |
-                    if ! diff -q Podfile.lock Pods/Manifest.lock &>/dev/null; then
-                        curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
-                        bundle exec pod install || bundle exec pod install --repo-update
-                    fi
+                        bundle install
+                        bundle exec pod install
             - save_cache:
                 key: *cocoapods_cache_key
                 paths:
