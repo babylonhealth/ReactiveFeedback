@@ -3,7 +3,7 @@ version: 2.1
 references:
     - &container_config
         macos:
-            xcode: "11.3.0"
+            xcode: "14.2.0"
         working_directory: /Users/distiller/project
         shell: /bin/bash --login -eo pipefail
 

@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.0
 import PackageDescription
 
 let package = Package(
@@ -7,8 +7,8 @@ let package = Package(
         .library(name: "ReactiveFeedback", targets: ["ReactiveFeedback"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/ReactiveCocoa/ReactiveSwift", from: "6.0.0"),
-        .package(url: "https://github.com/Quick/Nimble.git", from: "8.0.0"),
+        .package(url: "https://github.com/ReactiveCocoa/ReactiveSwift", from: "7.1.1"),
+        .package(url: "https://github.com/Quick/Nimble.git", from: "10.0.0"),
     ],
     targets: [
         .target(name: "ReactiveFeedback", dependencies: ["ReactiveSwift"], path: "ReactiveFeedback"),
