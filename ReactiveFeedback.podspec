@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = "ReactiveFeedback"
-  s.version       = "0.9.0"
+  s.version       = "0.10.0"
   s.summary       = "Unidirectional reactive architecture"
 
   s.description   = <<-DESC
@@ -12,9 +12,6 @@ Pod::Spec.new do |s|
   s.license       = { :type => "MIT", :file => "LICENSE" }
   s.author        = { "Babylon iOS" => "ios.development@babylonhealth.com" }
   s.ios.deployment_target = '12.0'
-  s.osx.deployment_target = '12.0'
-  s.watchos.deployment_target = '9.0'
-  s.tvos.deployment_target = '13.0'
   s.source        = { :git => "https://github.com/Babylonpartners/ReactiveFeedback.git", :tag => "#{s.version}" }
   s.source_files  = "ReactiveFeedback/*.{swift}"
 

@@ -3,7 +3,7 @@ version: 2.1
 references:
     - &container_config
         macos:
-            xcode: "11.3.0"
+            xcode: "14.2.0"
         working_directory: /Users/distiller/project
         shell: /bin/bash --login -eo pipefail
 
@@ -44,10 +44,8 @@ commands:
             - run:
                 name: Pod Install
                 command: |
-                    if ! diff -q Podfile.lock Pods/Manifest.lock &>/dev/null; then
-                        curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
-                        bundle exec pod install || bundle exec pod install --repo-update
-                    fi
+                        bundle install
+                        bundle exec pod install
             - save_cache:
                 key: *cocoapods_cache_key
                 paths:
@@ -111,7 +109,7 @@ workflows:
         jobs:
             - checkout_code
             - test:
-                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 11" ReactiveFeedback-iOS
+                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 14" ReactiveFeedback-iOS
                 name: Test-iOS
                 requires:
                     - checkout_code
@@ -121,20 +119,17 @@ workflows:
                 requires:
                     - checkout_code
             - test:
-                parameters: appletvsimulator "platform=tvOS Simulator,name=Apple TV 4K" ReactiveFeedback-tvOS
+                parameters: appletvsimulator "platform=tvOS Simulator,name=Apple TV" ReactiveFeedback-tvOS
                 name: Test-tvOS
                 requires:
                     - checkout_code
             - test:
-                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 11" Example build
+                parameters: iphonesimulator "platform=iOS Simulator,name=iPhone 14" Example build
                 name: ExampleApp
                 requires:
                     - checkout_code
             - cocoapods_validation:
                 requires: &all_tests
                     - Test-iOS
-                    - Test-macOS
-                    - Test-tvOS
-                    - ExampleApp
             - spm_validation:
                 requires: *all_tests
